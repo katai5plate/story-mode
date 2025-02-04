@@ -4,58 +4,61 @@
 
 ## memo
 
+- JSON から送られる想定のメッセージ一覧
+  - Character
+    - id
+    - emotionId
+    - cartoonId
+  - Screen
+    - screenPositionId
+    - tweenId
+    - fadeId
+    - tintId
+    - flashId
+    - shakeId
+    - screenAreaId
+    - transitionId
+    - modalId
+  - Animation
+    - speedId
+    - animationId
+    - particleId
+  - Message
+    - voiceId
+    - fontId
+  - Sprite
+    - backgroundImageId
+    - layerId
+    - illustId
+  - Audio
+    - bgmId
+    - bgsId
+    - soundId
+    - volumeId
+    - panpotId
+  - Interactive
+    - id
+    - action
+  - Game
+    - triggerId
+    - variableId
+    - itemId
+    - equipId
+    - useId
+  - Script
+    - id
+    - pieceId
+  - Custom
+    - id
+
 ```
-// メッセージ関連
-characterId
-voiceId
-
-// キャラクター関連
-emotionId
-cartoonId
-position
-tweenId
-speedId
-
-// スプライト切り替え関連
-backgroundId
-layerId
-illustId
-tweenId
-fadeId
-
-// サウンド関連
-bgmId
-bgsId
-soundId
-
 // 画面制御関連
-playingAnimationId
-animationId
-isWait
-tintId
-flashId
-shakeId
-fadeAreaId
-transitionId
-modalId
-resultVariableId
-
-// 制御関連
-interactiveId
-interactiveAction
+playingAnimationId // Script内制御
+playingParticleId // Script内制御
+isWait // Script内制御
+resultVariableId // Engine内部変数でいいのでは？
 
 // 条件分岐関連
-gameTriggerId
-gameVariableId
-localTriggerId
-localVariableId
-
-// アイテム使用関連
-itemId
-equipId
-useId
-
-// 外部スクリプト読み込み関連
-commonScriptName
-localScriptName
+localTriggerId // Script内制御
+localVariableId // Script内制御
 ```

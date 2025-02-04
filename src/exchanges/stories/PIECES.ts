@@ -1,4 +1,4 @@
-import { Piece } from "../types/stories";
+import { Piece } from "../../types/stories";
 
 export default {
   Cause: {

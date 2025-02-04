@@ -1,4 +1,4 @@
-import { Story } from "../types/stories";
+import { Story } from "../../types/stories";
 
 export default {
   Main: {

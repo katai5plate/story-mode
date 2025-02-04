@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext",
-    "outDir": "dist",
+    "module": "System",
+    // "outDir": "dist",
+    "outFile": "dist/cli.js",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,

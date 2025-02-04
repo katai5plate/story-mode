@@ -62,3 +62,11 @@ resultVariableId // Engine内部変数でいいのでは？
 localTriggerId // Script内制御
 localVariableId // Script内制御
 ```
+
+```
+($, z, x) => $
+
+$: Story, Scenario
+Z: 遠目で見ると文章の目線の流れの形になる
+x: Exchange
+```

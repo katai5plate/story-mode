@@ -43,6 +43,8 @@ export interface InteractiveAction extends Message {}
 
 export interface GameTrigger extends Message {}
 export interface GameVariable extends Message {}
+export interface GameOperator extends Message {}
+
 export interface Item extends Message {}
 export interface Equip extends Message {}
 export interface Use extends Message {}

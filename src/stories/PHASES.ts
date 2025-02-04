@@ -1,4 +1,4 @@
-import { Phase } from "../../types/stories";
+import { Phase } from "../types/stories";
 
 export default {
   Intro: {

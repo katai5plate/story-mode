@@ -1,4 +1,4 @@
-import { Episode } from "../../types/stories";
+import { Episode } from "../types/stories";
 
 export default {
   Purpose: {

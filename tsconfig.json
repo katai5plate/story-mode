@@ -10,5 +10,5 @@
     "rootDir": ".",
     "allowJs": true
   },
-  "include": ["*.ts"]
+  "include": ["src/**/*"]
 }

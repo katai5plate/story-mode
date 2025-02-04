@@ -6,51 +6,53 @@ export class Script {
   }
 
   // メッセージ関連
-  $(characterId, message, voiceId) {} // showMessage
+  $(characterId, message, voiceId?) {} // showMessage
   changeMessageSpeed(messageSpeedId) {}
   resetMessageSpeed() {}
-  choice(commands, results, cancel) {}
+  choice(commands, results, cancel?) {}
   hideWindow() {}
   showWindow() {}
 
   // キャラクター関連
   showCharacter(characterId, emotionId, cartoonId, position, tweenId) {}
   hideCharacter(characterId) {}
-  moveCharacter(characterId, position, speedId) {}
+  moveCharacter(characterId, position, speedId?, isWait?) {}
   emoteCharacter(characterId, emotionId, cartoonId) {}
   changeTemporaryCharacterName(characterId, name) {}
 
   // スプライト切り替え関連
   changeBackground(backgroundId, layerId) {}
-  showIlust(illustId, layerId, tweenId) {}
+  showIlust(illustId, layerId, tweenId?, isWait?) {}
   hideIlust(illustId, tweenId) {}
 
   // サウンド関連
-  playBgm(bgmId, volume, panpot, fade) {}
-  playBgs(bgsId, volume, panpot, fade) {}
-  playSound(soundId, volume, panpot) {}
-  stopBgm(fade) {}
-  stopBgs(fade) {}
-  stopSound(fade) {}
-  pauseBgm(fade) {}
-  pauseBgs(fade) {}
-  restoreBgm(fade) {}
-  restoreBgs(fade) {}
-  changeBgmPanpot(volume, fade) {}
-  changeBgmVolume(volume, fade) {}
-  changeBgsPanpot(volume, fade) {}
-  changeBgsVolume(volume, fade) {}
-  forceStopVoice() {}
+  playBgm(bgmId, volume, panpot?, fadeId?, isWait?) {}
+  playBgs(bgsId, volume, panpot?, fadeId?, isWait?) {}
+  playSound(soundId, volume, panpot?, isWait?) {}
+  stopBgm(fadeId?, isWait?) {}
+  stopBgs(fadeId?, isWait?) {}
+  pauseBgm(fadeId?, isWait?) {}
+  pauseBgs(fadeId?, isWait?) {}
+  restoreBgm(fadeId?, isWait?) {}
+  restoreBgs(fadeId?, isWait?) {}
+  changeBgmPanpot(volume, fadeId?, isWait?) {}
+  changeBgmVolume(volume, fadeId?, isWait?) {}
+  changeBgsPanpot(volume, fadeId?, isWait?) {}
+  changeBgsVolume(volume, fadeId?, isWait?) {}
+  crossFadeBgm(bgmId, volume, panpot?, fadeId?, isWait?) {}
+  crossFadeBgs(bgsId, volume, panpot?, fadeId?, isWait?) {}
+  forceStopSounds() {}
+  forceStopVoices() {}
 
   // 画面制御関連
-  playAnimation(playingAnimationId, layerId, animationName, target, isWait) {}
+  playAnimation(playingAnimationId, layerId, animationId, target, isWait?) {}
   stopAnimation(playingAnimationId) {}
   forceClearAnimations() {}
-  tintScreen(tintId) {}
-  flashScreen(colorId) {}
-  shakeScreen(shakeId) {}
-  fadein(transitionId) {}
-  fadeout(transitionId) {}
+  tintScreen(tintId, fadeId, isWait?) {}
+  flashScreen(flashId, isWait?) {}
+  shakeScreen(shakeId, isWait?) {}
+  fadein(transitionId, fadeId?, fadeAreaId?) {}
+  fadeout(transitionId, fadeId?, fadeAreaId?) {}
   showModal(modalId, resultVariableId) {}
   hideModal(modalId) {}
 
@@ -71,8 +73,8 @@ export class Script {
   setLocalVariable(localVariableId, op, value) {}
   clearLocalTriggers() {}
   clearLocalVariables() {}
-  ifGameTrigger(gameVariableId, op, value, then, other) {}
   ifGameVariable(gameTriggerId, op, value, then, other) {}
+  ifGameTrigger(gameVariableId, op, value, then, other) {}
   ifLocalTrigger(localTriggerId, op, value) {}
   ifLocalVariable(localVariableId, op, value, then, other) {}
 

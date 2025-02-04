@@ -44,6 +44,11 @@ export interface Character {
     /** その他メモ */
     memo?: DetailField;
   };
+  // system: {
+  //   messageSpeed: MessageSpeed;
+  //   messageSound: MessageSound;
+  //   messageFont: MessageFont;
+  // }
 }
 
 /** 役割 */

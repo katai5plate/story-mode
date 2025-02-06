@@ -25,16 +25,16 @@ export interface Speed extends Message {}
 export interface Animation extends Message {}
 export interface Particle extends Message {}
 
-export interface Voice extends Message<true> {}
+export interface VoiceAsset extends Message<true> {}
 export interface Font extends Message<true> {}
 
 export interface BackgroundImage extends Message<true> {}
+export interface IllustImage extends Message<true> {}
 export interface Layer extends Message {}
-export interface Illust extends Message<true> {}
 
-export interface Bgm extends Message<true> {}
-export interface Bgs extends Message<true> {}
-export interface Sound extends Message<true> {}
+export interface MusicAsset extends Message<true> {}
+export interface AmbientAsset extends Message<true> {}
+export interface SoundAsset extends Message<true> {}
 export interface Volume extends Message {}
 export interface Panpot extends Message {}
 
@@ -44,6 +44,11 @@ export interface InteractiveAction extends Message {}
 export interface GameTrigger extends Message {}
 export interface GameVariable extends Message {}
 export interface GameOperator extends Message {}
+export interface GameScene extends Message {}
+
+export interface AudioControl extends Message {}
+export interface ScreenControl extends Message {}
+export interface Tag extends Message {}
 
 export interface Item extends Message {}
 export interface Equip extends Message {}

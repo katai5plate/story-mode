@@ -1,6 +1,7 @@
-import { DialogExample } from "../../types/characters";
+import { DialogExampleDefineType } from "../../../types/characters";
+import { define, DefineScheme } from "../../../types/define";
 
-export default {
+export const DialogExample = define({
   Money: {
     name: "大金",
     question: "大金が当たった時の行動",
@@ -17,4 +18,4 @@ export default {
     name: "無人島",
     question: "無人島漂着時の行動",
   },
-} as const satisfies Record<string, Omit<DialogExample, "answer">>;
+} as const satisfies DefineScheme<DialogExampleDefineType>);

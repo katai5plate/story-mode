@@ -1,10 +1,12 @@
-import { Character } from "../../types/characters";
-import { dialogExamples } from "../../utils";
-import DUTIES from "./DUTIES";
+import { CharacterDefineType } from "../../../types/characters";
+import { define, DefineScheme } from "../../../types/define";
+import { dialogExamples } from "../../../utils";
+import { Duty } from "./duty";
 
-export default {
+export const Character = define({
   Alex: {
     name: "アレックス",
+    duty: Duty.Hero,
     basic: {
       gender: "男",
       age: 20,
@@ -19,7 +21,6 @@ export default {
         skills: "剣術に長けている",
         socialRelationships: "王直属の騎士として有名",
       },
-      duty: DUTIES.Hero,
       histories: [
         {
           name: "現在",
@@ -56,4 +57,4 @@ export default {
       }),
     },
   },
-} as const satisfies Record<string, Character>;
+} as const satisfies DefineScheme<CharacterDefineType>);

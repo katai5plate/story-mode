@@ -1,6 +1,7 @@
-import { Story } from "../../types/stories";
+import { define, DefineScheme } from "../../../types/define";
+import { ScenarioTheoryDefineType } from "../../../types/stories";
 
-export default {
+export const Story = define({
   Main: {
     name: "メインストーリー",
     summary: "主人公の物語",
@@ -10,4 +11,4 @@ export default {
       "物語の最後で主人公の目的は達成される？",
     ],
   },
-} as const satisfies Record<string, Omit<Story, "phases">>;
+} as const satisfies DefineScheme<ScenarioTheoryDefineType>);

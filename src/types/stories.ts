@@ -1,8 +1,7 @@
-import { Script } from "../Script";
 import { DetailField } from "./fields";
 
 /** 物語要素 */
-interface Theory {
+export type ScenarioTheoryDefineType = {
   /** 名称 */
   name: string;
   /** 説明や主な質問 */
@@ -11,37 +10,37 @@ interface Theory {
   checklist?: string[];
   /** 回答 */
   answer?: DetailField;
-}
+};
 
 /** 小枠 */
-export interface Piece extends Theory {
-  /** 実際のスクリプト内容 */
-  scripts: {
-    /** 開始時に走るスクリプト */
-    main: Script;
-    /** call などで呼ばれるスクリプト */
-    sub: Script[];
-  };
-}
+// export interface PieceDefineType extends ScenarioTheoryDefineType {
+//   // /** 実際のスクリプト内容 */
+//   // scripts: {
+//   //   /** 開始時に走るスクリプト */
+//   //   main: Script;
+//   //   /** call などで呼ばれるスクリプト */
+//   //   sub: Script[];
+//   // };
+// }
 /** 中枠 */
-export interface Episode extends Theory {
-  /** 小枠 */
-  pieces: Record<string, Piece>;
-}
+// export interface EpisodeDefineType extends ScenarioTheoryDefineType {
+//   // /** 小枠 */
+//   // pieces: Exchanged<Piece>;
+// }
 /** 大枠 */
-export interface Phase extends Theory {
-  /** 中枠 */
-  episodes: Record<string, Episode>;
-}
+// export interface PhaseDefineType extends ScenarioTheoryDefineType {
+//   // /** 中枠 */
+//   // episodes: Exchanged<Episode>;
+// }
 /** ストーリー */
-export interface Story extends Theory {
-  /** 大枠 */
-  phases: Record<string, Phase>;
-}
+// export interface StoryDefineType extends ScenarioTheoryDefineType {
+//   // /** 大枠 */
+//   // phases: Exchanged<Phase>;
+// }
 /** 伏線 */
-export interface Foreshadow extends Theory {
-  /** 発生地点 */
-  register: Piece | Episode | Phase | Story;
-  /** 回収地点 */
-  reclaimer: Piece | Episode | Phase | Story;
-}
+// export interface ForeshadowDefineType extends ScenarioTheoryDefineType {
+//   // /** 発生地点 */
+//   // register: Piece | Episode | Phase | Story;
+//   // /** 回収地点 */
+//   // reclaimer: Piece | Episode | Phase | Story;
+// }

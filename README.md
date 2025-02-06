@@ -70,3 +70,14 @@ $: Story, Scenario
 Z: 遠目で見ると文章の目線の流れの形になる
 x: Exchange
 ```
+
+```js
+$.to($.MES.Show, {
+  chara: x.CHARA.Alex,
+  mes: [
+    $.tag`aaaaaaa${["b", 123]}bbbbbbbb`,
+    $.tag`aaaaaaa${["b", 123]}bbbbbbbb`,
+    $.tag`aaaaaaa${["b", 123]}bbbbbbbb`,
+  ],
+});
+```

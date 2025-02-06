@@ -1,6 +1,7 @@
-import { Piece } from "../../types/stories";
+import { define, DefineScheme } from "../../../types/define";
+import { ScenarioTheoryDefineType } from "../../../types/stories";
 
-export default {
+export const Piece = define({
   Cause: {
     name: "原因",
     summary: "何かが起こる／主人公や周囲が行動する",
@@ -20,4 +21,4 @@ export default {
       "その結果が「次のシーン」にどう影響するのか（あるいは物語全体の動きをどう変えるのか）が見えているかか？",
     ],
   },
-} as const satisfies Record<string, Omit<Piece, "scripts">>;
+} as const satisfies DefineScheme<ScenarioTheoryDefineType>);

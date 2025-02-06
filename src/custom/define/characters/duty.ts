@@ -1,6 +1,7 @@
-import { Duty } from "../../types/characters";
+import { DutyDefineType } from "../../../types/characters";
+import { define, DefineScheme } from "../../../types/define";
 
-export default {
+export const Duty = define({
   Hero: {
     name: "主人公",
     rules: [
@@ -35,4 +36,4 @@ export default {
       "使いどころの予想がつく事、主人公に与えるものや試練の予想がつくことが重要",
     ],
   },
-} as const satisfies Record<string, Duty>;
+} as const satisfies DefineScheme<DutyDefineType>);

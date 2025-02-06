@@ -1,10 +1,12 @@
-import DIALOG_EXAMPLES from "../exchanges/characters/DIALOG_EXAMPLES";
+import { DialogExample } from "../custom/define/characters/dialogExample";
 import { DetailField } from "./fields";
 
 /** キャラクター情報 */
-export interface Character {
+export type CharacterDefineType = {
   /** 名前 */
   name: string;
+  /** 役割 */
+  duty: DutyDefineType;
   /** 基礎情報 */
   basic: {
     /** 性別 */
@@ -31,12 +33,10 @@ export interface Character {
       /** 社会的立ち位置 */
       socialRelationships: DetailField;
     };
-    /** 役割 */
-    duty: Duty;
     /** 経歴と現在 */
-    histories: CharacterHistory[];
+    histories: CharacterHistoryDefineType[];
     /** セリフ例 */
-    dialogExamples: Record<keyof typeof DIALOG_EXAMPLES, DialogExample>;
+    dialogExamples: Record<keyof typeof DialogExample, DialogExampleDefineType>;
   };
   appendix?: {
     /** 特徴 */
@@ -49,18 +49,18 @@ export interface Character {
   //   messageSound: MessageSound;
   //   messageFont: MessageFont;
   // }
-}
+};
 
 /** 役割 */
-export interface Duty {
+export type DutyDefineType = {
   /** 名称 */
   name: string;
   /** ルール */
   rules: DetailField;
-}
+};
 
 /** 経歴と現在 */
-export interface CharacterHistory {
+export type CharacterHistoryDefineType = {
   /** 名称 */
   name: string;
   /** 容姿。イメージ通りで、見分けがつき、魅力があるかチェックする */
@@ -89,10 +89,10 @@ export interface CharacterHistory {
   };
   /** その他メモ */
   note?: DetailField;
-}
+};
 
 /** セリフ・行動例 */
-export interface DialogExample {
+export type DialogExampleDefineType = {
   /** 名称 */
   name: string;
   /** お題 */
@@ -101,4 +101,4 @@ export interface DialogExample {
   answer?: DetailField;
   /** コツ */
   hint?: DetailField;
-}
+};

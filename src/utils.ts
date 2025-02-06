@@ -1,15 +1,18 @@
-import DIALOG_EXAMPLES from "./exchanges/characters/DIALOG_EXAMPLES";
-import { DialogExample } from "./types/characters";
+import { DialogExample } from "./custom/define/characters/dialogExample";
+import { DialogExampleDefineType } from "./types/characters";
 
 export const dialogExamples = (
   examples: Partial<
-    Record<keyof typeof DIALOG_EXAMPLES, Pick<DialogExample, "answer" | "hint">>
+    Record<
+      keyof typeof DialogExample,
+      Pick<DialogExampleDefineType, "answer" | "hint">
+    >
   >
 ) =>
-  Object.entries(DIALOG_EXAMPLES).reduce((p, [key, value]) => ({
+  Object.entries(DialogExample).reduce((p, [key, value]) => ({
     ...p,
     [key]: {
       ...value,
       ...examples[key],
     },
-  })) as unknown as typeof DIALOG_EXAMPLES;
+  })) as unknown as typeof DialogExample;

@@ -1,7 +1,7 @@
-import { CharacterDefineType } from "../../../types/characters";
-import { define, DefineScheme } from "../../../types/define";
-import { dialogExamples } from "../../../utils";
-import { Duty } from "./duty";
+import { CharacterDefineType } from "../../types/characters";
+import { define, DefineScheme } from "../../types/define";
+import { dialogExamples } from "../../utils";
+import { Duty } from "../grid/character/duty";
 
 export const Character = define({
   Alex: {

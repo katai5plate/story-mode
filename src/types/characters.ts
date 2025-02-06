@@ -1,4 +1,4 @@
-import { DialogExample } from "../custom/define/character/dialogExample";
+import { DialogExample } from "../custom/grid/character/dialogExample";
 import { DetailField } from "./fields";
 
 /** キャラクター情報 */

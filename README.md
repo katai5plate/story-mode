@@ -72,12 +72,32 @@ x: Exchange
 ```
 
 ```js
-$.to($.MES.Show, {
-  chara: x.CHARA.Alex,
-  mes: [
-    $.tag`aaaaaaa${["b", 123]}bbbbbbbb`,
-    $.tag`aaaaaaa${["b", 123]}bbbbbbbb`,
-    $.tag`aaaaaaa${["b", 123]}bbbbbbbb`,
-  ],
-});
+new Script(($) =>
+  $.Head({ name: "デモコード" })
+    .Mes({
+      chara: $.REF.Character.Alex,
+      mes: [
+        "ああああああああああああ",
+        "いいいいいいいいいいいい",
+        "うううううううううううう",
+      ],
+    })
+    .Mes({
+      chara: $.REF.Character.Alex,
+      mes: [
+        "はっ！", //
+      ],
+    })
+    .Do("Message", "Show", {
+      chara: $.REF.Character.Alex,
+      mes: [
+        `aaaaaaa${tag.b("123")}bbbbbbbb`,
+        `aaaaaaa${tag.b("123")}bbbbbbbb`,
+        `aaaaaaa${tag.b("123")}bbbbbbbb`,
+      ],
+    })
+    .Do("Audio", "Play", { media: null as MusicAsset })
+    .Do("Audio", "Play", { media: null as SoundAsset })
+    .Do("Debug", "Any", { json: "aaaa" })
+);
 ```

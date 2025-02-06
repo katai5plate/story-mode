@@ -1,10 +1,13 @@
-import { Character } from "./custom/define/character/character";
-import { Episode } from "./custom/define/story/episode";
-import { Phase } from "./custom/define/story/phase";
-import { Piece } from "./custom/define/story/piece";
-import { Story } from "./custom/define/story/story";
-import { ControllerType } from "./custom/commands";
+import { Character } from "./custom/writing/character";
+import { Episode } from "./custom/grid/story/episode";
+import { Phase } from "./custom/grid/story/phase";
+import { Piece } from "./custom/grid/story/piece";
+import { Story } from "./custom/grid/story/story";
 import { MusicAsset, SoundAsset } from "./types/messages";
+import { Commands } from "./custom/types/commands";
+import { JsonData } from "./types/fields";
+
+export type CommandsType = typeof Commands;
 
 export type ScriptCallback = ($: Script) => Script;
 
@@ -14,24 +17,30 @@ export interface ScriptMetadata {
 
 const INSTANT = "<instant-script>";
 
+interface CodeElement<T extends JsonData = JsonData> {
+  category: string;
+  method: string;
+  args: T;
+}
+
 export class Script {
-  protected meta: ScriptMetadata;
-  private code: string[];
-  private calledCount = 0;
-  private isHeadCalled = false;
+  protected _meta: ScriptMetadata;
+  private _code: CodeElement[];
+  private _calledCount = 0;
+  private _isHeadCalled = false;
 
   constructor(code: ScriptCallback) {
-    this.meta = {
+    this._meta = {
       name: INSTANT,
     };
-    this.code = code(this).code;
+    this._code = code(this)._code;
   }
 
   get _isInstant() {
-    return this.meta.name === INSTANT;
+    return this._meta.name === INSTANT;
   }
 
-  readonly DATA = {
+  readonly REF = {
     Character,
     Story,
     Phase,
@@ -39,47 +48,54 @@ export class Script {
     Piece,
   };
 
-  HEAD(meta?: Partial<ScriptMetadata>) {
-    if (this.calledCount !== 0)
+  Head(meta?: Partial<ScriptMetadata>) {
+    if (this._calledCount !== 0)
       throw new Error("$.head は最初に定義してください");
-    this.calledCount++;
-    this.isHeadCalled = true;
-    this.meta = { ...this.meta, ...(meta ?? {}) };
+    this._calledCount++;
+    this._isHeadCalled = true;
+    this._meta = { ...this._meta, ...(meta ?? {}) };
     return this;
   }
-  MES(args: ControllerType["Message"]["Show"]) {
-    return this.DO("Message", "Show", args);
+  Mes(args: CommandsType["Message"]["Show"]) {
+    return this.Do("Message", "Show", args);
   }
-  DO<A extends keyof ControllerType, B extends keyof ControllerType[A]>(
+  Do<A extends keyof CommandsType, B extends keyof CommandsType[A]>(
     category: A,
     method: B,
-    args: ControllerType[A][B]
+    args: CommandsType[A][B]
   ) {
-    if (!this.isHeadCalled)
+    if (!this._isHeadCalled)
       throw new Error("$.head を最初に必ず呼んでください");
-    this.calledCount++;
+    this._calledCount++;
+    this._code.push({
+      category,
+      method: method as string,
+      args: args as JsonData,
+    });
     return this;
   }
-  private _DEMO_CODE() {
+
+  // これはデモコード
+  _() {
     new Script(($) =>
-      $.HEAD({ name: "デモコード" })
-        .MES({
-          chara: $.DATA.Character.Alex,
+      $.Head({ name: "demo" })
+        .Mes({
+          chara: $.REF.Character.Alex,
           mes: [
             "ああああああああああああ",
             "いいいいいいいいいいいい",
             "うううううううううううう",
           ],
         })
-        .MES({
-          chara: $.DATA.Character.Alex,
+        .Mes({
+          chara: $.REF.Character.Alex,
           mes: [
             "はっ！", //
           ],
         })
-        .DO("Audio", "Play", { media: null as MusicAsset })
-        .DO("Audio", "Play", { media: null as SoundAsset })
-        .DO("Debug", "Any", { json: "aaaa" })
+        .Do("Audio", "Play", { media: null as MusicAsset })
+        .Do("Audio", "Play", { media: null as SoundAsset })
+        .Do("Debug", "Any", { json: "aaaa" })
     );
   }
 }

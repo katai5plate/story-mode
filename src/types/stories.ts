@@ -1,3 +1,9 @@
+import { Episode } from "../custom/grid/story/episode";
+import { Foreshadow } from "../custom/grid/story/foreshadow";
+import { Phase } from "../custom/grid/story/phase";
+import { Piece } from "../custom/grid/story/piece";
+import { Story } from "../custom/grid/story/story";
+import { Script } from "../Script";
 import { DetailField } from "./fields";
 
 /** 物語要素 */
@@ -12,35 +18,39 @@ export type ScenarioTheoryDefineType = {
   answer?: DetailField;
 };
 
-/** 小枠 */
-// export interface PieceDefineType extends ScenarioTheoryDefineType {
-//   // /** 実際のスクリプト内容 */
-//   // scripts: {
-//   //   /** 開始時に走るスクリプト */
-//   //   main: Script;
-//   //   /** call などで呼ばれるスクリプト */
-//   //   sub: Script[];
-//   // };
-// }
-/** 中枠 */
-// export interface EpisodeDefineType extends ScenarioTheoryDefineType {
-//   // /** 小枠 */
-//   // pieces: Exchanged<Piece>;
-// }
-/** 大枠 */
-// export interface PhaseDefineType extends ScenarioTheoryDefineType {
-//   // /** 中枠 */
-//   // episodes: Exchanged<Episode>;
-// }
 /** ストーリー */
-// export interface StoryDefineType extends ScenarioTheoryDefineType {
-//   // /** 大枠 */
-//   // phases: Exchanged<Phase>;
-// }
-/** 伏線 */
-// export interface ForeshadowDefineType extends ScenarioTheoryDefineType {
-//   // /** 発生地点 */
-//   // register: Piece | Episode | Phase | Story;
-//   // /** 回収地点 */
-//   // reclaimer: Piece | Episode | Phase | Story;
-// }
+export interface StoryPlot {
+  define: typeof Story;
+  /** 大枠 */
+  phase: typeof Episode;
+}
+/** 大枠 */
+export interface PhasePlot {
+  define: typeof Phase;
+  /** 中枠 */
+  episode: typeof Episode;
+}
+/** 中枠 */
+export interface EpisodePlot {
+  define: typeof Episode;
+  /** 小枠 */
+  piece: typeof Piece;
+}
+/** 小枠 */
+export interface PiecePlot {
+  define: typeof Piece;
+  /** 実際のスクリプト内容 */
+  scripts: {
+    /** 開始時に走るスクリプト */
+    main: Script;
+    /** call などで呼ばれるスクリプト */
+    sub: Script[];
+  };
+}
+export interface ForeshadowPlot {
+  define: typeof Foreshadow;
+  /** 発火地点 */
+  giver: StoryPlot | PhasePlot | EpisodePlot | PiecePlot;
+  /** 回収地点 */
+  taker: StoryPlot | PhasePlot | EpisodePlot | PiecePlot;
+}

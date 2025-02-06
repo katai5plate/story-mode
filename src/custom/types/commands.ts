@@ -1,7 +1,7 @@
-import { Script, ScriptCallback } from "../Script";
-import { CharacterDefineType } from "../types/characters";
-import { defineCommands, opt, req } from "../types/commands";
-import { JsonData } from "../types/fields";
+import { Script, ScriptCallback } from "../../Script";
+import { CharacterDefineType } from "../../types/characters";
+import { defineCommands, opt, req } from "../../types/commands";
+import { JsonData } from "../../types/fields";
 import {
   AmbientAsset,
   BackgroundImage,
@@ -29,8 +29,8 @@ import {
   Tween,
   VoiceAsset,
   Volume,
-} from "../types/messages";
-import { ScenarioTheoryDefineType } from "../types/stories";
+} from "../../types/messages";
+import { ScenarioTheoryDefineType } from "../../types/stories";
 
 export type AudioBackType = "Music" | "Ambient";
 export type AudioType = AudioBackType | "Sound";
@@ -214,4 +214,3 @@ export const Commands = defineCommands({
     Any: { json: req<JsonData>() },
   },
 });
-export type ControllerType = typeof Commands;

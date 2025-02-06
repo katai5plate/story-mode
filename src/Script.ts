@@ -1,20 +1,12 @@
-import { Character } from "./custom/define/characters/character";
-import { Episode } from "./custom/define/stories/episode";
-import { Phase } from "./custom/define/stories/phase";
-import { Piece } from "./custom/define/stories/piece";
-import { Story } from "./custom/define/stories/story";
-import { ControllerType } from "./types/controls";
+import { Character } from "./custom/define/character/character";
+import { Episode } from "./custom/define/story/episode";
+import { Phase } from "./custom/define/story/phase";
+import { Piece } from "./custom/define/story/piece";
+import { Story } from "./custom/define/story/story";
+import { ControllerType } from "./custom/commands";
 import { MusicAsset, SoundAsset } from "./types/messages";
 
-interface Defines {
-  Character: typeof Character;
-  Story: typeof Story;
-  Phase: typeof Phase;
-  Episode: typeof Episode;
-  Piece: typeof Piece;
-}
-
-export type ScriptCallback = ($: Script, x: Defines) => Script;
+export type ScriptCallback = ($: Script) => Script;
 
 export interface ScriptMetadata {
   name: string;
@@ -32,20 +24,22 @@ export class Script {
     this.meta = {
       name: INSTANT,
     };
-    this.code = code(this, {
-      Character,
-      Story,
-      Phase,
-      Episode,
-      Piece,
-    } as unknown as Defines).code;
+    this.code = code(this).code;
   }
 
-  get isInstant() {
+  get _isInstant() {
     return this.meta.name === INSTANT;
   }
 
-  head(meta?: Partial<ScriptMetadata>) {
+  readonly DATA = {
+    Character,
+    Story,
+    Phase,
+    Episode,
+    Piece,
+  };
+
+  HEAD(meta?: Partial<ScriptMetadata>) {
     if (this.calledCount !== 0)
       throw new Error("$.head は最初に定義してください");
     this.calledCount++;
@@ -53,10 +47,10 @@ export class Script {
     this.meta = { ...this.meta, ...(meta ?? {}) };
     return this;
   }
-  z(args: ControllerType["Message"]["Show"]) {
-    return this.do("Message", "Show", args);
+  MES(args: ControllerType["Message"]["Show"]) {
+    return this.DO("Message", "Show", args);
   }
-  do<A extends keyof ControllerType, B extends keyof ControllerType[A]>(
+  DO<A extends keyof ControllerType, B extends keyof ControllerType[A]>(
     category: A,
     method: B,
     args: ControllerType[A][B]
@@ -66,23 +60,26 @@ export class Script {
     this.calledCount++;
     return this;
   }
-  customMessage(content) {
-    return this;
-  }
-  _DEMO_CODE() {
-    new Script(($, x) =>
-      $.head({ name: "デモコード" })
-        .z({
-          chara: x.Character.Alex,
+  private _DEMO_CODE() {
+    new Script(($) =>
+      $.HEAD({ name: "デモコード" })
+        .MES({
+          chara: $.DATA.Character.Alex,
           mes: [
             "ああああああああああああ",
             "いいいいいいいいいいいい",
             "うううううううううううう",
           ],
         })
-        .z({ chara: x.Character.Alex, mes: ["はっ！"] })
-        .do("Audio", "Play", { media: null as MusicAsset })
-        .do("Audio", "Play", { media: null as SoundAsset })
+        .MES({
+          chara: $.DATA.Character.Alex,
+          mes: [
+            "はっ！", //
+          ],
+        })
+        .DO("Audio", "Play", { media: null as MusicAsset })
+        .DO("Audio", "Play", { media: null as SoundAsset })
+        .DO("Debug", "Any", { json: "aaaa" })
     );
   }
 }

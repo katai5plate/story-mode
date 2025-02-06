@@ -1,4 +1,4 @@
-import { DialogExample } from "./custom/define/characters/dialogExample";
+import { DialogExample } from "./custom/define/character/dialogExample";
 import { DialogExampleDefineType } from "./types/characters";
 
 export const dialogExamples = (

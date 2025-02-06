@@ -1,8 +1,8 @@
 export type DetailField = string | string[];
 
-type Jsonalue = string | number | boolean | null | JsonObject | Jsonrray;
+type JsonValue = string | number | boolean | null | JsonObject | Jsonrray;
 interface JsonObject {
-  [key: string | number]: Jsonalue;
+  [key: string | number]: JsonValue;
 }
-interface Jsonrray extends Array<Jsonalue> {}
-export type JsonData = JsonObject | Jsonrray;
+interface Jsonrray extends Array<JsonValue> {}
+export type JsonData = JsonValue | JsonObject | Jsonrray;

@@ -30,7 +30,7 @@ import {
   VoiceAsset,
   Volume,
 } from "../../types/messages";
-import { ScenarioTheoryDefineType } from "../../types/stories";
+import { ScenarioTheoryDefineType } from "../../types/scenario";
 
 export type AudioBackType = "Music" | "Ambient";
 export type AudioType = AudioBackType | "Sound";

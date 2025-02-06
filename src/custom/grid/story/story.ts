@@ -1,5 +1,5 @@
 import { define, DefineScheme } from "../../../types/define";
-import { ScenarioTheoryDefineType } from "../../../types/stories";
+import { ScenarioTheoryDefineType } from "../../../types/scenario";
 
 export const Story = define({
   Main: {

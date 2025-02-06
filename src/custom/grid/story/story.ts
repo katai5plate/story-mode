@@ -1,7 +1,7 @@
-import { define, DefineScheme } from "../../../types/define";
-import { ScenarioTheoryDefineType } from "../../../types/scenario";
+import { custom, CustomRef } from "../../../types/custom";
+import { ScenarioGrid } from "../../../types/scenario";
 
-export const Story = define({
+export const Story = custom({
   Main: {
     name: "メインストーリー",
     summary: "主人公の物語",
@@ -11,4 +11,4 @@ export const Story = define({
       "物語の最後で主人公の目的は達成される？",
     ],
   },
-} as const satisfies DefineScheme<ScenarioTheoryDefineType>);
+} as const satisfies CustomRef<ScenarioGrid>);

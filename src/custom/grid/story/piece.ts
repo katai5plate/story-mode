@@ -1,7 +1,7 @@
-import { define, DefineScheme } from "../../../types/define";
-import { ScenarioTheoryDefineType } from "../../../types/scenario";
+import { custom, CustomRef } from "../../../types/custom";
+import { ScenarioGrid } from "../../../types/scenario";
 
-export const Piece = define({
+export const Piece = custom({
   Cause: {
     name: "原因",
     summary: "何かが起こる／主人公や周囲が行動する",
@@ -21,4 +21,4 @@ export const Piece = define({
       "その結果が「次のシーン」にどう影響するのか（あるいは物語全体の動きをどう変えるのか）が見えているかか？",
     ],
   },
-} as const satisfies DefineScheme<ScenarioTheoryDefineType>);
+} as const satisfies CustomRef<ScenarioGrid>);

@@ -4,19 +4,18 @@ import { Phase } from "../custom/grid/story/phase";
 import { Piece } from "../custom/grid/story/piece";
 import { Story } from "../custom/grid/story/story";
 import { Script } from "../Script";
+import { Gird } from "./custom";
 import { DetailField } from "./fields";
 
-/** 物語要素 */
-export type ScenarioTheoryDefineType = {
+/** 物語セオリー */
+export interface ScenarioGrid extends Gird {
   /** 名称 */
   name: string;
   /** 説明や主な質問 */
   summary: DetailField;
   /** チェックリスト */
   checklist?: string[];
-  /** 回答 */
-  answer?: DetailField;
-};
+}
 
 /** ストーリー */
 export interface StoryPlot {

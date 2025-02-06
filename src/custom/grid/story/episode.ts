@@ -1,7 +1,7 @@
-import { define, DefineScheme } from "../../../types/define";
-import { ScenarioTheoryDefineType } from "../../../types/scenario";
+import { custom, CustomRef } from "../../../types/custom";
+import { ScenarioGrid } from "../../../types/scenario";
 
-export const Episode = define({
+export const Episode = custom({
   Purpose: {
     name: "目的",
     summary: "実現しようと目指すことは？",
@@ -38,4 +38,4 @@ export const Episode = define({
       "この決断が次の展開にどうつながるのか示されているか？",
     ],
   },
-} as const satisfies DefineScheme<ScenarioTheoryDefineType>);
+} as const satisfies CustomRef<ScenarioGrid>);

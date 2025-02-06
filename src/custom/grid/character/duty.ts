@@ -1,7 +1,7 @@
-import { DutyDefineType } from "../../../types/characters";
-import { define, DefineScheme } from "../../../types/define";
+import { DutyGrid } from "../../../types/characters";
+import { custom, CustomRef } from "../../../types/custom";
 
-export const Duty = define({
+export const Duty = custom({
   Hero: {
     name: "主人公",
     rules: [
@@ -36,4 +36,4 @@ export const Duty = define({
       "使いどころの予想がつく事、主人公に与えるものや試練の予想がつくことが重要",
     ],
   },
-} as const satisfies DefineScheme<DutyDefineType>);
+} as const satisfies CustomRef<DutyGrid>);

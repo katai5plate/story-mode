@@ -1,12 +1,13 @@
 import { DialogExample } from "../custom/grid/character/dialogExample";
+import { Gird, Template } from "./custom";
 import { DetailField } from "./fields";
 
 /** キャラクター情報 */
-export type CharacterDefineType = {
+export interface CharacterTemplate extends Template {
   /** 名前 */
   name: string;
   /** 役割 */
-  duty: DutyDefineType;
+  duty: DutyGrid;
   /** 基礎情報 */
   basic: {
     /** 性別 */
@@ -34,9 +35,9 @@ export type CharacterDefineType = {
       socialRelationships: DetailField;
     };
     /** 経歴と現在 */
-    histories: CharacterHistoryDefineType[];
+    histories: CharacterHistoryGrid[];
     /** セリフ例 */
-    dialogExamples: Record<keyof typeof DialogExample, DialogExampleDefineType>;
+    dialogExamples: Record<keyof typeof DialogExample, DialogExampleGrid>;
   };
   appendix?: {
     /** 特徴 */
@@ -49,18 +50,18 @@ export type CharacterDefineType = {
   //   messageSound: MessageSound;
   //   messageFont: MessageFont;
   // }
-};
+}
 
 /** 役割 */
-export type DutyDefineType = {
+export interface DutyGrid extends Gird {
   /** 名称 */
   name: string;
   /** ルール */
   rules: DetailField;
-};
+}
 
 /** 経歴と現在 */
-export type CharacterHistoryDefineType = {
+export interface CharacterHistoryGrid extends Gird {
   /** 名称 */
   name: string;
   /** 容姿。イメージ通りで、見分けがつき、魅力があるかチェックする */
@@ -89,10 +90,10 @@ export type CharacterHistoryDefineType = {
   };
   /** その他メモ */
   note?: DetailField;
-};
+}
 
 /** セリフ・行動例 */
-export type DialogExampleDefineType = {
+export interface DialogExampleGrid extends Gird {
   /** 名称 */
   name: string;
   /** お題 */
@@ -101,4 +102,4 @@ export type DialogExampleDefineType = {
   answer?: DetailField;
   /** コツ */
   hint?: DetailField;
-};
+}

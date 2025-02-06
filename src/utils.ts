@@ -1,11 +1,11 @@
 import { DialogExample } from "./custom/grid/character/dialogExample";
-import { DialogExampleDefineType } from "./types/characters";
+import { DialogExampleGrid } from "./types/characters";
 
 export const dialogExamples = (
   examples: Partial<
     Record<
       keyof typeof DialogExample,
-      Pick<DialogExampleDefineType, "answer" | "hint">
+      Pick<DialogExampleGrid, "answer" | "hint">
     >
   >
 ) =>

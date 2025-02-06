@@ -1,9 +1,9 @@
-import { CharacterDefineType } from "../../types/characters";
-import { define, DefineScheme } from "../../types/define";
+import { CharacterTemplate } from "../../types/characters";
+import { custom, CustomRef } from "../../types/custom";
 import { dialogExamples } from "../../utils";
 import { Duty } from "../grid/character/duty";
 
-export const Character = define({
+export const Character = custom({
   Alex: {
     name: "アレックス",
     duty: Duty.Hero,
@@ -57,4 +57,4 @@ export const Character = define({
       }),
     },
   },
-} as const satisfies DefineScheme<CharacterDefineType>);
+} as const satisfies CustomRef<CharacterTemplate>);

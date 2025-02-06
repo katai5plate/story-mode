@@ -1,7 +1,7 @@
-import { define, DefineScheme } from "../../../types/define";
-import { ScenarioTheoryDefineType } from "../../../types/scenario";
+import { custom, CustomRef } from "../../../types/custom";
+import { ScenarioGrid } from "../../../types/scenario";
 
-export const Foreshadow = define({
+export const Foreshadow = custom({
   Flag: {
     name: "フラグ",
     summary: "先の展開をあらかじめ予想させる伏線",
@@ -26,4 +26,4 @@ export const Foreshadow = define({
       "回収されるとそれまでの常識が覆されるような重要なものか？",
     ],
   },
-} as const satisfies DefineScheme<ScenarioTheoryDefineType>);
+} as const satisfies CustomRef<ScenarioGrid>);

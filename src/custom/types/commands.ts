@@ -1,5 +1,5 @@
 import { Script, ScriptCallback } from "../../Script";
-import { CharacterDefineType } from "../../types/characters";
+import { CharacterTemplate } from "../../types/characters";
 import { defineCommands, opt, req } from "../../types/commands";
 import { JsonData } from "../../types/fields";
 import {
@@ -30,7 +30,7 @@ import {
   VoiceAsset,
   Volume,
 } from "../../types/messages";
-import { ScenarioTheoryDefineType } from "../../types/scenario";
+import { ScenarioGrid } from "../../types/scenario";
 
 export type AudioBackType = "Music" | "Ambient";
 export type AudioType = AudioBackType | "Sound";
@@ -39,8 +39,8 @@ export type FadeType = "In" | "Out";
 export type GotoType =
   | "Top"
   | "End"
-  | ScenarioTheoryDefineType
-  | ScenarioTheoryDefineType
+  | ScenarioGrid
+  | ScenarioGrid
   | "NextPhase";
 export type VariableType = "Trig" | "Var";
 export type ItemOwnType = "Get" | "Remove";
@@ -49,7 +49,7 @@ export type ItemUseType = "Apply" | "Equip";
 export const Commands = defineCommands({
   Message: {
     Show: {
-      chara: req<CharacterDefineType>(),
+      chara: req<CharacterTemplate>(),
       mes: req<string[]>(),
       voice: opt<VoiceAsset>(),
     },
@@ -60,7 +60,7 @@ export const Commands = defineCommands({
   },
   Character: {
     Show: {
-      chara: req<CharacterDefineType>(),
+      chara: req<CharacterTemplate>(),
       emote: req<Emotion>(),
       cartoon: req<Cartoon>(),
       pos: req<ScreenPosition>(),

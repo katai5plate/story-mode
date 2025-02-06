@@ -1,7 +1,7 @@
-import { DialogExampleDefineType } from "../../../types/characters";
-import { define, DefineScheme } from "../../../types/define";
+import { DialogExampleGrid } from "../../../types/characters";
+import { custom, CustomRef } from "../../../types/custom";
 
-export const DialogExample = define({
+export const DialogExample = custom({
   Money: {
     name: "大金",
     question: "大金が当たった時の行動",
@@ -18,4 +18,4 @@ export const DialogExample = define({
     name: "無人島",
     question: "無人島漂着時の行動",
   },
-} as const satisfies DefineScheme<DialogExampleDefineType>);
+} as const satisfies CustomRef<DialogExampleGrid>);

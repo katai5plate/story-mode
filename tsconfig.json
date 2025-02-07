@@ -1,15 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "System",
-    // "outDir": "dist",
-    "outFile": "dist/cli.js",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "rootDir": ".",
-    "allowJs": true
+    "module": "ESNext",
+    "moduleResolution": "bundler",
   },
-  "include": ["src/**/*"]
+  "files": [],
+  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
 }

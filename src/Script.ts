@@ -1,8 +1,8 @@
 import { Character } from "./custom/writing/character";
-import { Episode } from "./custom/grid/story/episode";
 import { Phase } from "./custom/grid/story/phase";
-import { Piece } from "./custom/grid/story/piece";
-import { Story } from "./custom/grid/story/story";
+import { Chapter } from "./custom/grid/story/chapter";
+import { Beat } from "./custom/grid/story/beat";
+import { Episode } from "./custom/grid/story/episode";
 import { MusicAsset, SoundAsset } from "./types/messages";
 import { Commands } from "./custom/types/commands";
 import { JsonData } from "./types/fields";
@@ -42,10 +42,10 @@ export class Script {
 
   readonly REF = {
     Character,
-    Story,
-    Phase,
     Episode,
-    Piece,
+    Chapter,
+    Phase,
+    Beat,
   };
 
   Head(meta?: Partial<ScriptMetadata>) {

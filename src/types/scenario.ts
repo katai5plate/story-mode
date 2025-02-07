@@ -1,8 +1,6 @@
-import { Episode } from "../custom/grid/story/episode";
-import { Foreshadow } from "../custom/grid/story/foreshadow";
 import { Phase } from "../custom/grid/story/phase";
-import { Piece } from "../custom/grid/story/piece";
-import { Story } from "../custom/grid/story/story";
+import { Chapter } from "../custom/grid/story/chapter";
+import { Beat } from "../custom/grid/story/beat";
 import { Script } from "../Script";
 import { Gird } from "./custom";
 import { DetailField } from "./fields";
@@ -17,27 +15,30 @@ export interface ScenarioGrid extends Gird {
   checklist?: string[];
 }
 
-/** ストーリー */
-export interface StoryPlot {
-  define: typeof Story;
+export interface Plot extends ScenarioGrid {
+  /** チェックリストのアンサー */
+  answer?: string[];
+}
+
+export type Book<K, T> = Record<keyof K, T>;
+
+/** エピソード */
+export interface EpisodePlot extends Plot {
   /** 大枠 */
-  phase: typeof Episode;
+  chapter?: Book<typeof Chapter, ChapterPlot>;
 }
 /** 大枠 */
-export interface PhasePlot {
-  define: typeof Phase;
+export interface ChapterPlot extends Plot {
   /** 中枠 */
-  episode: typeof Episode;
+  phase?: Book<typeof Phase, PhasePlot>;
 }
 /** 中枠 */
-export interface EpisodePlot {
-  define: typeof Episode;
+export interface PhasePlot extends Plot {
   /** 小枠 */
-  piece: typeof Piece;
+  beat?: Book<typeof Beat, BeatPlot>;
 }
 /** 小枠 */
-export interface PiecePlot {
-  define: typeof Piece;
+export interface BeatPlot extends Plot {
   /** 実際のスクリプト内容 */
   scripts: {
     /** 開始時に走るスクリプト */
@@ -46,10 +47,9 @@ export interface PiecePlot {
     sub: Script[];
   };
 }
-export interface ForeshadowPlot {
-  define: typeof Foreshadow;
+export interface ForeshadowPlot extends Plot {
   /** 発火地点 */
-  giver: StoryPlot | PhasePlot | EpisodePlot | PiecePlot;
+  giver?: EpisodePlot | ChapterPlot | PhasePlot | BeatPlot;
   /** 回収地点 */
-  taker: StoryPlot | PhasePlot | EpisodePlot | PiecePlot;
+  taker?: EpisodePlot | ChapterPlot | PhasePlot | BeatPlot;
 }

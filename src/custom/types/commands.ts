@@ -41,7 +41,7 @@ export type GotoType =
   | "End"
   | ScenarioGrid
   | ScenarioGrid
-  | "NextPhase";
+  | "NextChapter";
 export type VariableType = "Trig" | "Var";
 export type ItemOwnType = "Get" | "Remove";
 export type ItemUseType = "Apply" | "Equip";

@@ -1,6 +1,6 @@
 import { RouteNode } from '@renderer/components/RouteMap'
 
-const SETTINGS: RouteNode[] = [
+export const SETTING_ROUTES: RouteNode[] = [
   {
     type: 'folder',
     path: 'config',
@@ -53,5 +53,3 @@ const SETTINGS: RouteNode[] = [
     children: [{ type: 'bookmark', path: 'hero', name: '主人公', icon: '⭐' }]
   }
 ]
-
-export const ROUTES: RouteNode[] = [...SETTINGS]

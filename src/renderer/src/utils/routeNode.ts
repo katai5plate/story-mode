@@ -1,5 +1,8 @@
 import { RouteNode } from '@renderer/components/RouteMap'
+import { SETTING_ROUTES } from '@renderer/constants/routes'
+import { useStore } from '@renderer/store/useStore'
 import { CharacterJSON, ScenarioJSON } from '@renderer/types/TemplateJSON'
+import { Params, useParams } from 'react-router'
 
 export const genScenarioTree = (scenario: ScenarioJSON) => {
   const orders = [
@@ -42,11 +45,35 @@ export const findScenarioRouteNode = (
 ): RouteNode | null => {
   if (!pathSegments.length) return null
   for (const routeNode of routeNodes) {
-    if (routeNode.path.includes(pathSegments[0])) {
+    if (routeNode.path === pathSegments[0]) {
       if (pathSegments.length === 1) return routeNode
       const foundChild = findScenarioRouteNode(pathSegments.slice(1), routeNode.children)
       if (foundChild) return foundChild
     }
+  }
+  return null
+}
+
+export const useRouteNode = (pathname: string, params: Readonly<Params<string>>): RouteNode => {
+  const store = useStore()
+  const [parent, ...segments] = pathname.replace(/^\//, '').split('/')
+  if (parent === 'scenario') {
+    const node = findScenarioRouteNode(
+      [params.episodeId, params.chapterId, params.phaseId, params.beatId, params.scriptId].filter(
+        Boolean
+      ),
+      store.scenarioRoutes
+    )
+    return node
+  }
+  if (parent === 'character') {
+    const [id] = segments
+    const node = store.characterRoutes.find((r) => r.path === id)
+    return node
+  }
+  if (parent === 'config' || parent === 'bookmark') {
+    const node = findScenarioRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES)
+    return node
   }
   return null
 }

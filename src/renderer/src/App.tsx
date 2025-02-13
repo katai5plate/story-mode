@@ -1,16 +1,17 @@
 import { CircularProgress, createTheme, ThemeProvider } from '@mui/material'
-import { useEffect } from 'react'
-import { BrowserRouter, Route, Routes, useParams } from 'react-router'
+import { useEffect, useMemo } from 'react'
+import { BrowserRouter, Route, Routes, useLocation, useParams } from 'react-router'
 import { useApi } from './api/useApi'
 import { useStore } from './store/useStore'
 import { MainTemplate } from './Templates/MainTemplate'
-import { genCharacterTree, genScenarioTree } from './utils/routeNode'
+import { genCharacterTree, genScenarioTree, useRouteNode } from './utils/routeNode'
+import { useCommon } from './utils/hooks'
 
 const darkmode = createTheme({ palette: { mode: 'dark' } })
 
 const Temp = () => {
-  const q = useParams()
-  return <pre>{JSON.stringify(q, null, 2)}</pre>
+  const { node } = useCommon()
+  return <pre>{JSON.stringify(node, null, 2)}</pre>
 }
 
 const App = () => {
@@ -31,7 +32,7 @@ const App = () => {
   return (
     <ThemeProvider theme={darkmode}>
       <BrowserRouter>
-        <MainTemplate title="title">
+        <MainTemplate title={store?.title || '--'}>
           <Routes>
             <Route path="/" element={<Temp />} />
             <Route path="/config/:configId/:methodId" element={<Temp />} />

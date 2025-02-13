@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { RouteMap, RouteNode } from '@renderer/components/RouteMap'
-import { ROUTES } from '@renderer/constants/routes'
+import { SETTING_ROUTES } from '@renderer/constants/routes'
 import { SIDEBAR_WIDTH } from '@renderer/constants/system'
 import { useStore } from '@renderer/store/useStore'
 import { findScenarioRouteNode } from '@renderer/utils/routeNode'
@@ -74,7 +74,7 @@ export const MainTemplate = (p: { title: string; children: ReactNode }) => {
       <CssBaseline />
       <Sidebar
         tree={[
-          ...ROUTES,
+          ...SETTING_ROUTES,
           {
             type: 'folder',
             path: 'character',

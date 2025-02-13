@@ -17,6 +17,7 @@ export type RouteNode = {
   isButton?: boolean
   children?: RouteNode[]
   _index?: number
+  _alias?: string
 }
 
 const RouteItem: React.FC<{

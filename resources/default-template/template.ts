@@ -1,3 +1,336 @@
+type CharacterSelector = { name: string }
+
+interface ScriptMetadata {
+  name: string
+}
+class Script {
+  // readonly Character
+  constructor() {}
+  Head(meta: Partial<ScriptMetadata>): Script {
+    return this
+  }
+  Mes(args: Commands['Message']['Show']): Script {
+    return this
+  }
+  Do<A extends keyof Commands, B extends keyof Commands[A]>(
+    category: A,
+    method: B,
+    args: Commands[A][B]
+  ): Script {
+    return this
+  }
+}
+type ScriptCallback = Script['Do']
+
+type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
+interface JsonObject {
+  [key: string | number]: JsonValue
+}
+interface Jsonrray extends Array<JsonValue> {}
+type JsonData = JsonValue | JsonObject | Jsonrray
+
+//--SCRIPT_START--//
+
+export const TEMPLATE_NAME = 'Default Template'
+
+// ==============================================
+// サウンド関連
+// ==============================================
+
+type AmbientName = string
+type MusicName = string
+type SoundName = string
+type VoiceName = string
+
+type VolumeSelector =
+  | 'Max'
+  | 'Music'
+  | 'Ambient'
+  | 'Sound'
+  | 'HalfMusic'
+  | 'HalfAmbient'
+  | 'HalfSound'
+  | 'Quiet'
+  | 'Mute'
+type PanpotSelector = 'Left' | 'HalfLeft' | 'Center' | 'HalfRight' | 'Right'
+type SoundEffectSelector = 'echo' | 'amp' | 'mystic' | 'delay' | 'phaser'
+
+type AudioBackType = 'Music' | 'Ambient'
+type AudioType = AudioBackType | 'Sound'
+type AudioTypeWithAll = AudioType | 'All'
+type AudioStopType = 'Stop' | 'Pause'
+
+// ==============================================
+// 画像・描画関連
+// ==============================================
+
+type BackgroundName = string
+type IllustName = string
+type ParticleName = string
+
+type CartoonSelector =
+  | 'Clear'
+  | 'Smile'
+  | 'Anger'
+  | 'Sadness'
+  | 'Smile'
+  | 'Surprise'
+  | 'Fear'
+  | 'Anticipation'
+  | 'Disgust'
+  | 'Ecstasy'
+  | 'Worry'
+  | 'Rage'
+  | 'Agitation'
+  | 'Anxiety'
+  | 'Sleepy'
+  | 'Sleep'
+  | 'Kissing'
+  | 'X'
+  | 'Foggy'
+type EmotionSelector =
+  | 'Surprise'
+  | 'Question'
+  | 'Music'
+  | 'Love'
+  | 'Anger'
+  | 'Sweat'
+  | 'Confuse'
+  | 'Silence'
+  | 'Inspiration'
+  | 'Sleep'
+type LayerSelector = 'Back' | 'Center' | 'Front'
+
+// ==============================================
+// 画面関連
+// ==============================================
+
+type TintSelector = 'Normal' | 'Evening' | 'Night' | 'Neon' | 'Gray' | 'Sepia'
+type FlashSelector = 'White' | 'Red' | 'Fire' | 'Water' | 'Wind'
+type ShakeSelector = 'Small' | 'Medium' | 'Big' | 'Hyper'
+type ScreenAreaSelector = 'StatusArea' | 'GameArea' | 'All'
+type ScreenPositionSelector = 'Center' | CharacterSelector
+
+type FadeType = 'In' | 'Out'
+
+// ==============================================
+// ゲーム関連
+// ==============================================
+
+type GameItemName = string
+
+type GameOperatorSelector = '==' | '<' | '<=' | '>' | '>=' | '!=' | 'RemainderIsZeroBy'
+type GameTriggerSelector = `${'status' | 'game' | 'item' | 'story'}.${string}`
+type GameVariableSelector = `${'status' | 'game' | 'item' | 'story'}.${string}`
+type GameModalSelector = 'TextInput' | 'NumberInput' | 'Inventory'
+type GameInputSelector =
+  | 'Okey'
+  | 'Cancel'
+  | 'Up'
+  | 'Down'
+  | 'Left'
+  | 'Right'
+  | 'SideLeft'
+  | 'SideRight'
+  | 'Start'
+  | 'Select'
+  | 'A'
+  | 'B'
+  | 'X'
+  | 'Y'
+type GameInputActionSelector = 'Down' | 'DownToUp' | 'Released' | 'Keep' | 'LongKeep'
+type GameTweenSelector = 'SineIn' | 'SineOut' | 'SineInOut'
+type GameSpeedSelector = 'Moment' | 'High' | 'Quick' | 'Normal' | 'Slow' | 'Low'
+
+type GameItemOwnType = 'Get' | 'Remove'
+type GameItemUseType = 'Apply' | 'Equip'
+
+// ==============================================
+// 制御関連
+// ==============================================
+
+type GotoType = 'Top' | 'End'
+type VariableType = 'Trig' | 'Var'
+
+// ==============================================
+// コマンド
+// ==============================================
+
+export interface Commands {
+  Message: {
+    Show: {
+      chara: CharacterSelector
+      mes: string[]
+      voice?: VoiceName
+    }
+    Update: {
+      speed?: GameSpeedSelector | null
+      window?: boolean
+    }
+  }
+  Character: {
+    Show: {
+      chara: CharacterSelector
+      emote: EmotionSelector
+      cartoon: CartoonSelector
+      pos: ScreenPositionSelector
+      tween: GameTweenSelector
+    }
+    Update: {
+      show?: boolean
+      move?: {
+        pos: ScreenPositionSelector
+        tween: GameTweenSelector
+      }
+      name?: string
+    }
+  }
+  Sprite: {
+    Show: {
+      image: BackgroundName | IllustName
+      layer: LayerSelector
+      fade: {
+        tween: GameTweenSelector
+        wait: boolean
+      }
+    }
+    Update: {
+      show?: boolean
+      fade?: {
+        tween: GameTweenSelector
+        wait: boolean
+      }
+    }
+  }
+  Audio: {
+    Play: {
+      media: MusicName | AmbientName | SoundName
+      volume?: VolumeSelector
+      panpot?: PanpotSelector
+      effect?: SoundEffectSelector
+      fade?: {
+        tween: GameTweenSelector
+        wait: boolean
+      }
+    }
+    Stop: {
+      media: AudioType
+      type: AudioStopType
+      fade?: {
+        tween: GameTweenSelector
+        wait: boolean
+      }
+    }
+    Restore: {
+      media: AudioType
+      fade?: {
+        tween: GameTweenSelector
+        wait: boolean
+      }
+    }
+    Update: {
+      media: AudioBackType
+      volume?: VolumeSelector
+      panpot?: PanpotSelector
+      effect?: SoundEffectSelector
+      fade?: {
+        tween: GameTweenSelector
+        wait: boolean
+        cross?: MusicName | AmbientName
+      }
+    }
+    ForceStop: {
+      media: AudioTypeWithAll
+    }
+  }
+  Screen: {
+    Play: {
+      id: string
+      media: Animation | ParticleName
+      layer: LayerSelector
+      pos: ScreenPositionSelector
+      wait: boolean
+    }
+    Stop: {
+      id: string
+    }
+    Effect: {
+      tint?: {
+        media: TintSelector
+        fade?: {
+          tween: GameTweenSelector
+          wait: boolean
+        }
+      }
+      flash?: { media: FlashSelector; wait: boolean }
+      shake?: { media: ShakeSelector; wait: boolean }
+      black?: {
+        to: FadeType
+        area: ScreenAreaSelector
+        fade?: {
+          tween: GameTweenSelector
+          wait: boolean
+        }
+      }
+    }
+    Modal: { media: GameModalSelector; active: boolean }
+  }
+  Flow: {
+    Label: { name: string }
+    Go: { to: GotoType }
+    Call: { script: Script; comeback?: boolean }
+    Wait: {
+      sec: number
+      input: {
+        type: GameInputSelector
+        action: GameInputActionSelector
+      }
+    }
+    Trig: {
+      name: GameTriggerSelector | string
+      value: boolean
+    }
+    Var: {
+      name: GameVariableSelector | string
+      value: JsonData
+    }
+    ClearLocal: { type: VariableType }
+    IfTrig: {
+      name: GameTriggerSelector | string
+      op: GameOperatorSelector
+      value: boolean
+      then: ScriptCallback
+      else?: ScriptCallback
+    }
+    IfVar: {
+      name: GameVariableSelector | string
+      op: GameOperatorSelector
+      value: JsonData
+      then: ScriptCallback
+      else?: ScriptCallback
+    }
+  }
+  Game: {
+    Item: {
+      target: GameItemName
+      own?: { op: GameItemOwnType; count: number }
+      use?: GameItemUseType
+    }
+  }
+  Debug: {
+    Log: { json: JsonData }
+    Error: {
+      message: string
+      content?: JsonData
+    }
+    Any: { json: JsonData }
+  }
+}
+
+// ==============================================
+// ユーティリティ
+// ==============================================
+
 /** Unity TMP 専用タグを追加する */
 export const tag = {
   /** ハイパーリンクを定義します。href 属性を使ってハイパーリンクの URL を定義します */

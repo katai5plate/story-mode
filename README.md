@@ -63,14 +63,6 @@ localTriggerId // Script内制御
 localVariableId // Script内制御
 ```
 
-```
-($, z, x) => $
-
-$: Story, Scenario
-Z: 遠目で見ると文章の目線の流れの形になる
-x: Exchange
-```
-
 ```js
 new Script(($) =>
   $.Head({ name: "デモコード" })
@@ -102,106 +94,123 @@ new Script(($) =>
 );
 ```
 
-```
-// 自動生成
-Book/
-
-// インデックスツリー
-EPISODE.ts
-E0_CHAPTER.ts
-E0C1_PHASE.ts
-E0C1P1_BEAT.ts
-E0C1P1B1_SCRIPT.ts
-E0C1P1B1_FORESHADOW.ts
-
-// 執筆テンプレート生成例 (Introなどの名称はデフォルト名とする)
-E0_Main.ts
-E0C1_Intro.ts
-E0C1P1_Purpose.ts
-E0C1P1B1_Cause.ts
-E0C1P1B2_Result.ts
-E0C1P1B3_Next.ts
-E0C1P2_Conflict.ts
-E0C1P2B1_Cause.ts
-E0C1P2B2_Result.ts
-E0C1P2B3_Next.ts
-E0C1P3_Worries.ts
-E0C1P3B1_Cause.ts
-E0C1P3B2_Result.ts
-E0C1P3B3_Next.ts
-E0C1P4_Decision.ts
-E0C1P4B1_Cause.ts
-E0C1P4B2_Result.ts
-E0C1P4B3_Next.ts
-
-// 別案 1
-E0_Main/
-  C1_Intro/
-    P1_Purpose/
-      B1_Cause/
-        Cause.E0C1P1B1.ts
-      B2_Result/
-        Result.E0C1P1B2.ts
-      B3_Next/
-        Next.E0C1P1B3.ts
-      Purpose.E0C1P1.ts
-    P2_Conflict/
-      B1_Cause/
-        Cause.E0C1P2B1.ts
-      B2_Result/
-        Result.E0C1P2B2.ts
-      B3_Next/
-        Next.E0C1P2B3.ts
-      Conflict.E0C1P2.ts
-    P3_Worries/
-      B1_Cause/
-        Cause.E0C1P3B1.ts
-      B2_Result/
-        Result.E0C1P3B2.ts
-      B3_Next/
-        Next.E0C1P3B3.ts
-      Worries.E0C1P3.ts
-    P4_Decision/
-      B1_Cause/
-        Cause.E0C1P4B1.ts
-      B2_Result/
-        Result.E0C1P4B2.ts
-      B3_Next/
-        Next.E0C1P4B3.ts
-      Decision.E0C1P4.ts
-    Intro.E0C1.ts
-  Main.ts
-
-// 別案 2
-E0_Main/
-  C1_Intro/
-    P1_Purpose/
-      B1.Cause.ts
-      B2.Result.ts
-      B3.Next.ts
-      Phase_1.Purpose.ts
-    P2_Conflict/
-      B1.Cause.ts
-      B2.Result.ts
-      B3.Next.ts
-      Phase_2_Conflict.ts
-    P3_Worries/
-      B1.Cause.ts
-      B2.Result.ts
-      B3.Next.ts
-      Phase_3_Worries.ts
-    P4_Decision/
-      B1.Cause.ts
-      B2.Result.ts
-      B3.Next.ts
-      Phase_4_Decision.ts
-    Chapter_1_Intro.ts
-  Episode_0_Main.ts
+```ts
+export const No1_Intro: Book<typeof Chapter, ChapterPlot>['No1_Intro'] = {
+  name: '',
+  summary: ''
+}
 ```
 
 ```ts
-export const No1_Intro: Book<typeof Chapter, ChapterPlot>["No1_Intro"] = {
-  name: "",
-  summary: "",
-};
+import { CharacterTemplate } from '../../types/characters'
+import { custom, CustomRef } from '../../types/custom'
+import { dialogExamples } from '../../utils'
+import { Duty } from '../grid/character/duty'
+
+export const Character = custom({
+  Alex: {
+    name: 'アレックス',
+    duty: Duty.Hero,
+    basic: {
+      gender: '男',
+      age: 20,
+      height: 170,
+      weight: 75,
+      body: '標準体型'
+    },
+    experience: {
+      workAndHoby: {
+        detail: '勇者',
+        dailyLife: '普段は街の見回り',
+        skills: '剣術に長けている',
+        socialRelationships: '王直属の騎士として有名'
+      },
+      histories: [
+        {
+          name: '現在',
+          appearance: '勇者っぽい恰好',
+          personality: {
+            basic: '完璧主義者',
+            different: 'サボるための行動だけ徹底する',
+            reason: 'バレたときひどいことになった'
+          },
+          weakness: '童貞',
+          desire: {
+            detail: '隣国の勇者みたいにモテモテになる',
+            motivation: '隣国の勇者への憧れとリビドー',
+            likesAndDislikes: 'ピーマンが嫌い'
+          }
+        }
+      ],
+      dialogExamples: dialogExamples({
+        Money: {
+          answer: '「よっしゃあうほほい大金だ～」'
+        },
+        Midnight: {
+          answer: '顔色が変わり、無言になり、姿勢を低くする'
+        },
+        Bank: {
+          answer: ['「あっ！」と大声を出して気を逸らそうとし、', '相手が油断した瞬間に攻撃に入る']
+        },
+        Island: {
+          answer: '「とりあえず、寝るかぁ～」'
+        }
+      })
+    }
+  }
+} as const satisfies CustomRef<CharacterTemplate>)
+```
+
+```
+キャラごとのフォントや文字効果音などはエンジン側でやるものなので廃止
+```
+
+```ts
+type ScenarioNodes = [
+  {
+    id: 'uuid'
+    parentId: 'uuid' | null
+    name: string
+    type: 'episode' | 'chapter' | 'phase' | 'beat'
+    forms: {
+      summary: string
+      plot: string[]
+    } & CustomForms
+  }
+]
+```
+
+```ts
+interface MindMapNode {
+  type: string
+  name: string
+  children?: MindMapNode[]
+}
+
+const genTree = (order: string[], template: { [key: string]: { id: string }[] }): MindMapNode[] => {
+  const buildNodes = (level: number): MindMapNode[] => {
+    const currentKey = order[level]
+    if (!currentKey || !template[currentKey]) return []
+    return template[currentKey].map((entry) => {
+      const node: MindMapNode = {
+        type: currentKey,
+        name: entry.id
+      }
+      const children = buildNodes(level + 1)
+      if (children.length > 0) node.children = children
+      return node
+    })
+  }
+  return buildNodes(0)
+}
+
+console.log(
+  genTree(['episode', 'chapter', 'phase', 'beat', 'script'], {
+    episode: [{ id: 'main' }, { id: 'sub' }],
+    chapter: [{ id: 'intro' }, { id: 'chain' }, { id: 'barrier' }, { id: 'climax' }],
+    phase: [{ id: 'init' }, { id: 'hurdle' }, { id: 'agony' }, { id: 'resolve' }],
+    beat: [{ id: 'request' }, { id: 'response' }, { id: 'next' }],
+    script: [{ id: 'main' }]
+  })
+)
 ```

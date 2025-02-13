@@ -1,44 +1,20 @@
-import Versions from './components/Versions'
-import electronLogo from './assets/electron.svg'
-import { MonacoTest } from './components/MonacoTest'
-import { MUITest } from './components/MUITest'
 import { createTheme, ThemeProvider } from '@mui/material'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import { MonacoTest } from './pages/MonacoTest'
+import { MainTemplate } from './Templates/MainTemplate'
 
 const darkmode = createTheme({ palette: { mode: 'dark' } })
 
-const App = () => {
-  const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
-
-  return (
-    <>
-      <ThemeProvider theme={darkmode}>
-        <img alt="logo" className="logo" src={electronLogo} />
-        <div className="creator">Powered by electron-vite</div>
-        <div className="text">
-          Build an Electron app with <span className="react">React</span>
-          &nbsp;and <span className="ts">TypeScript</span>
-        </div>
-        <p className="tip">
-          Please try pressing <code>F12</code> to open the devTool
-        </p>
-        <div className="actions">
-          <div className="action">
-            <a href="https://electron-vite.org/" target="_blank" rel="noreferrer">
-              Documentation
-            </a>
-          </div>
-          <div className="action">
-            <a target="_blank" rel="noreferrer" onClick={ipcHandle}>
-              Send IPC
-            </a>
-          </div>
-        </div>
-        <Versions />
-        <MUITest />
-        <MonacoTest />
-      </ThemeProvider>
-    </>
-  )
-}
+const App = () => (
+  <ThemeProvider theme={darkmode}>
+    <BrowserRouter>
+      <MainTemplate title="title">
+        <Routes>
+          <Route path="/" element={<MonacoTest />} />
+        </Routes>
+      </MainTemplate>
+    </BrowserRouter>
+  </ThemeProvider>
+)
 
 export default App

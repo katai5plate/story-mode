@@ -14,6 +14,7 @@ export type RouteNode = {
   isOpen?: boolean
   prefix?: string
   isDir?: boolean
+  isButton?: boolean
   children?: RouteNode[]
 }
 
@@ -30,7 +31,14 @@ const RouteItem: React.FC<{
   return (
     <>
       <ListItemButton
-        onClick={() => (hasChildren ? setOpen(!open) : navigate(`/${currentPath.join('/')}`))}
+        sx={{ pt: 0, pb: 0 }}
+        onClick={() =>
+          hasChildren
+            ? setOpen(!open)
+            : node.isButton
+              ? alert(currentPath)
+              : navigate(`/${currentPath.join('/')}`)
+        }
       >
         <div style={{ color: 'transparent' }}>{'..'.repeat(depth)}</div>
         {hasChildren

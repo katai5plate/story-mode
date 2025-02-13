@@ -5,8 +5,8 @@ interface ScriptMetadata {
 }
 class Script {
   // readonly Character
-  constructor() {}
-  Head(meta: Partial<ScriptMetadata>): Script {
+  constructor(code: ScriptCallback) {}
+  Head(meta?: Partial<ScriptMetadata>): Script {
     return this
   }
   Mes(args: Commands['Message']['Show']): Script {
@@ -20,7 +20,7 @@ class Script {
     return this
   }
 }
-type ScriptCallback = Script['Do']
+type ScriptCallback = ($: Script) => Script
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {

@@ -4,15 +4,15 @@ import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { useApi } from '@renderer/api/useApi'
 import { RouteMap, RouteNode } from '@renderer/components/RouteMap'
 import { ROUTES } from '@renderer/constants/routes'
-import { TemplateJSON } from '@renderer/types/TemplateJSON'
-import { ReactNode, useEffect, useState } from 'react'
+import { SIDEBAR_WIDTH } from '@renderer/constants/system'
+import { useStore } from '@renderer/store/useStore'
+import { findScenarioRouteNode } from '@renderer/utils/routeNode'
+import { ReactNode, useEffect } from 'react'
 import { useLocation } from 'react-router'
 
 interface SidebarProps {
-  width: number
   tree?: RouteNode[]
 }
 
@@ -20,7 +20,7 @@ const Sidebar = (p: SidebarProps) => {
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: p.width }, flexShrink: { sm: 0 } }}
+      sx={{ width: { sm: SIDEBAR_WIDTH }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
       <Drawer
@@ -29,9 +29,8 @@ const Sidebar = (p: SidebarProps) => {
           display: { xs: 'none', sm: 'block' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
-            width: p.width,
-            overflowY: 'scroll',
-            scrollbarColor: 'rgba(255,255,255,0.5) transparent'
+            width: SIDEBAR_WIDTH,
+            overflowY: 'scroll'
           }
         }}
         open
@@ -62,65 +61,40 @@ const Sidebar = (p: SidebarProps) => {
   )
 }
 
-const genTree = (template: TemplateJSON['scenario']): RouteNode[] => {
-  const orders = [
-    { type: 'episode', icon: '📺', prefix: 'EP' },
-    { type: 'chapter', icon: '💿', prefix: 'CH' },
-    { type: 'phase', icon: '🎞️', prefix: 'PH' },
-    { type: 'beat', icon: '🎥', prefix: 'BE' },
-    { type: 'script', icon: '📝', prefix: 'SC' }
-  ]
-  const buildNodes = (level: number): RouteNode[] => {
-    const order = orders[level]
-    if (!order) return []
-    const { type } = order
-    if (!type || !template[type]) return []
-    return template[type].map((entry) => {
-      const node: RouteNode = { ...order, ...entry }
-      const children = buildNodes(level + 1)
-      if (children.length > 0) node.children = children
-      return node
-    })
-  }
-  return buildNodes(0)
-}
-
-const SIDEBAR_CONTENT: SidebarProps = {
-  width: 300,
-  tree: ROUTES
-}
 export const MainTemplate = (p: { title: string; children: ReactNode }) => {
   const location = useLocation()
-  const api = useApi()
-  const [scenario, setScenario] = useState<RouteNode[]>([])
+  const store = useStore()
+
   useEffect(() => {
-    api.getTemplate().then((x) => {
-      const tree = genTree(x.scenario as any)
-      setScenario(tree)
-      console.log(tree)
-    })
-  }, [])
+    console.log(findScenarioRouteNode(['main', 'intro', 'init', 'request'], store.scenarioRoutes))
+  }, [store.scenarioRoutes])
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Sidebar
-        width={SIDEBAR_CONTENT.width}
         tree={[
-          ...SIDEBAR_CONTENT.tree,
+          ...ROUTES,
+          {
+            type: 'folder',
+            path: 'character',
+            name: 'キャラクター',
+            children: store.characterRoutes
+          },
           {
             type: 'folder',
             path: 'scenario',
             name: 'シナリオ',
             isDir: true,
-            children: scenario
+            children: store.scenarioRoutes
           }
         ]}
       />
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${SIDEBAR_CONTENT.width}px)` },
-          ml: { sm: `${SIDEBAR_CONTENT.width}px` }
+          width: { sm: `calc(100% - ${SIDEBAR_WIDTH}px)` },
+          ml: { sm: `${SIDEBAR_WIDTH}px` }
         }}
       >
         <Toolbar>
@@ -140,7 +114,11 @@ export const MainTemplate = (p: { title: string; children: ReactNode }) => {
       </AppBar>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${SIDEBAR_CONTENT.width}px)` } }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${SIDEBAR_WIDTH}px)` }
+        }}
       >
         <Toolbar />
         {p.children}

@@ -171,6 +171,448 @@
     ]
   },
   "character": {
+    "preset": [
+      {
+        "id": "alex",
+        "name": "勇者アレックス",
+        "dutyId": "hero",
+        "basic": {
+          "gender": "",
+          "genderDetail": [""],
+          "age": "",
+          "height": "",
+          "weight": "",
+          "fat": "",
+          "body": ""
+        },
+        "experience": {
+          "life": [
+            {
+              "name": "仕事",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "趣味",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "日課",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            }
+          ],
+          "histories": [
+            {
+              "name": "過去",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            },
+            {
+              "name": "現在",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            }
+          ],
+          "dialogExamples": [
+            {
+              "question": "",
+              "answer": [""],
+              "hint": [""]
+            }
+          ]
+        },
+        "appendix": {
+          "features": [""],
+          "memo": [""]
+        }
+      },
+      {
+        "id": "demon",
+        "name": "魔王デモン",
+        "dutyId": "enemy",
+        "basic": {
+          "gender": "",
+          "genderDetail": [""],
+          "age": "",
+          "height": "",
+          "weight": "",
+          "fat": "",
+          "body": ""
+        },
+        "experience": {
+          "life": [
+            {
+              "name": "仕事",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "趣味",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "日課",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            }
+          ],
+          "histories": [
+            {
+              "name": "過去",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            },
+            {
+              "name": "現在",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            }
+          ],
+          "dialogExamples": [
+            {
+              "question": "",
+              "answer": [""],
+              "hint": [""]
+            }
+          ]
+        },
+        "appendix": {
+          "features": [""],
+          "memo": [""]
+        }
+      },
+      {
+        "id": "brian",
+        "name": "戦士ブライアン",
+        "dutyId": "buddy",
+        "basic": {
+          "gender": "",
+          "genderDetail": [""],
+          "age": "",
+          "height": "",
+          "weight": "",
+          "fat": "",
+          "body": ""
+        },
+        "experience": {
+          "life": [
+            {
+              "name": "仕事",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "趣味",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "日課",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            }
+          ],
+          "histories": [
+            {
+              "name": "過去",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            },
+            {
+              "name": "現在",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            }
+          ],
+          "dialogExamples": [
+            {
+              "question": "",
+              "answer": [""],
+              "hint": [""]
+            }
+          ]
+        },
+        "appendix": {
+          "features": [""],
+          "memo": [""]
+        }
+      },
+      {
+        "id": "odin",
+        "name": "賢者オーディン",
+        "dutyId": "mentor",
+        "basic": {
+          "gender": "",
+          "genderDetail": [""],
+          "age": "",
+          "height": "",
+          "weight": "",
+          "fat": "",
+          "body": ""
+        },
+        "experience": {
+          "life": [
+            {
+              "name": "仕事",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "趣味",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            },
+            {
+              "name": "日課",
+              "date": "",
+              "daily": [""],
+              "skills": [""],
+              "socialRelationships": [""]
+            }
+          ],
+          "histories": [
+            {
+              "name": "過去",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            },
+            {
+              "name": "現在",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              }
+            }
+          ],
+          "dialogExamples": [
+            {
+              "question": "",
+              "answer": [""],
+              "hint": [""]
+            }
+          ]
+        },
+        "appendix": {
+          "features": [""],
+          "memo": [""]
+        }
+      }
+    ],
     "duty": [
       {
         "id": "hero",
@@ -214,7 +656,7 @@
         "rules": []
       }
     ],
-    "generator": {
+    "dictionaly": {
       "personality": [
         {
           "id": "enneagram",

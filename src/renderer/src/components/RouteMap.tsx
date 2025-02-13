@@ -16,6 +16,7 @@ export type RouteNode = {
   isDir?: boolean
   isButton?: boolean
   children?: RouteNode[]
+  _index?: number
 }
 
 const RouteItem: React.FC<{
@@ -41,13 +42,7 @@ const RouteItem: React.FC<{
         }
       >
         <div style={{ color: 'transparent' }}>{'..'.repeat(depth)}</div>
-        {hasChildren
-          ? !node.isDir
-            ? (node.icon ?? '📦')
-            : open
-              ? '📂'
-              : '📁'
-          : (node.icon ?? '📄')}
+        {node.icon ? node.icon : hasChildren ? (open ? '📂' : '📁') : '📄'}
         <div style={{ color: 'transparent' }}>{'.'}</div>
         {node.prefix ?? ''}
         <div style={{ color: 'transparent' }}>{'.'}</div>

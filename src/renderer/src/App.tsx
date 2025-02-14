@@ -6,6 +6,7 @@ import { useStore } from './store/useStore'
 import { MainTemplate } from './Templates/MainTemplate'
 import { genCharacterTree, genScenarioTree, useRouteNode } from './utils/routeNode'
 import { useCommon } from './utils/hooks'
+import { CharacterEdit } from './pages/CharacterEdit'
 
 const darkmode = createTheme({ palette: { mode: 'dark' } })
 
@@ -38,7 +39,7 @@ const App = () => {
             <Route path="/config/:configId/:methodId" element={<Temp />} />
             <Route path="/bookmark/:bookmarkId" element={<Temp />} />
             <Route path="/character" element={<Temp />} />
-            <Route path="/character/:characterId" element={<Temp />} />
+            <Route path="/character/:characterId" element={<CharacterEdit />} />
             <Route path="/scenario/:episodeId" element={<Temp />} />
             <Route path="/scenario/:episodeId/:chapterId" element={<Temp />} />
             <Route path="/scenario/:episodeId/:chapterId/:phaseId" element={<Temp />} />

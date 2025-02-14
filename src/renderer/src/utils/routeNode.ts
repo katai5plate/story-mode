@@ -2,6 +2,7 @@ import { RouteNode } from '@renderer/components/RouteMap'
 import { SETTING_ROUTES } from '@renderer/constants/routes'
 import { useStore } from '@renderer/store/useStore'
 import { CharacterJSON, ScenarioJSON } from '@renderer/types/TemplateJSON'
+import { useMemo } from 'react'
 import { Params, useParams } from 'react-router'
 
 export const genScenarioTree = (scenario: ScenarioJSON) => {
@@ -39,7 +40,7 @@ export const genCharacterTree = (preset: CharacterJSON['preset']) =>
       }) as RouteNode
   ) as RouteNode[]
 
-export const findScenarioRouteNode = (
+export const findNestedRouteNode = (
   pathSegments: string[],
   routeNodes: RouteNode[]
 ): RouteNode | null => {
@@ -47,7 +48,7 @@ export const findScenarioRouteNode = (
   for (const routeNode of routeNodes) {
     if (routeNode.path === pathSegments[0]) {
       if (pathSegments.length === 1) return routeNode
-      const foundChild = findScenarioRouteNode(pathSegments.slice(1), routeNode.children)
+      const foundChild = findNestedRouteNode(pathSegments.slice(1), routeNode.children)
       if (foundChild) return foundChild
     }
   }
@@ -56,24 +57,27 @@ export const findScenarioRouteNode = (
 
 export const useRouteNode = (pathname: string, params: Readonly<Params<string>>): RouteNode => {
   const store = useStore()
-  const [parent, ...segments] = pathname.replace(/^\//, '').split('/')
-  if (parent === 'scenario') {
-    const node = findScenarioRouteNode(
-      [params.episodeId, params.chapterId, params.phaseId, params.beatId, params.scriptId].filter(
-        Boolean
-      ),
-      store.scenarioRoutes
-    )
-    return node
-  }
-  if (parent === 'character') {
-    const [id] = segments
-    const node = store.characterRoutes.find((r) => r.path === id)
-    return node
-  }
-  if (parent === 'config' || parent === 'bookmark') {
-    const node = findScenarioRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES)
-    return node
-  }
-  return null
+  const node = useMemo(() => {
+    const [parent, ...segments] = pathname.replace(/^\//, '').split('/')
+    if (parent === 'scenario') {
+      const node = findNestedRouteNode(
+        [params.episodeId, params.chapterId, params.phaseId, params.beatId, params.scriptId].filter(
+          Boolean
+        ),
+        store.scenarioRoutes
+      )
+      return node
+    }
+    if (parent === 'character') {
+      const [id] = segments
+      const node = store.characterRoutes.find((r) => r.path === id)
+      return node
+    }
+    if (parent === 'config' || parent === 'bookmark') {
+      const node = findNestedRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES)
+      return node
+    }
+    return null
+  }, [store.scenarioRoutes, store.characterRoutes])
+  return node
 }

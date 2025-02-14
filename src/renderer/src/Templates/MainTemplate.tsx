@@ -8,7 +8,7 @@ import { RouteMap, RouteNode } from '@renderer/components/RouteMap'
 import { SETTING_ROUTES } from '@renderer/constants/routes'
 import { SIDEBAR_WIDTH } from '@renderer/constants/system'
 import { useStore } from '@renderer/store/useStore'
-import { findScenarioRouteNode } from '@renderer/utils/routeNode'
+import { findNestedRouteNode } from '@renderer/utils/routeNode'
 import { ReactNode, useEffect } from 'react'
 import { useLocation } from 'react-router'
 
@@ -66,7 +66,7 @@ export const MainTemplate = (p: { title: string; children: ReactNode }) => {
   const store = useStore()
 
   useEffect(() => {
-    console.log(findScenarioRouteNode(['main', 'intro', 'init', 'request'], store.scenarioRoutes))
+    console.log(findNestedRouteNode(['main', 'intro', 'init', 'request'], store.scenarioRoutes))
   }, [store.scenarioRoutes])
 
   return (

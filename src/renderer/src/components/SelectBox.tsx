@@ -1,22 +1,21 @@
 import { Autocomplete, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import { useCallback, useMemo } from 'react'
 
-// <CaseBox
+// <SelectBox
 //   label="役割"
-//   mode="COMBO"
+//   combo
 //   value={form.duty}
 //   options={duties}
 //   onChange={(text) => updateField('duty', text || '')}
 // />
-// <CaseBox
+// <SelectBox
 //   label="役割"
-//   mode="SELECT"
 //   value={form.duty}
 //   options={duties}
 //   onChange={(text) => updateField('duty', text || '')}
 // />
-export const CaseBox = (p: {
-  mode: 'COMBO' | 'SELECT'
+export const SelectBox = (p: {
+  combo?: boolean
   value: string
   label: string
   options: { name: string; id: string | number }[]
@@ -39,21 +38,19 @@ export const CaseBox = (p: {
     [p.options, p.onChange]
   )
 
-  if (p.mode === 'COMBO')
-    return (
-      <Autocomplete
-        freeSolo
-        options={p.options.map((x) => x.name)}
-        value={p.value || ''}
-        onChange={onCombo}
-        onInputChange={onCombo}
-        renderInput={(params) => (
-          <TextField {...params} fullWidth label={p.label} variant="outlined" sx={{ mt: 2 }} />
-        )}
-        sx={{ pb: 2 }}
-      />
-    )
-  return (
+  return p.combo ? (
+    <Autocomplete
+      freeSolo
+      options={p.options.map((x) => x.name)}
+      value={p.value || ''}
+      onChange={onCombo}
+      onInputChange={onCombo}
+      renderInput={(params) => (
+        <TextField {...params} fullWidth label={p.label} variant="outlined" sx={{ mt: 2 }} />
+      )}
+      sx={{ pb: 2 }}
+    />
+  ) : (
     <FormControl fullWidth sx={{ pb: 2 }}>
       <InputLabel id={`select-${p.label}`}>{p.label}</InputLabel>
       <Select

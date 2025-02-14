@@ -1,9 +1,9 @@
-import { Box, TextField, Typography } from '@mui/material'
-import { CaseBox } from '@renderer/components/CaseBox'
+import { Box, Typography } from '@mui/material'
 import { ListForm } from '@renderer/components/ListForm'
+import { SelectBox } from '@renderer/components/SelectBox'
 import { Spacer } from '@renderer/components/Spacer'
 import { TextInput } from '@renderer/components/TextInput'
-import { useCommon } from '@renderer/utils/hooks'
+import { useStore } from '@renderer/store/useStore'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useEffect } from 'react'
 
@@ -30,7 +30,7 @@ const duties = [
 ]
 
 export const CharacterEdit = () => {
-  useCommon()
+  const store = useStore()
   const { form, setAllField, updateField, itemControllers } = useEditForm<CharacterEditForm>({
     name: '',
     duty: '',
@@ -47,6 +47,7 @@ export const CharacterEdit = () => {
 
   return (
     <Box>
+      <pre>{JSON.stringify(store.currentRoute, null, 2)}</pre>
       <Typography variant="h5">キャラクター編集</Typography>
       <Spacer />
       <TextInput
@@ -54,18 +55,17 @@ export const CharacterEdit = () => {
         value={form.name}
         onChange={(e) => updateField('name', e.target.value)}
       />
-      <CaseBox
+      <SelectBox
         label="役割"
-        mode="COMBO"
+        combo
         value={form.duty}
-        options={duties}
+        options={store.template.character.duty}
         onChange={(text) => updateField('duty', text || '')}
       />
-      <CaseBox
+      <SelectBox
         label="役割"
-        mode="SELECT"
         value={form.duty}
-        options={duties}
+        options={store.template.character.duty}
         onChange={(text) => updateField('duty', text || '')}
       />
       <ListForm

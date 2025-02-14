@@ -3,7 +3,7 @@ import { SETTING_ROUTES } from '@renderer/constants/routes'
 import { useStore } from '@renderer/store/useStore'
 import { CharacterJSON, ScenarioJSON } from '@renderer/types/TemplateJSON'
 import { useMemo } from 'react'
-import { Params, useParams } from 'react-router'
+import { Params } from 'react-router'
 
 export const genScenarioTree = (scenario: ScenarioJSON) => {
   const orders = [

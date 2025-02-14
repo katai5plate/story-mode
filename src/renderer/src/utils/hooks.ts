@@ -16,20 +16,6 @@ export const useRedirect = () => {
     (pathname: string) => {
       const [parent, ...segments] = pathname.replace(/^\//, '').split('/')
       switch (parent) {
-        case 'config': {
-          process(
-            pathname,
-            findNestedRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES)
-          )
-          break
-        }
-        case 'bookmark': {
-          process(
-            pathname,
-            findNestedRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES)
-          )
-          break
-        }
         case 'character': {
           const [path] = segments
           process(
@@ -40,6 +26,13 @@ export const useRedirect = () => {
         }
         case 'scenario': {
           process(pathname, findNestedRouteNode(segments, store.scenarioRoutes))
+          break
+        }
+        default: {
+          process(
+            pathname,
+            findNestedRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES)
+          )
           break
         }
       }

@@ -1,4 +1,4 @@
-import { Button, Grid2, Typography } from '@mui/material'
+import { Button, Grid2 } from '@mui/material'
 import { unique } from '@renderer/utils/helpers'
 import { ReactNode, useState } from 'react'
 import { Group } from './Group'
@@ -20,7 +20,8 @@ export const ListForm = <T extends { uid: string }, F>(p: {
   accord?: true
   itemAccord?: true
 }) => {
-  const [newUnique, setUnique] = useState(unique())
+  const random = () => unique(p.list.map((x) => x.uid))
+  const [newUnique, setUnique] = useState(random())
   return (
     <Group accord={p.accord} title={p.title}>
       {p.list.map((item, index) => {
@@ -56,7 +57,7 @@ export const ListForm = <T extends { uid: string }, F>(p: {
             variant="outlined"
             onClick={() => {
               p.updateForm(p.selector, () => [...p.list, { uid: newUnique, ...p.init }])
-              setUnique(unique())
+              setUnique(random())
             }}
           >
             {`${p.title} を`}追加
@@ -67,7 +68,7 @@ export const ListForm = <T extends { uid: string }, F>(p: {
             variant="text"
             color="inherit"
             sx={{ opacity: 0.5 }}
-            onClick={() => setUnique(unique())}
+            onClick={() => setUnique(random())}
           >
             ID: {newUnique}
           </Button>

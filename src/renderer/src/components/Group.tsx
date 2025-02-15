@@ -7,6 +7,7 @@ export const Group = (p: {
   title: string
   smallLabel?: true
   accord?: true
+  accordClose?: true
   children: ReactNode
 }) => {
   const render = (
@@ -27,7 +28,7 @@ export const Group = (p: {
     </>
   )
   return p.accord ? (
-    <Accord open title={p.title}>
+    <Accord open={p.accordClose ? undefined : true} title={p.title}>
       {render}
     </Accord>
   ) : (

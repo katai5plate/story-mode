@@ -710,7 +710,7 @@ export const CharacterEdit = () => {
           )}
         />
       </Group>
-      <Group accord title="その他">
+      <Group title="その他">
         <TextInput
           textarea
           label="特徴"
@@ -723,6 +723,9 @@ export const CharacterEdit = () => {
           value={form.appendix.memo}
           onChange={(text) => updateForm((r) => r.appendix.memo, toTextArea(text))}
         />
+      </Group>
+      <Group accord accordClose title="デバッグ情報">
+        <Box component="pre">{JSON.stringify(form, null, 2)}</Box>
       </Group>
     </Box>
   )

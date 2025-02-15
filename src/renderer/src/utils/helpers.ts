@@ -1,31 +1,12 @@
-import { BASE_777_TABLE } from '@renderer/constants/system'
-
-export const randomJoin = (arr: string[], separators: string[]) =>
-  arr
-    .map((word, i) =>
-      i < arr.length - 1 ? word + separators[Math.floor(Math.random() * separators.length)] : word
-    )
-    .join('')
-
-export const unique = () => {
-  return randomJoin(
-    window.crypto
-      .randomUUID()
-      .split('-')
-      .map((x) => {
-        let big = BigInt('0x' + x)
-        if (big === BigInt(0)) return '0'
-        const base = BigInt(BASE_777_TABLE.length)
-        const result = []
-        while (big > BigInt(0)) {
-          const index = big % base
-          result.push(BASE_777_TABLE[Number(index)])
-          big = big / base
-        }
-        return result.reverse().join('')
-      }),
-    Array.from('、。・／！？＋－＝＊＆～ー')
-  )
+export const unique = (list: string[], limit = 10) => {
+  let attempts = 0
+  let newId = ''
+  do {
+    if (attempts >= limit) return `u4-${window.crypto.randomUUID()}`
+    newId = Math.random().toString(36).slice(2, 7).toLocaleUpperCase()
+    attempts++
+  } while (list.includes(newId))
+  return newId
 }
 
 export const anyObject = () => {

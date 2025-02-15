@@ -190,7 +190,7 @@
         "experience": {
           "life": [
             {
-              "uid": "0",
+              "uid": "tp-0",
               "name": "仕事",
               "date": "",
               "daily": [""],
@@ -199,7 +199,7 @@
               "memo": [""]
             },
             {
-              "uid": "1",
+              "uid": "tp-1",
               "name": "趣味",
               "date": "",
               "daily": [""],
@@ -208,7 +208,7 @@
               "memo": [""]
             },
             {
-              "uid": "2",
+              "uid": "tp-2",
               "name": "日課",
               "date": "",
               "daily": [""],
@@ -219,7 +219,7 @@
           ],
           "histories": [
             {
-              "uid": "0",
+              "uid": "tp-0",
               "name": "現在",
               "appearance": [""],
               "personality": {
@@ -250,7 +250,7 @@
               "memo": [""]
             },
             {
-              "uid": "1",
+              "uid": "tp-1",
               "name": "過去",
               "appearance": [""],
               "personality": {
@@ -283,7 +283,7 @@
           ],
           "dialogExamples": [
             {
-              "uid": "0",
+              "uid": "tp-0",
               "question": "大金が当たった時は？",
               "answer": ["「よっしゃ！来たぁ！」"],
               "hint": ["とくになし"]

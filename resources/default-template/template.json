@@ -176,70 +176,50 @@
         "id": "alex",
         "name": "勇者アレックス",
         "dutyId": "hero",
+        "dutyDetail": [""],
         "basic": {
-          "gender": "",
-          "genderDetail": [""],
-          "age": "",
-          "height": "",
-          "weight": "",
-          "fat": "",
-          "body": ""
+          "gender": "男",
+          "genderDetail": ["バイではないが", "ショタコンである"],
+          "age": "25",
+          "height": "170",
+          "weight": "80",
+          "fat": "12",
+          "body": "アスリート",
+          "bodyDetail": [""]
         },
         "experience": {
           "life": [
             {
+              "uid": "0",
               "name": "仕事",
               "date": "",
               "daily": [""],
               "skills": [""],
-              "socialRelationships": [""]
+              "socialRelationships": [""],
+              "memo": [""]
             },
             {
+              "uid": "1",
               "name": "趣味",
               "date": "",
               "daily": [""],
               "skills": [""],
-              "socialRelationships": [""]
+              "socialRelationships": [""],
+              "memo": [""]
             },
             {
+              "uid": "2",
               "name": "日課",
               "date": "",
               "daily": [""],
               "skills": [""],
-              "socialRelationships": [""]
+              "socialRelationships": [""],
+              "memo": [""]
             }
           ],
           "histories": [
             {
-              "name": "過去",
-              "appearance": [""],
-              "personality": {
-                "ref": {
-                  "categoryId": "",
-                  "typeId": ""
-                },
-                "basic": [""],
-                "different": [""],
-                "reason": [""]
-              },
-              "weakness": {
-                "combox": "",
-                "content": [""]
-              },
-              "desire": {
-                "detail": [""],
-                "motivation": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "sensitivity": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "likesAndDislikes": [""]
-              }
-            },
-            {
+              "uid": "0",
               "name": "現在",
               "appearance": [""],
               "personality": {
@@ -266,11 +246,44 @@
                   "content": [""]
                 },
                 "likesAndDislikes": [""]
-              }
+              },
+              "memo": [""]
+            },
+            {
+              "uid": "1",
+              "name": "過去",
+              "appearance": [""],
+              "personality": {
+                "ref": {
+                  "categoryId": "",
+                  "typeId": ""
+                },
+                "basic": [""],
+                "different": [""],
+                "reason": [""]
+              },
+              "weakness": {
+                "combox": "",
+                "content": [""]
+              },
+              "desire": {
+                "detail": [""],
+                "motivation": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "sensitivity": {
+                  "combox": "",
+                  "content": [""]
+                },
+                "likesAndDislikes": [""]
+              },
+              "memo": [""]
             }
           ],
           "dialogExamples": [
             {
+              "uid": "0",
               "question": "",
               "answer": [""],
               "hint": [""]
@@ -286,6 +299,7 @@
         "id": "demon",
         "name": "魔王デモン",
         "dutyId": "enemy",
+        "dutyDetail": [""],
         "basic": {
           "gender": "",
           "genderDetail": [""],
@@ -293,99 +307,13 @@
           "height": "",
           "weight": "",
           "fat": "",
-          "body": ""
+          "body": "",
+          "bodyDetail": [""]
         },
         "experience": {
-          "life": [
-            {
-              "name": "仕事",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            },
-            {
-              "name": "趣味",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            },
-            {
-              "name": "日課",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            }
-          ],
-          "histories": [
-            {
-              "name": "過去",
-              "appearance": [""],
-              "personality": {
-                "ref": {
-                  "categoryId": "",
-                  "typeId": ""
-                },
-                "basic": [""],
-                "different": [""],
-                "reason": [""]
-              },
-              "weakness": {
-                "combox": "",
-                "content": [""]
-              },
-              "desire": {
-                "detail": [""],
-                "motivation": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "sensitivity": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "likesAndDislikes": [""]
-              }
-            },
-            {
-              "name": "現在",
-              "appearance": [""],
-              "personality": {
-                "ref": {
-                  "categoryId": "",
-                  "typeId": ""
-                },
-                "basic": [""],
-                "different": [""],
-                "reason": [""]
-              },
-              "weakness": {
-                "combox": "",
-                "content": [""]
-              },
-              "desire": {
-                "detail": [""],
-                "motivation": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "sensitivity": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "likesAndDislikes": [""]
-              }
-            }
-          ],
-          "dialogExamples": [
-            {
-              "question": "",
-              "answer": [""],
-              "hint": [""]
-            }
-          ]
+          "life": [],
+          "histories": [],
+          "dialogExamples": []
         },
         "appendix": {
           "features": [""],
@@ -396,6 +324,7 @@
         "id": "brian",
         "name": "戦士ブライアン",
         "dutyId": "buddy",
+        "dutyDetail": [""],
         "basic": {
           "gender": "",
           "genderDetail": [""],
@@ -403,99 +332,13 @@
           "height": "",
           "weight": "",
           "fat": "",
-          "body": ""
+          "body": "",
+          "bodyDetail": [""]
         },
         "experience": {
-          "life": [
-            {
-              "name": "仕事",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            },
-            {
-              "name": "趣味",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            },
-            {
-              "name": "日課",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            }
-          ],
-          "histories": [
-            {
-              "name": "過去",
-              "appearance": [""],
-              "personality": {
-                "ref": {
-                  "categoryId": "",
-                  "typeId": ""
-                },
-                "basic": [""],
-                "different": [""],
-                "reason": [""]
-              },
-              "weakness": {
-                "combox": "",
-                "content": [""]
-              },
-              "desire": {
-                "detail": [""],
-                "motivation": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "sensitivity": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "likesAndDislikes": [""]
-              }
-            },
-            {
-              "name": "現在",
-              "appearance": [""],
-              "personality": {
-                "ref": {
-                  "categoryId": "",
-                  "typeId": ""
-                },
-                "basic": [""],
-                "different": [""],
-                "reason": [""]
-              },
-              "weakness": {
-                "combox": "",
-                "content": [""]
-              },
-              "desire": {
-                "detail": [""],
-                "motivation": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "sensitivity": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "likesAndDislikes": [""]
-              }
-            }
-          ],
-          "dialogExamples": [
-            {
-              "question": "",
-              "answer": [""],
-              "hint": [""]
-            }
-          ]
+          "life": [],
+          "histories": [],
+          "dialogExamples": []
         },
         "appendix": {
           "features": [""],
@@ -506,6 +349,7 @@
         "id": "odin",
         "name": "賢者オーディン",
         "dutyId": "mentor",
+        "dutyDetail": [""],
         "basic": {
           "gender": "",
           "genderDetail": [""],
@@ -513,99 +357,13 @@
           "height": "",
           "weight": "",
           "fat": "",
-          "body": ""
+          "body": "",
+          "bodyDetail": [""]
         },
         "experience": {
-          "life": [
-            {
-              "name": "仕事",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            },
-            {
-              "name": "趣味",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            },
-            {
-              "name": "日課",
-              "date": "",
-              "daily": [""],
-              "skills": [""],
-              "socialRelationships": [""]
-            }
-          ],
-          "histories": [
-            {
-              "name": "過去",
-              "appearance": [""],
-              "personality": {
-                "ref": {
-                  "categoryId": "",
-                  "typeId": ""
-                },
-                "basic": [""],
-                "different": [""],
-                "reason": [""]
-              },
-              "weakness": {
-                "combox": "",
-                "content": [""]
-              },
-              "desire": {
-                "detail": [""],
-                "motivation": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "sensitivity": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "likesAndDislikes": [""]
-              }
-            },
-            {
-              "name": "現在",
-              "appearance": [""],
-              "personality": {
-                "ref": {
-                  "categoryId": "",
-                  "typeId": ""
-                },
-                "basic": [""],
-                "different": [""],
-                "reason": [""]
-              },
-              "weakness": {
-                "combox": "",
-                "content": [""]
-              },
-              "desire": {
-                "detail": [""],
-                "motivation": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "sensitivity": {
-                  "combox": "",
-                  "content": [""]
-                },
-                "likesAndDislikes": [""]
-              }
-            }
-          ],
-          "dialogExamples": [
-            {
-              "question": "",
-              "answer": [""],
-              "hint": [""]
-            }
-          ]
+          "life": [],
+          "histories": [],
+          "dialogExamples": []
         },
         "appendix": {
           "features": [""],
@@ -664,48 +422,129 @@
           "types": [
             {
               "id": "1",
-              "name": "完璧主義者",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-1"]
+              "name": "正す者 １",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-1"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/1holy"
+                }
+              ]
             },
             {
               "id": "2",
-              "name": "献身家",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-2"]
+              "name": "献身家 ２",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-2"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/2holy"
+                }
+              ]
             },
             {
               "id": "3",
-              "name": "達成者",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-3"]
+              "name": "達成者 ３",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-3"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/3holy"
+                }
+              ]
             },
             {
               "id": "4",
-              "name": "芸術家",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-4"]
+              "name": "芸術家 ４",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-4"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/4holy"
+                }
+              ]
             },
             {
               "id": "5",
-              "name": "研究家",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-5"]
+              "name": "研究家 ５",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-5"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/5holy"
+                }
+              ]
             },
             {
               "id": "6",
-              "name": "堅実家",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-6"]
+              "name": "堅実家 ６",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-6"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/6holy"
+                }
+              ]
             },
             {
               "id": "7",
-              "name": "楽天家",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-7"]
+              "name": "楽天家 ７",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-7"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/7holy"
+                }
+              ]
             },
             {
               "id": "8",
-              "name": "統率者",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-8"]
+              "name": "統率者 ８",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-8"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/8holy"
+                }
+              ]
             },
             {
               "id": "9",
-              "name": "調停者",
-              "link": ["https://www.enneagram.ne.jp/about/about_type/type-9"]
+              "name": "調停者 ９",
+              "link": [
+                {
+                  "name": "日本エニアグラム学会",
+                  "href": "https://www.enneagram.ne.jp/about/about_type/type-9"
+                },
+                {
+                  "name": "９エニア・デルタタイプ診断",
+                  "href": "https://mentuzzle.com/shindan/report/9ennea/type/9holy"
+                }
+              ]
             }
           ]
         },
@@ -715,82 +554,182 @@
           "types": [
             {
               "id": "1",
-              "name": "学者",
+              "name": "知略立案家 鬱散系上下型一種",
               "link": [
-                "https://holistic2525.site/type1-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425961969798"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type1-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425961969798"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t01-02.html"
+                }
               ]
             },
             {
               "id": "2",
-              "name": "公務員",
+              "name": "感応情報通 集注系上下型二種",
               "link": [
-                "https://holistic2525.site/type2-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425962497612"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type2-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425962497612"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t01-02.html"
+                }
               ]
             },
             {
               "id": "3",
-              "name": "アイドル",
+              "name": "感情奔放児 鬱散系左右型三種",
               "link": [
-                "https://holistic2525.site/type3-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964271147"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type3-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964271147"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t03-04.html"
+                }
               ]
             },
             {
               "id": "4",
-              "name": "構ってちゃん",
+              "name": "内省的静寂 集注系左右型四種",
               "link": [
-                "https://holistic2525.site/type4-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964304052"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type4-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964304052"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t03-04.html"
+                }
               ]
             },
             {
               "id": "5",
-              "name": "ビジネスマン",
+              "name": "行動戦略家 鬱散系前後型五種",
               "link": [
-                "https://holistic2525.site/type5-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964355262"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type5-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964355262"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t05-06.html"
+                }
               ]
             },
             {
               "id": "6",
-              "name": "ヒッピー",
+              "name": "夢想耽溺者 集注系前後型六種",
               "link": [
-                "https://holistic2525.site/type6-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964394933"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type6-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425964394933"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t05-06.html"
+                }
               ]
             },
             {
               "id": "7",
-              "name": "プライド",
+              "name": "武闘派闘士 鬱散系捻れ型七種",
               "link": [
-                "https://holistic2525.site/type7-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425966285026"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type7-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425966285026"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t07-08.html"
+                }
               ]
             },
             {
               "id": "8",
-              "name": "信念",
+              "name": "逆境不屈魂 集注系捻れ型八種",
               "link": [
-                "https://holistic2525.site/type8-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425967460984"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type8-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425967460984"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t07-08.html"
+                }
               ]
             },
             {
               "id": "9",
-              "name": "集中力",
+              "name": "凝縮純粋体 鬱散系開閉型九種",
               "link": [
-                "https://holistic2525.site/type9-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425967487902"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type9-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425967487902"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t09-10.html"
+                }
               ]
             },
             {
               "id": "10",
-              "name": "親分肌",
+              "name": "開放的慈愛 集注系開閉型十種",
               "link": [
-                "https://holistic2525.site/type10-character/",
-                "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425967497833"
+                {
+                  "name": "おもしろ整体・体癖研究所",
+                  "href": "https://holistic2525.site/type10-character/"
+                },
+                {
+                  "name": "リアルなキャラの作り方～体癖論による十種分類～",
+                  "href": "https://kakuyomu.jp/works/16816700425961399523/episodes/16816700425967497833"
+                },
+                {
+                  "name": "せい氣院",
+                  "href": "https://seikiin.com/taiheki/t09-10.html"
+                }
               ]
             }
           ]
@@ -801,104 +740,184 @@
           "types": [
             {
               "id": "INTJ",
-              "name": "建築家",
-              "link": ["https://www.16personalities.com/ja/INTJ型の性格"]
+              "name": "建築家 INTJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/INTJ型の性格"
+                }
+              ]
             },
             {
               "id": "INTP",
-              "name": "論理学者",
-              "link": ["https://www.16personalities.com/ja/INTP型の性格"]
+              "name": "論理学者 INTP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/INTP型の性格"
+                }
+              ]
             },
             {
               "id": "ENTJ",
-              "name": "指揮官",
-              "link": ["https://www.16personalities.com/ja/ENTJ型の性格"]
+              "name": "指揮官 ENTJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ENTJ型の性格"
+                }
+              ]
             },
             {
               "id": "ENTP",
-              "name": "討論者",
-              "link": ["https://www.16personalities.com/ja/ENTP型の性格"]
+              "name": "討論者 ENTP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ENTP型の性格"
+                }
+              ]
             },
             {
               "id": "INFJ",
-              "name": "提唱者",
-              "link": ["https://www.16personalities.com/ja/INFJ型の性格"]
+              "name": "提唱者 INFJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/INFJ型の性格"
+                }
+              ]
             },
             {
               "id": "INFP",
-              "name": "仲介者",
-              "link": ["https://www.16personalities.com/ja/INFP型の性格"]
+              "name": "仲介者 INFP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/INFP型の性格"
+                }
+              ]
             },
             {
               "id": "ENFJ",
-              "name": "主人公",
-              "link": ["https://www.16personalities.com/ja/ENFJ型の性格"]
+              "name": "主人公 ENFJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ENFJ型の性格"
+                }
+              ]
             },
             {
               "id": "ENFP",
-              "name": "運動家",
-              "link": ["https://www.16personalities.com/ja/ENFP型の性格"]
+              "name": "運動家 ENFP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ENFP型の性格"
+                }
+              ]
             },
             {
               "id": "ISTJ",
-              "name": "管理者",
-              "link": ["https://www.16personalities.com/ja/ISTJ型の性格"]
+              "name": "管理者 ISTJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ISTJ型の性格"
+                }
+              ]
             },
             {
               "id": "ISFJ",
-              "name": "擁護者",
-              "link": ["https://www.16personalities.com/ja/ISFJ型の性格"]
+              "name": "擁護者 ISFJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ISFJ型の性格"
+                }
+              ]
             },
             {
               "id": "ESTJ",
-              "name": "幹部",
-              "link": ["https://www.16personalities.com/ja/ESTJ型の性格"]
+              "name": "幹部 ESTJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ESTJ型の性格"
+                }
+              ]
             },
             {
               "id": "ESFJ",
-              "name": "領事",
-              "link": ["https://www.16personalities.com/ja/ESFJ型の性格"]
+              "name": "領事 ESFJ",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ESFJ型の性格"
+                }
+              ]
             },
             {
               "id": "ISTP",
-              "name": "巨匠",
-              "link": ["https://www.16personalities.com/ja/ISTP型の性格"]
+              "name": "巨匠 ISTP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ISTP型の性格"
+                }
+              ]
             },
             {
               "id": "ISFP",
-              "name": "冒険家",
-              "link": ["https://www.16personalities.com/ja/ISFP型の性格"]
+              "name": "冒険家 ISFP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ISFP型の性格"
+                }
+              ]
             },
             {
               "id": "ESFP",
-              "name": "芸能人",
-              "link": ["https://www.16personalities.com/ja/ESFP型の性格"]
+              "name": "芸能人 ESFP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ESFP型の性格"
+                }
+              ]
             },
             {
               "id": "ESTP",
-              "name": "起業家",
-              "link": ["https://www.16personalities.com/ja/ESTP型の性格"]
+              "name": "起業家 ESTP",
+              "link": [
+                {
+                  "name": "16 Personalities",
+                  "href": "https://www.16personalities.com/ja/ESTP型の性格"
+                }
+              ]
             }
           ]
         }
       ],
       "body": [
-        { "id": "lose", "name": "げっそり", "bmi": 0, "fat": 0 },
-        { "id": "sprout", "name": "もやし", "bmi": 15, "fat": 10 },
-        { "id": "slim-musclular", "name": "スリムな筋肉質", "bmi": 18, "fat": 10 },
-        { "id": "athlete", "name": "アスリート", "bmi": 25, "fat": 10 },
-        { "id": "thin", "name": "痩せ型", "bmi": 15, "fat": 15 },
-        { "id": "thin-slim", "name": "痩せ気味スリム", "bmi": 18, "fat": 15 },
-        { "id": "healthy-slim", "name": "健康的なスリム", "bmi": 22, "fat": 15 },
-        { "id": "musclular", "name": "筋肉質", "bmi": 25, "fat": 15 },
-        { "id": "model", "name": "モデル体型", "bmi": 15, "fat": 20 },
-        { "id": "sporty", "name": "スポーティ", "bmi": 18, "fat": 20 },
-        { "id": "healthy", "name": "健康的", "bmi": 22, "fat": 20 },
-        { "id": "stocky", "name": "がっちり", "bmi": 25, "fat": 20 },
-        { "id": "sarcopenic", "name": "腹だけぽっちゃり", "bmi": 15, "fat": 25 },
-        { "id": "chubby", "name": "ぽっちゃり", "bmi": 18, "fat": 25 },
-        { "id": "hard-fat", "name": "固太り", "bmi": 25, "fat": 25 },
-        { "id": "fat", "name": "肥満", "bmi": 29, "fat": 30 }
+        { "id": "lose", "name": "げっそり", "bmi": [null, 0], "fat": [null, 0] },
+        { "id": "sprout", "name": "もやし", "bmi": [15, 18], "fat": [10, 15] },
+        { "id": "slim-musclular", "name": "スリムな筋肉質", "bmi": [18, 22], "fat": [10, 15] },
+        { "id": "athlete", "name": "アスリート", "bmi": [25, 29], "fat": [10, 15] },
+        { "id": "thin", "name": "痩せ型", "bmi": [15, 18], "fat": [15, 20] },
+        { "id": "thin-slim", "name": "痩せ気味スリム", "bmi": [18, 22], "fat": [15, 20] },
+        { "id": "healthy-slim", "name": "健康的なスリム", "bmi": [22, 25], "fat": [15, 20] },
+        { "id": "musclular", "name": "筋肉質", "bmi": [25, 29], "fat": [15, 20] },
+        { "id": "model", "name": "モデル体型", "bmi": [15, 18], "fat": [20, 25] },
+        { "id": "sporty", "name": "スポーティ", "bmi": [18, 22], "fat": [20, 25] },
+        { "id": "healthy", "name": "健康的", "bmi": [22, 25], "fat": [20, 25] },
+        { "id": "stocky", "name": "がっちり", "bmi": [25, 29], "fat": [20, 25] },
+        { "id": "sarcopenic", "name": "腹だけぽっちゃり", "bmi": [15, 18], "fat": [25, 30] },
+        { "id": "chubby", "name": "ぽっちゃり", "bmi": [18, 22], "fat": [25, 30] },
+        { "id": "hard-fat", "name": "固太り", "bmi": [25, 29], "fat": [25, 30] },
+        { "id": "fat", "name": "肥満", "bmi": [29, null], "fat": [30, null] }
       ]
     },
     "combox": {

@@ -6,7 +6,7 @@ export const useApi = () => {
   return {
     setTemplateToStore: async () => {
       const res = (await window.electron.ipcRenderer.invoke('json')) as TemplateJSON
-      console.log({ res })
+      // console.log({ res })
       store.setTemplateFromApi(res)
     }
   }

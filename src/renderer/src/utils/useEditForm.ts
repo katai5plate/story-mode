@@ -1,66 +1,70 @@
+import { set, get } from 'lodash'
 import { useCallback, useState } from 'react'
 
+const collectKeys = <T>(fn: (dummy: T) => unknown): (string | number)[] => {
+  const keys: (string | number)[] = []
+  const proxy = new Proxy(
+    {},
+    {
+      get(_, prop) {
+        if (typeof prop === 'symbol') return // シンボルアクセスを無視
+        keys.push(prop)
+        return proxy // ネストアクセス用
+      }
+    }
+  ) as T
+  try {
+    fn(proxy) // 型安全用記述
+  } catch {
+    console.warn('collectKeys failed')
+  }
+  return keys
+}
+
 export const useEditForm = <T extends Record<string, any>>(initialState: T) => {
-  const [form, setForm] = useState<T>(initialState)
+  const [form, setAllField] = useState<T>(initialState)
 
-  const updateField = useCallback(<K extends keyof T>(key: K, value: T[K]) => {
-    setForm((prev) => {
-      const newForm = { ...prev, [key]: value }
-      console.log('Updated Field:', { key, value, newForm })
+  const itemControllers = useCallback(<R extends any[]>(fn: (ref: T) => R, init: R[number]) => {
+    return {
+      addItem: () => updateForm(fn, (prev) => [...prev, init] as R),
+      removeItem: (index: number) =>
+        updateForm(fn, (prev) => prev.filter((_, i) => i !== index) as R),
+      updateItem: (index: number, newItem: R[number]) =>
+        updateForm(fn, (prev) => {
+          const newArray = [...prev] as R
+          newArray[index] = newItem
+          return newArray
+        })
+    }
+  }, [])
+
+  const toCombo = (list: string[]) => list.map((x) => ({ name: x, id: x }))
+  const toTextArea = (text: string) => text.split('\n')
+
+  /** MEMO: 関数はセレクタ目的のため、内部に `ref => ref.hoge.fuga` 的な処理以外を入れないこと */
+  const updateForm = useCallback(<R>(fn: (ref: T) => R, value: R | ((prev: R) => R)) => {
+    const keys = collectKeys(fn)
+    setAllField((prev) => {
+      const previousValue = get(prev, keys)
+      if (get(prev, keys) === undefined) {
+        console.error(
+          '事前に入るべきオブジェクトが事前に追加されていないか、フォームの初期化ができていない'
+        )
+        throw new Error(`存在しないものを変更しようとしている: ${keys.join('.')}`)
+      }
+      const newForm = { ...prev }
+      if (typeof value === 'function') set(newForm, keys, (value as Function)(previousValue))
+      else set(newForm, keys, value)
       return newForm
     })
   }, [])
-
-  const updateListItem = useCallback(
-    <K extends keyof T>(key: K, index: number, newItem: T[K][number]) => {
-      setForm((prev) => {
-        if (!Array.isArray(prev[key])) return prev
-        const newList = [...prev[key]]
-        newList[index] = newItem
-        const newForm = { ...prev, [key]: newList }
-        console.log('Updated List:', { key, newItem, newForm })
-        return newForm
-      })
-    },
-    []
-  )
-
-  const addListItem = useCallback(<K extends keyof T>(key: K, newItem: T[K][number]) => {
-    setForm((prev) => {
-      if (!Array.isArray(prev[key])) return prev
-      const newList = [...prev[key], newItem]
-      const newForm = { ...prev, [key]: newList }
-      console.log('Added Item:', { key, newItem, newForm })
-      return newForm
-    })
-  }, [])
-
-  const removeListItem = useCallback(<K extends keyof T>(key: K, index: number) => {
-    setForm((prev) => {
-      if (!Array.isArray(prev[key])) return prev
-      const newList = prev[key].filter((_, i) => i !== index)
-      const newForm = { ...prev, [key]: newList }
-      console.log('Removed Item:', { key, index, newList, newForm })
-      return newForm
-    })
-  }, [])
-
-  const itemControllers = useCallback(
-    <K extends keyof T>(key: K, init: T[K][number]) => ({
-      addItem: () => addListItem(key, init),
-      removeItem: (index) => removeListItem(key, index),
-      updateItem: (index, newItem) => updateListItem(key, index, newItem)
-    }),
-    []
-  )
 
   return {
     form,
-    setAllField: setForm,
-    updateField,
-    updateListItem,
-    addListItem,
-    removeListItem,
-    itemControllers
+    setAllField,
+    itemControllers,
+    toCombo,
+    toTextArea,
+    updateForm
   }
 }

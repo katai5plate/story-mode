@@ -23,8 +23,8 @@ export interface CharacterJSON {
     body: {
       id: string
       name: string
-      bmi: number
-      fat: number
+      bmi: [number | null, number | null]
+      fat: [number | null, number | null]
     }[]
   }
   combox: {
@@ -48,7 +48,7 @@ interface Personality {
   types: {
     id: string
     name: string
-    link: string[]
+    link: { name: string; href: string }[]
   }[]
 }
 
@@ -72,56 +72,67 @@ export type Character = {
   id: string
   name: string
   dutyId: string
+  dutyDetail: string[]
   basic: {
     gender: string
     genderDetail: string[]
-    age: number | string
-    height: number | string
-    weight: number | string
+    age: string
+    height: string
+    weight: string
     fat: number | string
     body: string
+    bodyDetail: string[]
   }
   experience: {
-    life: {
-      name: string
-      date: string
-      daily: string[]
-      skills: string[]
-      socialRelationships: string[]
-    }[]
-    histories: {
-      name: string
-      appearance: string[]
-      personality: {
-        ref: {
-          categoryId: string
-          typeId: string
-        }
-        basic: string[]
-        different: string[]
-        reason: string[]
-      }
-      weakness: {
-        combox: string
-        content: string[]
-      }
-      desire: {
-        detail: string[]
-        motivation: ComboxFields
-        sensitivity: ComboxFields
-        likesAndDislikes: string[]
-      }
-    }[]
+    life: CharacterLife[]
+    histories: CharacterHistory[]
     dialogExamples: {
+      uid: string
       question: string
       answer: string[]
       hint: string[]
     }[]
   }
   appendix: {
-    features: string[]
+    features?: string[]
     memo: string[]
   }
+}
+
+interface CharacterLife {
+  uid: string
+  name: string
+  date: string
+  daily: string[]
+  skills: string[]
+  socialRelationships: string[]
+  memo: string[]
+}
+
+export interface CharacterHistory {
+  uid: string
+  name: string
+  appearance: string[]
+  personality: {
+    ref: {
+      categoryId: string
+      typeId: string
+    }
+    basic: string[]
+    different: string[]
+    reason: string[]
+  }
+  weakness: {
+    combox: string
+    content: string[]
+  }
+  desire: {
+    detail: string[]
+    motivation: ComboxFields
+    sensitivity: ComboxFields
+    likesAndDislikes: string[]
+  }
+  memo: string[]
 }
 
 interface ComboxFields {

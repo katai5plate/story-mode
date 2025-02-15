@@ -1,58 +1,44 @@
-import { Box, Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
+import { unique } from '@renderer/utils/helpers'
 import { ReactNode } from 'react'
+import { Group } from './Group'
 
-export interface ListFormProps<T> {
-  items: T[]
-  addItem: () => void
-  removeItem: (index: number) => void
-  updateItem: (index: number, newItem: T) => void
-  renderItem: (item: T, update: (newItem: T) => void, index: number) => ReactNode
-}
-
-// <ListForm
-//   items={form.histories}
-//   {...itemControllers('histories', { historyName: '', daily: [] })}
-//   renderItem={(item, update, index) => (
-//     <div key={index}>
-//       <TextField
-//         fullWidth
-//         label="履歴名"
-//         value={item.historyName}
-//         onChange={(e) => update({ ...item, historyName: e.target.value })}
-//         sx={{ mb: 1 }}
-//       />
-//       <TextField
-//         fullWidth
-//         label="日々の記録"
-//         multiline
-//         minRows={3}
-//         value={item.daily.join('\n')}
-//         onChange={(e) => update({ ...item, daily: e.target.value.split('\n') })}
-//         sx={{ mb: 1 }}
-//       />
-//     </div>
-//   )}
-// />
-export const ListForm = <T,>({
-  items,
-  renderItem,
-  addItem,
-  removeItem,
-  updateItem
-}: ListFormProps<T>) => {
+export const ListForm = <T extends { uid: string }, F>(p: {
+  title: string
+  init: Omit<T, 'uid'> & { uid?: string }
+  updateForm: any
+  list: T[]
+  selector: (ref: F) => T[]
+  render: (item: T, select: (fn: (ref: T) => any) => any) => ReactNode
+}) => {
   return (
-    <Box sx={{ mt: 2 }}>
-      {items.map((item, index) => (
-        <Box key={index} sx={{ mb: 2, p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
-          {renderItem(item, (newItem) => updateItem(index, { ...item, ...newItem }), index)}
-          <Button variant="outlined" color="secondary" onClick={() => removeItem(index)}>
+    <Group label={p.title}>
+      {p.list.map((item, index) => (
+        <Group
+          label={<Typography sx={{ fontSize: '12px', color: 'gray' }}>ID: {item.uid}</Typography>}
+          key={item.uid}
+        >
+          {p.render(item, (fn) => (r: F) => fn(p.selector(r)[index] as any))}
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() =>
+              p.updateForm(
+                p.selector,
+                p.list.filter((x) => x.uid !== item.uid)
+              )
+            }
+          >
             削除
           </Button>
-        </Box>
+        </Group>
       ))}
-      <Button variant="contained" onClick={addItem}>
+      <Button
+        variant="outlined"
+        onClick={() => p.updateForm(p.selector, () => [...p.list, { uid: unique(), ...p.init }])}
+      >
         追加
       </Button>
-    </Box>
+    </Group>
   )
 }

@@ -5,38 +5,40 @@ import { useCallback } from 'react'
 import { useNavigate } from 'react-router'
 import { findNestedRouteNode } from './routeNode'
 
-export const useRedirect = () => {
+export const useSyncCurrent = () => {
   const navigate = useNavigate()
   const store = useStore()
-  const process = useCallback((pathname: string, node: RouteNode) => {
+  const process = useCallback((pathname: string, node: RouteNode, redirect: boolean) => {
     store.setCurrentRoute(node)
-    navigate(pathname)
+    redirect && navigate(pathname)
   }, [])
   return useCallback(
-    (pathname: string) => {
+    (pathname: string, redirect?: boolean) => {
       const [parent, ...segments] = pathname.replace(/^\//, '').split('/')
       switch (parent) {
         case 'character': {
           const [path] = segments
           process(
             pathname,
-            store.characterRoutes.find((x) => x.path === path)
+            store.characterRoutes.find((x) => x.path === path),
+            redirect
           )
           break
         }
         case 'scenario': {
-          process(pathname, findNestedRouteNode(segments, store.scenarioRoutes))
+          process(pathname, findNestedRouteNode(segments, store.scenarioRoutes), redirect)
           break
         }
         default: {
           process(
             pathname,
-            findNestedRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES)
+            findNestedRouteNode([parent, ...segments].filter(Boolean), SETTING_ROUTES),
+            redirect
           )
           break
         }
       }
     },
-    [store.characterRoutes, store.scenarioRoutes]
+    [store, process]
   )
 }

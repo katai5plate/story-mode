@@ -65,10 +65,6 @@ export const MainTemplate = (p: { title: string; children: ReactNode }) => {
   const location = useLocation()
   const store = useStore()
 
-  useEffect(() => {
-    console.log(findNestedRouteNode(['main', 'intro', 'init', 'request'], store.scenarioRoutes))
-  }, [store.scenarioRoutes])
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />

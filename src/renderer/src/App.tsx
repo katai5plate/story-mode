@@ -25,7 +25,7 @@ const App = () => {
     const scenario = genScenarioTree(store.template.scenario)
     store.setCharacterRoutes(characters)
     store.setScenarioRoutes(scenario)
-    console.log({ characters, scenario })
+    // console.log({ characters, scenario })
   }, [store.template])
 
   if (!store.template) return <CircularProgress />

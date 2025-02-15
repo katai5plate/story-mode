@@ -3,9 +3,8 @@ import Collapse from '@mui/material/Collapse'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
-import { useRedirect } from '@renderer/utils/hooks'
+import { useSyncCurrent } from '@renderer/utils/hooks'
 import { ReactNode, useState } from 'react'
-import { useNavigate } from 'react-router'
 
 export type RouteNode = {
   type: string
@@ -30,7 +29,7 @@ const RouteItem: React.FC<{
   const [open, setOpen] = useState(defaultOpen)
   const hasChildren = !!node.children?.length
   const currentPath = [...path, node.path]
-  const redirect = useRedirect()
+  const syncCurrent = useSyncCurrent()
   return (
     <>
       <ListItemButton
@@ -40,7 +39,7 @@ const RouteItem: React.FC<{
             ? setOpen(!open)
             : node.isButton
               ? alert(currentPath)
-              : redirect(`/${currentPath.join('/')}`)
+              : syncCurrent(`/${currentPath.join('/')}`, true)
         }
       >
         <div style={{ color: 'transparent' }}>{'..'.repeat(depth)}</div>
@@ -53,7 +52,7 @@ const RouteItem: React.FC<{
           <Button
             onClick={(e) => {
               e.stopPropagation()
-              redirect(`/${currentPath.join('/')}`)
+              syncCurrent(`/${currentPath.join('/')}`, true)
             }}
           >
             ⚙️

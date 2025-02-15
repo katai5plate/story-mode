@@ -6,7 +6,7 @@ export const unique = (list: string[], limit = 10) => {
     newId = Math.random().toString(36).slice(2, 7).toLocaleUpperCase()
     attempts++
   } while (list.includes(newId))
-  return newId
+  return `un-${newId}`
 }
 
 export const anyObject = () => {

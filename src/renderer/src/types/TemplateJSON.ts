@@ -39,7 +39,7 @@ export interface CharacterJSON {
 interface Duty {
   id: string
   name: string
-  rules: string[]
+  questions: string[]
 }
 
 interface Personality {
@@ -94,7 +94,7 @@ export type Character = {
     }[]
   }
   appendix: {
-    features?: string[]
+    features: string[]
     memo: string[]
   }
 }

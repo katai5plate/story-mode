@@ -1,18 +1,31 @@
-export const unique = (
-  table = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&*+-=^~?@ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｵﾝｧｨｩｪｫｯｬｭｮ'
-) => {
-  let random = BigInt(0)
-  for (let i = 0; i < 4; i++)
-    random = (random << BigInt(31)) | BigInt(Math.floor(Math.random() * 0x7fffffff))
-  random &= (BigInt(1) << BigInt(122)) - BigInt(1)
-  const base = BigInt(table.length)
-  const result = []
-  while (random > BigInt(0)) {
-    const index = random % base
-    result.push(table[Number(index)])
-    random = random / base
-  }
-  return result.reverse().join('')
+import { BASE_777_TABLE } from '@renderer/constants/system'
+
+export const randomJoin = (arr: string[], separators: string[]) =>
+  arr
+    .map((word, i) =>
+      i < arr.length - 1 ? word + separators[Math.floor(Math.random() * separators.length)] : word
+    )
+    .join('')
+
+export const unique = () => {
+  return randomJoin(
+    window.crypto
+      .randomUUID()
+      .split('-')
+      .map((x) => {
+        let big = BigInt('0x' + x)
+        if (big === BigInt(0)) return '0'
+        const base = BigInt(BASE_777_TABLE.length)
+        const result = []
+        while (big > BigInt(0)) {
+          const index = big % base
+          result.push(BASE_777_TABLE[Number(index)])
+          big = big / base
+        }
+        return result.reverse().join('')
+      }),
+    Array.from('、。・／！？＋－＝＊＆～ー')
+  )
 }
 
 export const anyObject = () => {
@@ -27,3 +40,9 @@ export const anyObject = () => {
   }
   return new Proxy({}, handler) as any
 }
+
+export const textareaIsEmpty = (texts: string[]) =>
+  texts.length === 0 ? true : texts.length === 1 ? (texts[0] === '' ? true : false) : false
+
+export const appendNote = (a: string | void, b: string | void, line?: boolean) =>
+  `${a ? `${a}${line ? '\n' : ' '}→ ${b ?? ''}` : ''}`

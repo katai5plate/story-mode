@@ -1,7 +1,8 @@
-import { Button, Typography } from '@mui/material'
+import { Button, Grid2, Typography } from '@mui/material'
 import { unique } from '@renderer/utils/helpers'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { Group } from './Group'
+import { Accord } from './Accord'
 
 export const ListForm = <T extends { uid: string }, F>(p: {
   title: string
@@ -9,36 +10,69 @@ export const ListForm = <T extends { uid: string }, F>(p: {
   updateForm: any
   list: T[]
   selector: (ref: F) => T[]
-  render: (item: T, select: (fn: (ref: T) => any) => any) => ReactNode
+  render: (
+    item: T,
+    index: number,
+    /** 非推奨。第二引数が any になるため */
+    easySelect: <R>(fn: (ref: T) => any) => any
+  ) => ReactNode
+  dynamicTitle?: (item: T) => string | null
+  accord?: true
+  itemAccord?: true
 }) => {
+  const [newUnique, setUnique] = useState(unique())
   return (
-    <Group label={p.title}>
-      {p.list.map((item, index) => (
-        <Group
-          label={<Typography sx={{ fontSize: '12px', color: 'gray' }}>ID: {item.uid}</Typography>}
-          key={item.uid}
-        >
-          {p.render(item, (fn) => (r: F) => fn(p.selector(r)[index] as any))}
+    <Group accord={p.accord} title={p.title}>
+      {p.list.map((item, index) => {
+        const deleteTitle = p.dynamicTitle?.(item)
+        const render = (
+          <Group smallLabel title={`ID: ${item.uid}`} key={item.uid}>
+            {p.render(item, index, (fn) => (r: F) => fn(p.selector(r)[index] as any))}
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() =>
+                p.updateForm(
+                  p.selector,
+                  p.list.filter((x) => x.uid !== item.uid)
+                )
+              }
+            >
+              {deleteTitle ? `${deleteTitle} を` : ''}削除
+            </Button>
+          </Group>
+        )
+        return p.itemAccord ? (
+          <Accord open title={deleteTitle || `${p.title} (ID: ${item.uid})`}>
+            {render}
+          </Accord>
+        ) : (
+          render
+        )
+      })}
+      <Grid2 container spacing={2}>
+        <Grid2>
           <Button
             variant="outlined"
-            color="secondary"
-            onClick={() =>
-              p.updateForm(
-                p.selector,
-                p.list.filter((x) => x.uid !== item.uid)
-              )
-            }
+            onClick={() => {
+              p.updateForm(p.selector, () => [...p.list, { uid: newUnique, ...p.init }])
+              setUnique(unique())
+            }}
           >
-            削除
+            {`${p.title} を`}追加
           </Button>
-        </Group>
-      ))}
-      <Button
-        variant="outlined"
-        onClick={() => p.updateForm(p.selector, () => [...p.list, { uid: unique(), ...p.init }])}
-      >
-        追加
-      </Button>
+        </Grid2>
+        <Grid2>
+          <Button
+            variant="text"
+            color="inherit"
+            sx={{ opacity: 0.5 }}
+            onClick={() => setUnique(unique())}
+          >
+            ID: {newUnique}
+          </Button>
+        </Grid2>
+      </Grid2>
     </Group>
   )
 }

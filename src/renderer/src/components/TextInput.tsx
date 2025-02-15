@@ -20,7 +20,7 @@ export const TextInput = (p: {
   return (
     <TextField
       fullWidth
-      label={`${p.label}${hasTextarea ? ' (文章)' : ''}`}
+      label={`${p.label}${hasTextarea ? ' 🗎' : ''}`}
       variant="outlined"
       value={(hasTextarea ? p.value.join('\n') : p.value) || ''}
       onChange={(e) => p.onChange(e.target.value)}

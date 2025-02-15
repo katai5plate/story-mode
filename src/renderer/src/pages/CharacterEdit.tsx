@@ -3,10 +3,11 @@ import { Accord } from '@renderer/components/Accord'
 import { Group } from '@renderer/components/Group'
 import { ListForm } from '@renderer/components/ListForm'
 import { SelectBox } from '@renderer/components/SelectBox'
+import { Spacer } from '@renderer/components/Spacer'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
 import { Character, CharacterHistory } from '@renderer/types/TemplateJSON'
-import { anyObject } from '@renderer/utils/helpers'
+import { appendNote, textareaIsEmpty } from '@renderer/utils/helpers'
 import { useSyncCurrent } from '@renderer/utils/hooks'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -106,6 +107,11 @@ const HISTORY: Omit<Character['experience']['histories'][0], 'uid'> = {
   },
   memo: ['']
 }
+const DIALOG: Omit<Character['experience']['dialogExamples'][0], 'uid'> = {
+  question: '',
+  answer: [''],
+  hint: ['']
+}
 
 const INIT: Character = {
   id: '',
@@ -196,7 +202,7 @@ export const CharacterEdit = () => {
   }, [form, setBmi, setBody, store.template.character.dictionaly.body])
 
   const dutyRules = useMemo(
-    () => store.template.character.duty.find((x) => x.id === form.dutyId)?.rules,
+    () => store.template.character.duty.find((x) => x.id === form.dutyId)?.questions,
     [store.template.character.duty, form]
   )
   const personalityType = useCallback(
@@ -210,6 +216,20 @@ export const CharacterEdit = () => {
     (item: CharacterHistory) =>
       personalityType(item)?.find((x) => x.id === item.personality.ref.typeId)?.link,
     [personalityType]
+  )
+
+  const appendPersonality = useCallback(
+    (item: CharacterHistory) => (prev: string[]) => {
+      const category = store.template.character.dictionaly.personality.find(
+        (x) => x.id === item.personality.ref.categoryId
+      )
+      const a = category?.name
+      const b = category?.types.find((x) => x.id === item.personality.ref.typeId)?.name
+      const text = appendNote(a, b)
+      console.log({ text })
+      return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
+    },
+    [store.template.character.dictionaly.personality]
   )
 
   return (
@@ -230,12 +250,32 @@ export const CharacterEdit = () => {
         onChange={(id) => updateForm((r) => r.dutyId, id)}
       />
       {!dutyRules || !dutyRules?.length || (
-        <Group label="※ 役割ルール">
+        <Group title="※ 役割設定の確認事項">
           <ul>
             {dutyRules.map((rule, key) => (
-              <li key={key}>●　{rule}</li>
+              <li key={key}>●&emsp;{rule}</li>
             ))}
           </ul>
+          <Spacer />
+          <Button
+            variant="outlined"
+            fullWidth
+            onClick={() =>
+              updateForm(
+                (r) => r.dutyDetail,
+                (prev) => {
+                  const duty = store.template.character.duty.find((x) => x.id === form.dutyId).name
+                  const text = [
+                    `●「${duty}」設定の確認`,
+                    ...dutyRules.map((x) => appendNote(`Q. ${x}`, null, true))
+                  ].join('\n')
+                  return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
+                }
+              )
+            }
+          >
+            「役割詳細」に追記
+          </Button>
         </Group>
       )}
       <TextInput
@@ -244,7 +284,7 @@ export const CharacterEdit = () => {
         value={form.dutyDetail}
         onChange={(text) => updateForm((r) => r.dutyDetail, toTextArea(text))}
       />
-      <Group label="基本情報">
+      <Group title="基本情報">
         <SelectBox
           label="性別"
           combo
@@ -285,14 +325,9 @@ export const CharacterEdit = () => {
           options={store.template.character.dictionaly.body}
           onChange={(text) => updateForm((r) => r.basic.body, text)}
         />
-        <TextInput
-          label="体型詳細"
-          textarea
-          value={form.basic.bodyDetail}
-          onChange={(text) => updateForm((r) => r.basic.bodyDetail, toTextArea(text))}
-        />
         <Accord
-          title="※ BMI 計算機"
+          fill
+          title="※ 計算機"
           summary="年齢, 身長, 体重, 体脂肪 の数値入力で算出 (基礎代謝量は性別に '男' か '女' を指定することで算出)"
         >
           <Grid2 container spacing={2}>
@@ -306,64 +341,80 @@ export const CharacterEdit = () => {
               <TextInput label="基礎代謝量" disable value={kcal} />
             </Grid2>
           </Grid2>
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={() => updateForm((r) => r.basic.body, body)}
-          >
-            「体型」を上書き
-          </Button>
+          <Grid2 container spacing={2}>
+            <Grid2 size="grow">
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => updateForm((r) => r.basic.body, body)}
+              >
+                「体型」を上書き
+              </Button>
+            </Grid2>
+            <Grid2 size="grow">
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() =>
+                  updateForm(
+                    (r) => r.basic.bodyDetail,
+                    (prev) => {
+                      const text = [
+                        appendNote('BMI', bmi),
+                        appendNote('体型', body),
+                        appendNote('基礎代謝量', kcal)
+                      ].join('\n')
+                      return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
+                    }
+                  )
+                }
+              >
+                「体型詳細」に追記
+              </Button>
+            </Grid2>
+          </Grid2>
         </Accord>
+        <TextInput
+          label="体型詳細"
+          textarea
+          value={form.basic.bodyDetail}
+          onChange={(text) => updateForm((r) => r.basic.bodyDetail, toTextArea(text))}
+        />
       </Group>
-      <Group label="経験情報">
+      <Group title="経験情報">
         <ListForm
+          accord
+          itemAccord
           title="日常"
+          dynamicTitle={(item) => item.name || null}
           init={LIFE}
           updateForm={updateForm}
           list={form.experience.life}
           selector={(r: typeof form) => r.experience.life}
-          render={(item, select) => (
+          render={(item, i) => (
             <>
               <TextInput
                 label="日常名"
                 value={item.name}
-                onChange={(text) =>
-                  updateForm(
-                    select((r) => r.name),
-                    text
-                  )
-                }
+                onChange={(text) => updateForm((r) => r.experience.life[i].name, text)}
               />
               <TextInput
                 label="いつ？"
                 value={item.date}
-                onChange={(text) =>
-                  updateForm(
-                    select((r) => r.date),
-                    text
-                  )
-                }
+                onChange={(text) => updateForm((r) => r.experience.life[i].date, text)}
               />
               <TextInput
                 label="どんな？"
                 textarea
                 value={item.daily}
-                onChange={(text) =>
-                  updateForm(
-                    select((r) => r.daily),
-                    toTextArea(text)
-                  )
-                }
+                onChange={(text) => updateForm((r) => r.experience.life[i].daily, toTextArea(text))}
               />
               <TextInput
                 label="得られたもの"
                 textarea
                 value={item.skills}
                 onChange={(text) =>
-                  updateForm(
-                    select((r) => r.skills),
-                    toTextArea(text)
-                  )
+                  updateForm((r) => r.experience.life[i].skills, toTextArea(text))
                 }
               />
               <TextInput
@@ -371,88 +422,120 @@ export const CharacterEdit = () => {
                 textarea
                 value={item.socialRelationships}
                 onChange={(text) =>
-                  updateForm(
-                    select((r) => r.socialRelationships),
-                    toTextArea(text)
-                  )
+                  updateForm((r) => r.experience.life[i].socialRelationships, toTextArea(text))
                 }
               />
               <TextInput
-                label="その他"
+                label="メモ"
                 textarea
                 value={item.memo}
-                onChange={(text) =>
-                  updateForm(
-                    select((r) => r.memo),
-                    toTextArea(text)
-                  )
-                }
+                onChange={(text) => updateForm((r) => r.experience.life[i].memo, toTextArea(text))}
               />
             </>
           )}
         />
         <ListForm
+          accord
+          itemAccord
           title="来歴と現在"
+          dynamicTitle={(item) => item.name || null}
           init={HISTORY}
           updateForm={updateForm}
           list={form.experience.histories}
           selector={(r: typeof form) => r.experience.histories}
-          render={(item, select) => (
+          render={(item, i) => (
             <>
               <TextInput
                 label="来歴名"
                 value={item.name}
-                onChange={(text) =>
-                  updateForm(
-                    select((r) => r.name),
-                    text
-                  )
-                }
+                onChange={(text) => updateForm((r) => r.experience.histories[i].name, text)}
               />
               <TextInput
                 label="外見"
                 textarea
                 value={item.appearance}
                 onChange={(text) =>
-                  updateForm(
-                    select((r) => r.appearance),
-                    toTextArea(text)
-                  )
+                  updateForm((r) => r.experience.histories[i].appearance, toTextArea(text))
                 }
               />
-              <Group label="性格">
-                <Accord title="※ 辞書" summary="性格診断のタイプから参考資料を索引">
-                  <SelectBox
-                    label="診断カテゴリ"
-                    value={item.personality.ref.categoryId}
-                    options={store.template.character.dictionaly.personality}
-                    onChange={(id) => {
-                      updateForm(
-                        select((r) => r.personality.ref.categoryId),
-                        id
-                      )
-                      updateForm(
-                        select((r) => r.personality.ref.typeId),
-                        ''
-                      )
-                    }}
-                  />
-                  <SelectBox
-                    label="診断タイプ"
-                    value={item.personality.ref.typeId}
-                    options={personalityType(item) ?? []}
-                    onChange={(id) =>
-                      updateForm(
-                        select((r) => r.personality.ref.typeId),
-                        id
-                      )
-                    }
-                  />
+              <Group accord title="性格">
+                <Accord fill title="※ 性格パレット" summary="性格診断のタイプから参考資料を索引">
+                  <Grid2 container spacing={2}>
+                    <Grid2 size="grow">
+                      <SelectBox
+                        label="診断カテゴリ"
+                        value={item.personality.ref.categoryId}
+                        options={store.template.character.dictionaly.personality}
+                        onChange={(id) => {
+                          updateForm(
+                            (r) => r.experience.histories[i].personality.ref.categoryId,
+                            id
+                          )
+                          updateForm((r) => r.experience.histories[i].personality.ref.typeId, '')
+                        }}
+                      />
+                    </Grid2>
+                    <Grid2 size="grow">
+                      <SelectBox
+                        label="診断タイプ"
+                        value={item.personality.ref.typeId}
+                        options={personalityType(item) ?? []}
+                        onChange={(id) =>
+                          updateForm((r) => r.experience.histories[i].personality.ref.typeId, id)
+                        }
+                      />
+                    </Grid2>
+                  </Grid2>
+                  <Grid2 container spacing={2}>
+                    <Grid2 size="grow">
+                      <Button
+                        variant="outlined"
+                        fullWidth
+                        onClick={() =>
+                          updateForm(
+                            (r) => r.experience.histories[i].personality.basic,
+                            appendPersonality(item)
+                          )
+                        }
+                      >
+                        「芯となる性格」に追記
+                      </Button>
+                    </Grid2>
+                    <Grid2 size="grow">
+                      <Button
+                        variant="outlined"
+                        fullWidth
+                        onClick={() =>
+                          updateForm(
+                            (r) => r.experience.histories[i].personality.different,
+                            appendPersonality(item)
+                          )
+                        }
+                      >
+                        「実際のところ」に追記
+                      </Button>
+                    </Grid2>
+                    <Grid2 size="grow">
+                      <Button
+                        variant="outlined"
+                        fullWidth
+                        onClick={() =>
+                          updateForm(
+                            (r) => r.experience.histories[i].personality.reason,
+                            appendPersonality(item)
+                          )
+                        }
+                      >
+                        「その理由」に追記
+                      </Button>
+                    </Grid2>
+                  </Grid2>
                   <Box>
                     {(personalityLink(item) || []).map(({ name, href }, key) => (
                       <div key={key}>
                         {key === 0 && (
                           <>
+                            <Spacer />
                             <label style={{ color: 'gray' }}>参考リンク</label>
                             <br />
                           </>
@@ -463,9 +546,182 @@ export const CharacterEdit = () => {
                     ))}
                   </Box>
                 </Accord>
+                <TextInput
+                  label="芯となる性格"
+                  textarea
+                  value={item.personality.basic}
+                  onChange={(text) =>
+                    updateForm((r) => r.experience.histories[i].personality.basic, toTextArea(text))
+                  }
+                />
+                <TextInput
+                  label="実際のところ"
+                  textarea
+                  value={item.personality.different}
+                  onChange={(text) =>
+                    updateForm(
+                      (r) => r.experience.histories[i].personality.different,
+                      toTextArea(text)
+                    )
+                  }
+                />
+                <TextInput
+                  label="その理由"
+                  textarea
+                  value={item.personality.reason}
+                  onChange={(text) =>
+                    updateForm(
+                      (r) => r.experience.histories[i].personality.reason,
+                      toTextArea(text)
+                    )
+                  }
+                />
               </Group>
+              <Group accord title="弱点">
+                <SelectBox
+                  label="内容"
+                  combo
+                  value={item.weakness.combox}
+                  options={toCombo(store.template.character.combox.weakness)}
+                  onChange={(text) =>
+                    updateForm((r) => r.experience.histories[i].weakness.combox, text)
+                  }
+                />
+                <TextInput
+                  label="詳細"
+                  textarea
+                  value={item.weakness.content}
+                  onChange={(text) =>
+                    updateForm((r) => r.experience.histories[i].weakness.content, toTextArea(text))
+                  }
+                />
+              </Group>
+              <Group accord title="欲望">
+                <Group title="モチベーション">
+                  <SelectBox
+                    label="内容"
+                    combo
+                    value={item.desire.motivation.combox}
+                    options={toCombo(store.template.character.combox.motivation)}
+                    onChange={(text) =>
+                      updateForm((r) => r.experience.histories[i].desire.motivation.combox, text)
+                    }
+                  />
+                  <TextInput
+                    label="詳細"
+                    textarea
+                    value={item.desire.motivation.content}
+                    onChange={(text) =>
+                      updateForm(
+                        (r) => r.experience.histories[i].desire.motivation.content,
+                        toTextArea(text)
+                      )
+                    }
+                  />
+                </Group>
+                <Group title="感受性">
+                  <SelectBox
+                    label="方向性"
+                    combo
+                    value={item.desire.sensitivity.combox}
+                    options={toCombo(store.template.character.combox.sensitivity)}
+                    onChange={(text) =>
+                      updateForm((r) => r.experience.histories[i].desire.sensitivity.combox, text)
+                    }
+                  />
+                  <TextInput
+                    label="詳細"
+                    textarea
+                    value={item.desire.sensitivity.content}
+                    onChange={(text) =>
+                      updateForm(
+                        (r) => r.experience.histories[i].desire.sensitivity.content,
+                        toTextArea(text)
+                      )
+                    }
+                  />
+                </Group>
+                <TextInput
+                  label="好きなもの・嫌いなもの"
+                  textarea
+                  value={item.desire.likesAndDislikes}
+                  onChange={(text) =>
+                    updateForm(
+                      (r) => r.experience.histories[i].desire.likesAndDislikes,
+                      toTextArea(text)
+                    )
+                  }
+                />
+                <TextInput
+                  label="その他"
+                  textarea
+                  value={item.desire.detail}
+                  onChange={(text) =>
+                    updateForm((r) => r.experience.histories[i].desire.detail, toTextArea(text))
+                  }
+                />
+              </Group>
+              <TextInput
+                label="メモ"
+                textarea
+                value={item.memo}
+                onChange={(text) =>
+                  updateForm((r) => r.experience.histories[i].memo, toTextArea(text))
+                }
+              />
             </>
           )}
+        />
+        <ListForm
+          accord
+          title="セリフ例"
+          init={DIALOG}
+          updateForm={updateForm}
+          list={form.experience.dialogExamples}
+          selector={(r: typeof form) => r.experience.dialogExamples}
+          render={(item, i) => (
+            <>
+              <SelectBox
+                label="質問"
+                combo
+                value={item.question}
+                options={toCombo(store.template.character.combox.question)}
+                onChange={(text) =>
+                  updateForm((r) => r.experience.dialogExamples[i].question, text)
+                }
+              />
+              <TextInput
+                textarea
+                label="回答"
+                value={item.answer}
+                onChange={(text) =>
+                  updateForm((r) => r.experience.dialogExamples[i].answer, toTextArea(text))
+                }
+              />
+              <TextInput
+                textarea
+                label="コツなどのメモ"
+                value={item.hint}
+                onChange={(text) =>
+                  updateForm((r) => r.experience.dialogExamples[i].hint, toTextArea(text))
+                }
+              />
+            </>
+          )}
+        />
+      </Group>
+      <Group accord title="その他">
+        <TextInput
+          textarea
+          label="特徴"
+          value={form.appendix.features}
+          onChange={(text) => updateForm((r) => r.appendix.features, toTextArea(text))}
+        />
+        <TextInput
+          textarea
+          label="メモ"
+          value={form.appendix.memo}
+          onChange={(text) => updateForm((r) => r.appendix.memo, toTextArea(text))}
         />
       </Group>
     </Box>

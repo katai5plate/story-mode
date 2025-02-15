@@ -1,9 +1,36 @@
 import { Box, FormLabel, Typography } from '@mui/material'
 import { ReactNode } from 'react'
 import { Spacer } from './Spacer'
+import { Accord } from './Accord'
 
-export const Group = (p: { label: string | ReactNode; children: ReactNode }) => {
-  return (
+export const Group = (p: {
+  title: string
+  smallLabel?: true
+  accord?: true
+  children: ReactNode
+}) => {
+  const render = (
+    <>
+      {p.accord || (
+        <>
+          <FormLabel>
+            <Typography
+              {...(p.smallLabel ? { sx: { fontSize: '12px', color: 'gray' } } : { variant: 'h5' })}
+            >
+              {p.title}
+            </Typography>
+          </FormLabel>
+          <Spacer />
+        </>
+      )}
+      {p.children}
+    </>
+  )
+  return p.accord ? (
+    <Accord open title={p.title}>
+      {render}
+    </Accord>
+  ) : (
     <>
       <Box
         component="fieldset"
@@ -16,11 +43,7 @@ export const Group = (p: { label: string | ReactNode; children: ReactNode }) => 
           '&:focus-within': { borderColor: 'rgba(255, 255, 255, 0.4)' }
         }}
       >
-        <FormLabel>
-          {typeof p.label === 'string' ? <Typography variant="h5">{p.label}</Typography> : p.label}
-        </FormLabel>
-        <Spacer />
-        {p.children}
+        {render}
       </Box>
       <Spacer />
     </>

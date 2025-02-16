@@ -1,5 +1,6 @@
 import { set, get } from 'lodash'
 import { useCallback, useState } from 'react'
+import { anyObject } from './helpers'
 
 const collectKeys = <T>(fn: (dummy: T) => unknown): (string | number)[] => {
   const keys: (string | number)[] = []
@@ -22,7 +23,7 @@ const collectKeys = <T>(fn: (dummy: T) => unknown): (string | number)[] => {
 }
 
 export const useEditForm = <T extends Record<string, any>>(initialState: T) => {
-  const [form, setAllField] = useState<T>(initialState)
+  const [formOrigin, setAllField] = useState<T>(initialState)
 
   const itemControllers = useCallback(<R extends any[]>(fn: (ref: T) => R, init: R[number]) => {
     return {
@@ -43,9 +44,16 @@ export const useEditForm = <T extends Record<string, any>>(initialState: T) => {
     const keys = collectKeys(fn)
     setAllField((prev) => {
       const previousValue = get(prev, keys)
+      const isGetError = get(prev, keys) === undefined
+      // 画面遷移中に onMount を待たずして useMemo 内のフォームを読んでしまうことがあるのでその対策
+      const isMounted = isGetError && get(initialState, keys) !== undefined
+      if (isMounted) return prev
       if (get(prev, keys) === undefined) {
         console.error(
-          '事前に入るべきオブジェクトが事前に追加されていないか、フォームの初期化ができていない'
+          '事前に入るべきオブジェクトが事前に追加されていないか、フォームの初期化ができていない',
+          [JSON.stringify(formOrigin)],
+          prev,
+          keys
         )
         throw new Error(`存在しないものを変更しようとしている: ${keys.join('.')}`)
       }
@@ -56,8 +64,18 @@ export const useEditForm = <T extends Record<string, any>>(initialState: T) => {
     })
   }, [])
 
+  // 画面遷移中に onMount を待たずして useMemo 内のフォームを読んでしまうことがあるのでその対策
+  const safeForm = () => {
+    try {
+      if (!formOrigin) throw new Error()
+      return formOrigin
+    } catch {
+      return anyObject(initialState) as any as T
+    }
+  }
+
   return {
-    form,
+    form: safeForm(),
     setAllField,
     itemControllers,
     updateForm

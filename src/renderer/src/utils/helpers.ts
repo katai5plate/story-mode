@@ -1,3 +1,5 @@
+import { DeepProxy } from '@qiwi/deep-proxy'
+
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
   [key: string | number]: JsonValue
@@ -26,18 +28,7 @@ export const unique = (list: string[], limit = 10) =>
     () => `u4-${window.crypto.randomUUID()}`
   )}`
 
-export const anyObject = () => {
-  const handler = {
-    get(target, prop) {
-      if (!(prop in target)) target[prop] = new Proxy(() => target, handler)
-      return target[prop]
-    },
-    apply(target) {
-      return target
-    }
-  }
-  return new Proxy({}, handler) as any
-}
+export const anyObject = (target) => new DeepProxy(target)
 
 export const textareaIsEmpty = (texts: string[]) =>
   texts.length === 0 ? true : texts.length === 1 ? (texts[0] === '' ? true : false) : false

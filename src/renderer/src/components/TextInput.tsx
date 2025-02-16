@@ -1,17 +1,20 @@
 import { TextField } from '@mui/material'
 import { textareaIsEmpty } from '@renderer/utils/helpers'
 
-export const TextInput = (p: {
+export interface TextInputProps {
   label: string
   value: any
   onChange?: (text: string) => void
-  disable?: true
+  disable?: boolean
+  focus?: boolean
   textarea?:
     | {
         rows?: number
       }
     | true
-}) => {
+}
+
+export const TextInput = (p: TextInputProps) => {
   const hasTextarea = !!p.textarea
   const label = `${p.label}${hasTextarea ? ' 🗎' : ''}${p.value === '' || textareaIsEmpty(p.value) ? '（未入力）' : ''}`
   const textarea = {
@@ -28,6 +31,7 @@ export const TextInput = (p: {
       onChange={(e) => p.onChange(e.target.value)}
       sx={{ pb: 2 }}
       disabled={p.disable}
+      autoFocus={p.focus}
       onKeyDown={(e) => {
         if (!p.onChange) return
         const currentValue = p.value

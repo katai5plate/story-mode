@@ -1,13 +1,30 @@
-export const unique = (list: string[], limit = 10) => {
-  let attempts = 0
-  let newId = ''
-  do {
-    if (attempts >= limit) return `u4-${window.crypto.randomUUID()}`
-    newId = Math.random().toString(36).slice(2, 7).toLocaleUpperCase()
-    attempts++
-  } while (list.includes(newId))
-  return `un-${newId}`
+type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
+interface JsonObject {
+  [key: string | number]: JsonValue
 }
+interface Jsonrray extends Array<JsonValue> {}
+export type JsonData = JsonValue | JsonObject | Jsonrray
+
+export const genUnique = <T extends JsonData>(
+  list: T[],
+  tryValue: () => T,
+  limit = 10,
+  onLimit: () => T
+): T => {
+  for (let i = 0; i < limit; i++) {
+    const val = tryValue()
+    if (!list.includes(val)) return val
+  }
+  return onLimit()
+}
+
+export const unique = (list: string[], limit = 10) =>
+  `id-${genUnique(
+    list,
+    () => Math.random().toString(36).slice(2, 7).toUpperCase(),
+    limit,
+    () => `u4-${window.crypto.randomUUID()}`
+  )}`
 
 export const anyObject = () => {
   const handler = {

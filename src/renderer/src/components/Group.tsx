@@ -2,15 +2,20 @@ import { Box, FormLabel, Typography } from '@mui/material'
 import { ReactNode } from 'react'
 import { Spacer } from './Spacer'
 import { Accord } from './Accord'
+import { Float } from './Float'
 
 export const Group = (p: {
   title: string
-  smallLabel?: true
-  accord?: true
-  accordClose?: true
+  smallLabel?: boolean
+  accord?: boolean
+  accordEmpty?: () => boolean | 'NOEMPTY'
+  accordFill?: boolean
+  float?: boolean | number
   children: ReactNode
 }) => {
-  const render = (
+  const accordEmpty = p.accordEmpty?.()
+  const title = `${p.title}${accordEmpty && accordEmpty !== 'NOEMPTY' ? '（未入力）' : ''}`
+  const core = (
     <>
       {p.accord || (
         <>
@@ -18,7 +23,7 @@ export const Group = (p: {
             <Typography
               {...(p.smallLabel ? { sx: { fontSize: '12px', color: 'gray' } } : { variant: 'h5' })}
             >
-              {p.title}
+              {title}
             </Typography>
           </FormLabel>
           <Spacer />
@@ -27,9 +32,9 @@ export const Group = (p: {
       {p.children}
     </>
   )
-  return p.accord ? (
-    <Accord open={p.accordClose ? undefined : true} title={p.title}>
-      {render}
+  const render = p.accord ? (
+    <Accord open={!accordEmpty} title={title} fill={p.accordFill} nospace={!!p.float}>
+      {core}
     </Accord>
   ) : (
     <>
@@ -44,9 +49,14 @@ export const Group = (p: {
           '&:focus-within': { borderColor: 'rgba(255, 255, 255, 0.4)' }
         }}
       >
-        {render}
+        {core}
       </Box>
-      <Spacer />
+      {p.float || <Spacer />}
     </>
+  )
+  return p.float ? (
+    <Float top={typeof p.float === 'number' ? p.float : undefined}>{render}</Float>
+  ) : (
+    render
   )
 }

@@ -1,4 +1,5 @@
 import { TextField } from '@mui/material'
+import { textareaIsEmpty } from '@renderer/utils/helpers'
 
 export const TextInput = (p: {
   label: string
@@ -12,6 +13,7 @@ export const TextInput = (p: {
     | true
 }) => {
   const hasTextarea = !!p.textarea
+  const label = `${p.label}${hasTextarea ? ' 🗎' : ''}${p.value === '' || textareaIsEmpty(p.value) ? '（未入力）' : ''}`
   const textarea = {
     minRows: 1,
     ...(p.textarea === true ? {} : p.textarea),
@@ -20,7 +22,7 @@ export const TextInput = (p: {
   return (
     <TextField
       fullWidth
-      label={`${p.label}${hasTextarea ? ' 🗎' : ''}`}
+      label={label}
       variant="outlined"
       value={(hasTextarea ? p.value.join('\n') : p.value) || ''}
       onChange={(e) => p.onChange(e.target.value)}

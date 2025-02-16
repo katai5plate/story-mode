@@ -7,67 +7,17 @@ import { Spacer } from '@renderer/components/Spacer'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
 import { Character, CharacterHistory } from '@renderer/types/TemplateJSON'
-import { appendNote, textareaIsEmpty } from '@renderer/utils/helpers'
+import {
+  appendNote,
+  copy,
+  detectEmptyItem,
+  detectEmptyItems,
+  textareaIsEmpty
+} from '@renderer/utils/helpers'
 import { useSyncCurrent } from '@renderer/utils/hooks'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router'
-
-// interface CharacterForm {
-//   id: string
-//   name: string
-//   dutyId: string
-//   basic: {
-//     gender: string
-//     genderDetail: string[]
-//     age: number | string
-//     height: number | string
-//     weight: number | string
-//     fat: number | string
-//     body: string
-//   }
-//   experience: {
-//     life: {
-//       name: string
-//       date: string
-//       daily: string[]
-//       skills: string[]
-//       socialRelationships: string[]
-//     }[]
-//     histories: {
-//       name: string
-//       appearance: string[]
-//       personality: {
-//         ref: {
-//           categoryId: string
-//           typeId: string
-//         }
-//         basic: string[]
-//         different: string[]
-//         reason: string[]
-//       }
-//       weakness: {
-//         combox: string
-//         content: string[]
-//       }
-//       desire: {
-//         detail: string[]
-//         motivation: ComboxFields
-//         sensitivity: ComboxFields
-//         likesAndDislikes: string[]
-//       }
-//     }[]
-//     dialogExamples: {
-//       question: string
-//       answer: string[]
-//       hint: string[]
-//     }[]
-//   }
-//   appendix: {
-//     features: string[]
-//     memo: string[]
-//   }
-// }
 
 const LIFE: Omit<Character['experience']['life'][0], 'uid'> = {
   name: '',
@@ -143,8 +93,7 @@ export const CharacterEdit = () => {
   const store = useStore()
   const location = useLocation()
   const syncCurrent = useSyncCurrent()
-  const { form, setAllField, updateForm, itemControllers, toCombo, toTextArea } =
-    useEditForm<Character>(INIT)
+  const { form, setAllField, updateForm, toCombo, toTextArea } = useEditForm<Character>(INIT)
 
   useEffect(() => {
     syncCurrent(location.pathname)
@@ -205,6 +154,15 @@ export const CharacterEdit = () => {
     () => store.template.character.duty.find((x) => x.id === form.dutyId)?.questions,
     [store.template.character.duty, form]
   )
+  const dutyQuestions = useMemo(() => {
+    const duty = store.template.character.duty.find((x) => x.id === form.dutyId)?.name
+    if (!duty) return ''
+    return [
+      `●「${duty}」設定の確認`,
+      ...dutyRules.map((x) => appendNote(`Q. ${x}`, null, true))
+    ].join('\n')
+  }, [store.template.character.duty, form.dutyId])
+
   const personalityType = useCallback(
     (item: CharacterHistory) =>
       store.template.character.dictionaly.personality.find(
@@ -233,10 +191,7 @@ export const CharacterEdit = () => {
   )
 
   return (
-    <Box>
-      {/* <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-        {JSON.stringify([store.currentRoute, form], null, 2)}
-      </pre> */}
+    <>
       <TextInput label="ID" value={form.id} disable />
       <TextInput
         label="名前"
@@ -250,32 +205,45 @@ export const CharacterEdit = () => {
         onChange={(id) => updateForm((r) => r.dutyId, id)}
       />
       {!dutyRules || !dutyRules?.length || (
-        <Group title="※ 役割設定の確認事項">
-          <ul>
-            {dutyRules.map((rule, key) => (
-              <li key={key}>●&emsp;{rule}</li>
-            ))}
-          </ul>
-          <Spacer />
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={() =>
-              updateForm(
-                (r) => r.dutyDetail,
-                (prev) => {
-                  const duty = store.template.character.duty.find((x) => x.id === form.dutyId).name
-                  const text = [
-                    `●「${duty}」設定の確認`,
-                    ...dutyRules.map((x) => appendNote(`Q. ${x}`, null, true))
-                  ].join('\n')
-                  return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
-                }
-              )
-            }
-          >
-            「役割詳細」に追記
-          </Button>
+        <Group float accord accordFill title="※ 役割設定の確認事項">
+          <Grid2 container spacing={2}>
+            <Grid2 size="grow">
+              <ul>
+                {dutyRules.map((rule, key) => (
+                  <li key={key}>●&emsp;{rule}</li>
+                ))}
+              </ul>
+            </Grid2>
+            <Grid2 size="grow">
+              <Button
+                sx={{ verticalAlign: 'bottom' }}
+                variant="outlined"
+                fullWidth
+                onClick={() => {
+                  updateForm(
+                    (r) => r.dutyDetail,
+                    (prev) =>
+                      dutyQuestions !== ''
+                        ? textareaIsEmpty(prev)
+                          ? [dutyQuestions]
+                          : [...prev, dutyQuestions]
+                        : prev
+                  )
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+              >
+                「役割詳細」に追記
+              </Button>
+              <Button
+                sx={{ verticalAlign: 'bottom' }}
+                variant="outlined"
+                fullWidth
+                onClick={() => copy(dutyQuestions)}
+              >
+                クリップボードにコピー
+              </Button>
+            </Grid2>
+          </Grid2>
         </Group>
       )}
       <TextInput
@@ -391,6 +359,7 @@ export const CharacterEdit = () => {
           updateForm={updateForm}
           list={form.experience.life}
           selector={(r: typeof form) => r.experience.life}
+          accordItemAutoClose={(item) => detectEmptyItem(item, 'name')}
           render={(item, i) => (
             <>
               <TextInput
@@ -437,12 +406,22 @@ export const CharacterEdit = () => {
         <ListForm
           accord
           itemAccord
-          title="来歴と現在"
+          title="来歴"
           dynamicTitle={(item) => item.name || null}
           init={HISTORY}
           updateForm={updateForm}
           list={form.experience.histories}
           selector={(r: typeof form) => r.experience.histories}
+          accordItemAutoClose={(item) =>
+            detectEmptyItems(item, (x) => [
+              [x.personality],
+              [x.personality.ref],
+              [x.weakness],
+              [x.desire],
+              [x.desire.motivation],
+              [x.desire.sensitivity]
+            ])
+          }
           render={(item, i) => (
             <>
               <TextInput
@@ -458,8 +437,19 @@ export const CharacterEdit = () => {
                   updateForm((r) => r.experience.histories[i].appearance, toTextArea(text))
                 }
               />
-              <Group accord title="性格">
-                <Accord fill title="※ 性格パレット" summary="性格診断のタイプから参考資料を索引">
+              <Group
+                accord
+                title="性格"
+                accordEmpty={() =>
+                  detectEmptyItems(item, (x) => [[x.personality, 'name'], [x.personality.ref]])
+                }
+              >
+                <Accord
+                  fill
+                  open
+                  title="※ 性格パレット"
+                  summary="性格診断のタイプから参考資料を索引"
+                >
                   <Grid2 container spacing={2}>
                     <Grid2 size="grow">
                       <SelectBox
@@ -577,7 +567,7 @@ export const CharacterEdit = () => {
                   }
                 />
               </Group>
-              <Group accord title="弱点">
+              <Group accord title="弱点" accordEmpty={() => detectEmptyItem(item.weakness, null)}>
                 <SelectBox
                   label="内容"
                   combo
@@ -596,7 +586,17 @@ export const CharacterEdit = () => {
                   }
                 />
               </Group>
-              <Group accord title="欲望">
+              <Group
+                accord
+                title="欲望"
+                accordEmpty={() =>
+                  detectEmptyItems(item, (x) => [
+                    [x.desire],
+                    [x.desire.motivation],
+                    [x.desire.sensitivity]
+                  ])
+                }
+              >
                 <Group title="モチベーション">
                   <SelectBox
                     label="内容"
@@ -674,11 +674,12 @@ export const CharacterEdit = () => {
         />
         <ListForm
           accord
-          title="セリフ例"
+          title="台詞サンプル"
           init={DIALOG}
           updateForm={updateForm}
           list={form.experience.dialogExamples}
           selector={(r: typeof form) => r.experience.dialogExamples}
+          accordItemAutoClose={(item) => detectEmptyItem(item, 'question')}
           render={(item, i) => (
             <>
               <SelectBox
@@ -724,9 +725,9 @@ export const CharacterEdit = () => {
           onChange={(text) => updateForm((r) => r.appendix.memo, toTextArea(text))}
         />
       </Group>
-      <Group accord accordClose title="デバッグ情報">
+      <Group accord accordEmpty={() => 'NOEMPTY'} title="デバッグ情報">
         <Box component="pre">{JSON.stringify(form, null, 2)}</Box>
       </Group>
-    </Box>
+    </>
   )
 }

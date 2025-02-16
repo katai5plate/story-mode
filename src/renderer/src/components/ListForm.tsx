@@ -18,6 +18,7 @@ export const ListForm = <T extends { uid: string }, F>(p: {
   ) => ReactNode
   dynamicTitle?: (item: T) => string | null
   accord?: true
+  accordItemAutoClose?: (item: T) => boolean
   itemAccord?: true
 }) => {
   const random = () => unique(p.list.map((x) => x.uid))
@@ -27,7 +28,7 @@ export const ListForm = <T extends { uid: string }, F>(p: {
       {p.list.map((item, index) => {
         const deleteTitle = p.dynamicTitle?.(item)
         const render = (
-          <Group smallLabel title={`ID: ${item.uid}`} key={item.uid}>
+          <Group smallLabel title={`ID: ${item.uid}`}>
             {p.render(item, index, (fn) => (r: F) => fn(p.selector(r)[index] as any))}
             <Button
               variant="outlined"
@@ -43,12 +44,20 @@ export const ListForm = <T extends { uid: string }, F>(p: {
             </Button>
           </Group>
         )
-        return p.itemAccord ? (
-          <Accord open title={deleteTitle || `${p.title} (ID: ${item.uid})`}>
-            {render}
-          </Accord>
-        ) : (
-          render
+        return (
+          <div key={item.uid}>
+            {p.itemAccord ? (
+              <Accord
+                closeIsEmpty
+                open={!p.accordItemAutoClose?.(item)}
+                title={deleteTitle || `${p.title} (ID: ${item.uid})`}
+              >
+                {render}
+              </Accord>
+            ) : (
+              render
+            )}
+          </div>
         )
       })}
       <Grid2 container spacing={2}>

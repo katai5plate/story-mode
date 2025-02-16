@@ -5,16 +5,19 @@ import { Spacer } from './Spacer'
 export const Accord = (p: {
   title: string
   summary?: string
-  open?: true
-  fill?: true
+  open?: boolean
+  fill?: boolean
+  nospace?: boolean
+  closeIsEmpty?: boolean
   children: ReactNode
 }) => {
+  const title = `${p.title}${p.closeIsEmpty && !p.open ? ' （未入力）' : ''}`
   return (
     <>
       <Accordion defaultExpanded={p.open} variant={p.fill ? 'elevation' : 'outlined'}>
         <AccordionSummary expandIcon="▽">
           <Typography component="span">
-            <strong style={{ opacity: 0.7 }}>{p.title}</strong>
+            <strong style={{ opacity: 0.7 }}>{title}</strong>
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -27,7 +30,7 @@ export const Accord = (p: {
           <Box>{p.children}</Box>
         </AccordionDetails>
       </Accordion>
-      <Spacer />
+      {p.nospace || <Spacer />}
     </>
   )
 }

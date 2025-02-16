@@ -86,3 +86,6 @@ export const copy = (text: string) => {
     document.getSelection().addRange(selected)
   }
 }
+
+export const toCombo = (list: string[]) => list.map((x) => ({ name: x, id: x }))
+export const toTextArea = (text: string) => text.split('\n')

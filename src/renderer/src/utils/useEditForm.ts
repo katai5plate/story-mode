@@ -38,9 +38,6 @@ export const useEditForm = <T extends Record<string, any>>(initialState: T) => {
     }
   }, [])
 
-  const toCombo = (list: string[]) => list.map((x) => ({ name: x, id: x }))
-  const toTextArea = (text: string) => text.split('\n')
-
   /** MEMO: 関数はセレクタ目的のため、内部に `ref => ref.hoge.fuga` 的な処理以外を入れないこと */
   const updateForm = useCallback(<R>(fn: (ref: T) => R, value: R | ((prev: R) => R)) => {
     const keys = collectKeys(fn)
@@ -63,8 +60,6 @@ export const useEditForm = <T extends Record<string, any>>(initialState: T) => {
     form,
     setAllField,
     itemControllers,
-    toCombo,
-    toTextArea,
     updateForm
   }
 }

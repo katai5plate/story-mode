@@ -12,7 +12,9 @@ import {
   copy,
   detectEmptyItem,
   detectEmptyItems,
-  textareaIsEmpty
+  textareaIsEmpty,
+  toCombo,
+  toTextArea
 } from '@renderer/utils/helpers'
 import { useSyncCurrent } from '@renderer/utils/hooks'
 import { useEditForm } from '@renderer/utils/useEditForm'
@@ -93,7 +95,7 @@ export const CharacterEdit = () => {
   const store = useStore()
   const location = useLocation()
   const syncCurrent = useSyncCurrent()
-  const { form, setAllField, updateForm, toCombo, toTextArea } = useEditForm<Character>(INIT)
+  const { form, setAllField, updateForm } = useEditForm<Character>(INIT)
 
   useEffect(() => {
     syncCurrent(location.pathname)

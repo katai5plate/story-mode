@@ -52,12 +52,12 @@ export const SelectBox = (p: {
           onChange={onCombo}
           onInputChange={onCombo}
           renderInput={(params) => (
-            <TextField {...params} fullWidth label={p.label} variant="outlined" />
+            <TextField {...params} fullWidth label={`🗐 ${p.label}`} variant="outlined" />
           )}
         />
       ) : (
         <FormControl fullWidth>
-          <InputLabel id={`select-${p.label}`}>{p.label}</InputLabel>
+          <InputLabel id={`select-${p.label}`}>{`🗍 ${p.label}`}</InputLabel>
           <Select
             labelId={`select-${p.label}`}
             label={p.label}

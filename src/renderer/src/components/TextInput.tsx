@@ -1,8 +1,9 @@
-import { TextField } from '@mui/material'
+import { SxProps, TextField, Theme } from '@mui/material'
 import { textareaIsEmpty } from '@renderer/utils/helpers'
 
 export interface TextInputProps {
   label: string
+  placeholder?: string
   value: any
   onChange?: (text: string) => void
   disable?: boolean
@@ -12,11 +13,12 @@ export interface TextInputProps {
         rows?: number
       }
     | true
+  sx?: SxProps<Theme>
 }
 
 export const TextInput = (p: TextInputProps) => {
   const hasTextarea = !!p.textarea
-  const label = `${p.label}${hasTextarea ? ' 🗎' : ''}${p.value === '' || textareaIsEmpty(p.value) ? '（未入力）' : ''}`
+  const label = `${p.disable ? '' : hasTextarea ? '🗎' : '🗋'} ${p.label}${p.value === '' || textareaIsEmpty(p.value) ? '（未入力）' : ''}`
   const textarea = {
     minRows: 1,
     ...(p.textarea === true ? {} : p.textarea),
@@ -29,9 +31,11 @@ export const TextInput = (p: TextInputProps) => {
       variant="outlined"
       value={(hasTextarea ? p.value.join('\n') : p.value) || ''}
       onChange={(e) => p.onChange(e.target.value)}
-      sx={{ pb: 2 }}
+      sx={{ pb: 2, ...(p.sx ?? {}) }}
       disabled={p.disable}
       autoFocus={p.focus}
+      placeholder={p.placeholder}
+      size={hasTextarea ? 'medium' : 'small'}
       onKeyDown={(e) => {
         if (!p.onChange) return
         const currentValue = p.value

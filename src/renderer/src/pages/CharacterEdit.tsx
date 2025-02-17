@@ -198,7 +198,9 @@ export const CharacterEdit = () => {
       <TextInput
         label="名前"
         value={form.name}
-        onChange={(text) => updateForm((r) => r.name, text)}
+        onChange={(text) => {
+          updateForm((r) => r.name, text)
+        }}
       />
       <SelectBox
         label="物語上の役割"
@@ -356,8 +358,9 @@ export const CharacterEdit = () => {
           accord
           itemAccord
           title="日常"
-          dynamicTitle={(item) => item.name || null}
-          init={LIFE}
+          itemTitle={(item) => item.name || null}
+          initItem={LIFE}
+          onAddItem={(name) => ({ name })}
           updateForm={updateForm}
           list={form.experience.life}
           selector={(r: typeof form) => r.experience.life}
@@ -409,8 +412,9 @@ export const CharacterEdit = () => {
           accord
           itemAccord
           title="来歴"
-          dynamicTitle={(item) => item.name || null}
-          init={HISTORY}
+          itemTitle={(item) => item.name || null}
+          initItem={HISTORY}
+          onAddItem={(name) => ({ name })}
           updateForm={updateForm}
           list={form.experience.histories}
           selector={(r: typeof form) => r.experience.histories}
@@ -677,11 +681,12 @@ export const CharacterEdit = () => {
         <ListForm
           accord
           title="台詞サンプル"
-          init={DIALOG}
+          initItem={DIALOG}
           updateForm={updateForm}
           list={form.experience.dialogExamples}
           selector={(r: typeof form) => r.experience.dialogExamples}
           accordItemAutoClose={(item) => detectEmptyItem(item, 'question')}
+          itemTitle={(item) => item.question}
           render={(item, i) => (
             <>
               <SelectBox

@@ -14,7 +14,11 @@ export const Accord = (p: {
   const title = `${p.title}${p.closeIsEmpty && !p.open ? ' （未入力）' : ''}`
   return (
     <>
-      <Accordion defaultExpanded={p.open} variant={p.fill ? 'elevation' : 'outlined'}>
+      <Accordion
+        disableGutters
+        defaultExpanded={p.open}
+        variant={p.fill ? 'elevation' : 'outlined'}
+      >
         <AccordionSummary expandIcon="▽">
           <Typography component="span">
             <strong style={{ opacity: 0.7 }}>{title}</strong>

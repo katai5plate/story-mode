@@ -6,35 +6,35 @@ import { Float } from './Float'
 
 export const Group = (p: {
   title: string
-  smallLabel?: boolean
   accord?: boolean
   accordEmpty?: () => boolean | 'NOEMPTY'
   accordFill?: boolean
+  accordDebugLabel?: boolean
   float?: boolean | number
   children: ReactNode
 }) => {
   const accordEmpty = p.accordEmpty?.()
   const title = `${p.title}${accordEmpty && accordEmpty !== 'NOEMPTY' ? '（未入力）' : ''}`
-  const core = (
+  const titleRender = p.accord || (
     <>
-      {p.accord || (
-        <>
-          <FormLabel>
-            <Typography
-              {...(p.smallLabel ? { sx: { fontSize: '12px', color: 'gray' } } : { variant: 'h5' })}
-            >
-              {title}
-            </Typography>
-          </FormLabel>
-          <Spacer />
-        </>
-      )}
+      <Typography
+        {...(p.accordDebugLabel ? { sx: { fontSize: '12px', color: 'gray' } } : { variant: 'h5' })}
+      >
+        {title}
+      </Typography>
+      <Spacer />
+    </>
+  )
+  const coreRender = (
+    <>
+      {p.accordDebugLabel || titleRender}
       {p.children}
+      {p.accordDebugLabel && titleRender}
     </>
   )
   const render = p.accord ? (
     <Accord open={!accordEmpty} title={title} fill={p.accordFill} nospace={!!p.float}>
-      {core}
+      {coreRender}
     </Accord>
   ) : (
     <>
@@ -49,7 +49,7 @@ export const Group = (p: {
           '&:focus-within': { borderColor: 'rgba(255, 255, 255, 0.4)' }
         }}
       >
-        {core}
+        {coreRender}
       </Box>
       {p.float || <Spacer />}
     </>

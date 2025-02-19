@@ -4,88 +4,66 @@ import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import { RouteMap, RouteNode } from '@renderer/components/RouteMap'
-import { SETTING_ROUTES } from '@renderer/constants/routes'
+import { Sidebar } from '@renderer/components/Sidebar'
 import { SIDEBAR_WIDTH } from '@renderer/constants/system'
 import { useStore } from '@renderer/store/useStore'
-import { findNestedRouteNode } from '@renderer/utils/routeNode'
 import { ReactNode, useEffect } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 
-interface SidebarProps {
-  tree?: RouteNode[]
-}
-
-const Sidebar = (p: SidebarProps) => {
-  return (
-    <Box
-      component="nav"
-      sx={{ width: { sm: SIDEBAR_WIDTH }, flexShrink: { sm: 0 } }}
-      aria-label="mailbox folders"
-    >
-      <Drawer
-        variant="permanent"
-        sx={{
-          display: { xs: 'none', sm: 'block' },
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
-            width: SIDEBAR_WIDTH,
-            overflowY: 'scroll'
-          }
-        }}
-        open
-      >
-        <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            STORY-MODE
-          </Typography>
-        </Toolbar>
-        <Divider />
-        <RouteMap content={p.tree} />
-      </Drawer>
-    </Box>
-  )
-}
-
-export const MainTemplate = (p: { title: string; children: ReactNode }) => {
+export const MainTemplate = (p: { children: ReactNode }) => {
   const location = useLocation()
   const store = useStore()
+  const params = useParams()
+  const node = store.getNode(params)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!node) navigate('/')
+  }, [node])
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Sidebar
-        tree={[
-          ...SETTING_ROUTES,
-          {
-            type: 'folder',
-            path: 'character',
-            name: 'キャラクター',
-            children: store.characterRoutes
-          },
-          {
-            type: 'folder',
-            path: 'scenario',
-            name: 'シナリオ',
-            isDir: true,
-            children: store.scenarioRoutes
-          }
-        ]}
-      />
+      <Box
+        component="nav"
+        sx={{ width: { sm: SIDEBAR_WIDTH }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: SIDEBAR_WIDTH,
+              overflowY: 'scroll'
+            }
+          }}
+          open
+        >
+          <Toolbar>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none'
+              }}
+            >
+              STORY-MODE
+            </Typography>
+          </Toolbar>
+          <Divider />
+          <Sidebar nodes={store.nodes} />
+        </Drawer>
+      </Box>
       <AppBar
         position="fixed"
         sx={{
@@ -97,7 +75,7 @@ export const MainTemplate = (p: { title: string; children: ReactNode }) => {
           <Box>
             <Box>
               <Typography variant="h6" noWrap component="div">
-                {p.title}
+                {[node?.prefix, node?.name].filter(Boolean).join(' ')}
               </Typography>
             </Box>
             <Box>

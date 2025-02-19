@@ -1,4 +1,6 @@
 import { DeepProxy } from '@qiwi/deep-proxy'
+import { FlatNode } from '@renderer/types/FlatNode'
+import { ActorJSON, Actor, ScenarioJSON } from '@renderer/types/TemplateJSON'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -20,13 +22,28 @@ export const genUnique = <T extends JsonData>(
   return onLimit()
 }
 
-export const unique = (list: string[], limit = 10) =>
+export const LEGACY__unique = (list: string[], limit = 10) =>
   `id-${genUnique(
     list,
     () => Math.random().toString(36).slice(2, 7).toUpperCase(),
     limit,
     () => `u4-${window.crypto.randomUUID()}`
   )}`
+
+export const unique = (
+  prefix: 'fa' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp',
+  uids?: string[]
+) =>
+  `${prefix}-${
+    uids
+      ? genUnique(
+          uids,
+          () => Math.random().toString(36).slice(2, 7).toUpperCase(),
+          10,
+          () => window.crypto.randomUUID()
+        )
+      : window.crypto.randomUUID()
+  }`
 
 export const anyObject = (target) => new DeepProxy(target)
 
@@ -80,3 +97,88 @@ export const copy = (text: string) => {
 
 export const toCombo = (list: string[]) => list.map((x) => ({ name: x, id: x }))
 export const toTextArea = (text: string) => text.split('\n')
+
+export const actorTemplateToFlatNodes = (actors: Actor[]): FlatNode[] => {
+  const result: FlatNode[] = []
+  const uids: string[] = []
+  actors.forEach((actor, index) => {
+    const uid = unique('ac', uids)
+    uids.push(uid)
+    console.log(uid)
+    result.push({
+      parent: 'df-actor',
+      uid,
+      index,
+      name: (actor as any).name, // JSON ではこれがある
+      side: 'actor',
+      actor
+    })
+  })
+  return result
+}
+export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] => {
+  const result: FlatNode[] = []
+  const uids: string[] = []
+  scenario.episode.forEach((ep, epi) => {
+    const epid = unique('ep', uids)
+    uids.push(epid)
+    result.push({
+      parent: 'df-scenario',
+      uid: epid,
+      index: epi,
+      name: ep.name,
+      prefix: 'EP',
+      side: 'episode',
+      plot: ep
+    })
+    scenario.chapter.forEach((ch, chi) => {
+      const chid = unique('ch', uids)
+      uids.push(chid)
+      result.push({
+        parent: epid,
+        uid: chid,
+        index: chi,
+        name: ch.name,
+        prefix: 'CH',
+        side: 'chapter',
+        plot: ch
+      })
+      scenario.phase.forEach((ph, phi) => {
+        const phid = unique('ph', uids)
+        uids.push(phid)
+        result.push({
+          parent: chid,
+          uid: phid,
+          index: phi,
+          name: ph.name,
+          prefix: 'PH',
+          side: 'phase',
+          plot: ph
+        })
+        scenario.beat.forEach((be, bei) => {
+          const beid = unique('be', uids)
+          uids.push(beid)
+          result.push({
+            parent: phid,
+            uid: beid,
+            index: bei,
+            name: be.name,
+            prefix: 'BE',
+            side: 'beat',
+            plot: be
+          })
+          result.push({
+            parent: beid,
+            uid: unique('sc', []),
+            index: 0,
+            name: 'default',
+            prefix: 'SC',
+            side: 'script',
+            script: {}
+          })
+        })
+      })
+    })
+  })
+  return result
+}

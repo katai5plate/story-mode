@@ -1,55 +1,95 @@
-import { RouteNode } from '@renderer/components/RouteMap'
+import { FlatNode } from '@renderer/types/FlatNode'
 
-export const SETTING_ROUTES: RouteNode[] = [
+export const routeNodes: FlatNode[] = [
+  { parent: null, uid: 'df-config', index: 0, name: '設定', side: 'dir' },
+  { parent: null, uid: 'df-favorite', index: 1, name: 'お気に入り', side: 'dir' },
+  { parent: null, uid: 'df-actor', index: 2, name: 'アクター', side: 'condir' },
+  { parent: null, uid: 'df-scenario', index: 3, name: 'シナリオ', side: 'dir' },
+  { parent: null, uid: 'df-common', index: 3, name: '共通スクリプト', side: 'dir' },
+
+  // 設定
+  { parent: 'df-config', uid: 'df-config-file', index: 0, name: 'ファイル', side: 'dir' },
+  { parent: 'df-config', uid: 'df-config-scenario', index: 1, name: 'シナリオ', side: 'dir' },
+  { parent: 'df-config', uid: 'df-config-tag', index: 2, name: 'タグ', side: 'dir' },
+
+  // 設定 -> ファイル
+  { parent: 'df-config-file', uid: 'df-config-file-new', index: 0, name: '✨ 新規', side: 'call' },
+  { parent: 'df-config-file', uid: 'df-config-file-open', index: 1, name: '📥 開く', side: 'call' },
+  { parent: 'df-config-file', uid: 'df-config-file-save', index: 2, name: '💾 保存', side: 'call' },
   {
-    type: 'folder',
-    path: 'config',
-    name: '設定',
-    isDir: true,
-    children: [
-      {
-        type: 'folder',
-        path: 'file',
-        name: 'ファイル',
-        isDir: true,
-        children: [
-          { type: 'config', isButton: true, path: 'new', name: '新規', icon: '✨' },
-          { type: 'config', isButton: true, path: 'open', name: '開く', icon: '📥' },
-          { type: 'config', isButton: true, path: 'save', name: '保存', icon: '💾' },
-          { type: 'config', isButton: true, path: 'export', name: 'エクスポート', icon: '🖨️' }
-        ]
-      },
-      {
-        type: 'folder',
-        path: 'scenario',
-        name: 'シナリオ',
-        isDir: true,
-        children: [
-          { type: 'config', path: 'character', name: 'キャラクター', icon: '🎭' },
-          { type: 'config', path: 'episode', name: 'エピソード', icon: '📺' },
-          { type: 'config', path: 'chapter', name: 'チャプター', icon: '💿' },
-          { type: 'config', path: 'phase', name: 'フェーズ', icon: '🎞️' },
-          { type: 'config', path: 'beat', name: 'ビート', icon: '🎥' },
-          { type: 'config', path: 'script', name: 'スクリプト', icon: '📝' }
-        ]
-      },
-      {
-        type: 'folder',
-        path: 'tag',
-        name: 'タグ',
-        isDir: true,
-        children: [
-          { type: 'config', path: 'setting', name: '管理', icon: '🏷️' },
-          { type: 'config', path: 'search', name: '検索', icon: '🔎' }
-        ]
-      }
-    ]
+    parent: 'df-config-file',
+    uid: 'df-config-file-export',
+    index: 3,
+    name: '🖨️ エクスポート',
+    side: 'call'
+  },
+
+  // 設定 -> シナリオ
+  {
+    parent: 'df-config-scenario',
+    uid: 'df-config-scenario-actor',
+    index: 0,
+    name: '🎭 アクター',
+    side: 'call'
   },
   {
-    type: 'folder',
-    path: 'bookmark',
-    name: 'お気に入り',
-    isDir: true,
-    children: [{ type: 'bookmark', path: 'hero', name: '主人公', icon: '⭐' }]
+    parent: 'df-config-scenario',
+    uid: 'df-config-scenario-episode',
+    index: 1,
+    name: '📺 エピソード',
+    side: 'call'
+  },
+  {
+    parent: 'df-config-scenario',
+    uid: 'df-config-scenario-chapter',
+    index: 2,
+    name: '💿 チャプター',
+    side: 'call'
+  },
+  {
+    parent: 'df-config-scenario',
+    uid: 'df-config-scenario-phase-config',
+    index: 3,
+    name: '🎞️ フェーズ',
+    side: 'call'
+  },
+  {
+    parent: 'df-config-scenario',
+    uid: 'df-config-scenario-beat-config',
+    index: 4,
+    name: '🎥 ビート',
+    side: 'call'
+  },
+  {
+    parent: 'df-config-scenario',
+    uid: 'df-config-scenario-script-config',
+    index: 5,
+    name: '📝 スクリプト',
+    side: 'call'
+  },
+
+  // 設定 -> タグ
+  { parent: 'df-config-tag', uid: 'df-config-tag-main', index: 0, name: '🏷️ 管理', side: 'call' },
+  { parent: 'df-config-tag', uid: 'df-config-tag-search', index: 1, name: '🔎 検索', side: 'call' },
+
+  // お気に入り
+  {
+    parent: 'df-favorite',
+    uid: 'fa-df-ac-001',
+    index: 0,
+    name: '主人公',
+    side: 'favorite',
+    favorite: 'ac-001'
+  },
+
+  // 共通スクリプト
+  {
+    parent: 'df-common',
+    uid: 'cm-sample',
+    index: 0,
+    name: 'example',
+    prefix: 'SC',
+    side: 'script',
+    script: {}
   }
 ]

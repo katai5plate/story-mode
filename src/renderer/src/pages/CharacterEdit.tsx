@@ -6,7 +6,7 @@ import { SelectBox } from '@renderer/components/SelectBox'
 import { Spacer } from '@renderer/components/Spacer'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
-import { Character, CharacterHistory } from '@renderer/types/TemplateJSON'
+import { Actor, CharacterHistory } from '@renderer/types/TemplateJSON'
 import {
   appendNote,
   copy,
@@ -16,12 +16,11 @@ import {
   toCombo,
   toTextArea
 } from '@renderer/utils/helpers'
-import { useSyncCurrent } from '@renderer/utils/hooks'
 import { useEditForm } from '@renderer/utils/useEditForm'
+import { useNode } from '@renderer/utils/useNode'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router'
 
-const LIFE: Omit<Character['experience']['life'][0], 'uid'> = {
+const LIFE: Omit<Actor['experience']['life'][0], 'uid'> = {
   name: '',
   date: '',
   daily: [''],
@@ -29,7 +28,7 @@ const LIFE: Omit<Character['experience']['life'][0], 'uid'> = {
   socialRelationships: [''],
   memo: ['']
 }
-const HISTORY: Omit<Character['experience']['histories'][0], 'uid'> = {
+const HISTORY: Omit<Actor['experience']['histories'][0], 'uid'> = {
   name: '',
   appearance: [''],
   personality: {
@@ -59,15 +58,13 @@ const HISTORY: Omit<Character['experience']['histories'][0], 'uid'> = {
   },
   memo: ['']
 }
-const DIALOG: Omit<Character['experience']['dialogExamples'][0], 'uid'> = {
+const DIALOG: Omit<Actor['experience']['dialogExamples'][0], 'uid'> = {
   question: '',
   answer: [''],
   hint: ['']
 }
 
-const INIT: Character = {
-  id: '',
-  name: '',
+const INIT: Actor = {
   dutyId: '',
   dutyDetail: [''],
   basic: {
@@ -93,18 +90,14 @@ const INIT: Character = {
 
 export const CharacterEdit = () => {
   const store = useStore()
-  const location = useLocation()
-  const syncCurrent = useSyncCurrent()
-  const { form, setAllField, updateForm } = useEditForm<Character>(INIT)
+  const node = useNode()
+  // const location = useLocation()
+  const { form, setAllField, updateForm } = useEditForm<Actor>(INIT)
 
   useEffect(() => {
-    syncCurrent(location.pathname)
-  }, [location.pathname])
-
-  useEffect(() => {
-    if (!store.currentRoute) return
-    setAllField(store.template.character.preset.find((x) => x.id === store.currentRoute.path))
-  }, [location.pathname, store.currentRoute])
+    if (!store.nodes.length) return
+    setAllField(node.actor)
+  }, [node])
 
   const [bmi, setBmi] = useState('')
   const [body, setBody] = useState('')
@@ -136,7 +129,7 @@ export const CharacterEdit = () => {
     setBmi(`${bmi}`.replace(/\.(\d{2})\d+/, '.$1'))
 
     // 体型測定
-    const { body } = store.template.character.dictionaly
+    const { body } = store.template.actor.dictionaly
     const isInRange = (value: number, range: [number | null, number | null]): boolean => {
       const [min, max] = range
       return (min === null || value >= min) && (max === null || value < max)
@@ -150,27 +143,27 @@ export const CharacterEdit = () => {
     const c = isMan ? 5.677 : 4.33
     const d = isMan ? 88.362 : 447.593
     setKcal(`${`${a * weight + b * height - c * age + d}`.replace(/\.(\d{2})\d+/, '.$1')} kcal`)
-  }, [form, setBmi, setBody, store.template.character.dictionaly.body])
+  }, [form, setBmi, setBody, store.template.actor.dictionaly.body])
 
   const dutyRules = useMemo(
-    () => store.template.character.duty.find((x) => x.id === form.dutyId)?.questions,
-    [store.template.character.duty, form]
+    () => store.template.actor.duty.find((x) => x.id === form.dutyId)?.questions,
+    [store.template.actor.duty, form]
   )
   const dutyQuestions = useMemo(() => {
-    const duty = store.template.character.duty.find((x) => x.id === form.dutyId)?.name
+    const duty = store.template.actor.duty.find((x) => x.id === form.dutyId)?.name
     if (!duty) return ''
     return [
       `●「${duty}」設定の確認`,
       ...dutyRules.map((x) => appendNote(`Q. ${x}`, null, true))
     ].join('\n')
-  }, [store.template.character.duty, form.dutyId])
+  }, [store.template.actor.duty, form.dutyId])
 
   const personalityType = useCallback(
     (item: CharacterHistory) =>
-      store.template.character.dictionaly.personality.find(
+      store.template.actor.dictionaly.personality.find(
         (x) => x.id === item.personality.ref.categoryId
       )?.types,
-    [store.template.character.dictionaly.personality, form]
+    [store.template.actor.dictionaly.personality, form]
   )
   const personalityLink = useCallback(
     (item: CharacterHistory) =>
@@ -180,7 +173,7 @@ export const CharacterEdit = () => {
 
   const appendPersonality = useCallback(
     (item: CharacterHistory) => (prev: string[]) => {
-      const category = store.template.character.dictionaly.personality.find(
+      const category = store.template.actor.dictionaly.personality.find(
         (x) => x.id === item.personality.ref.categoryId
       )
       const a = category?.name
@@ -189,23 +182,15 @@ export const CharacterEdit = () => {
       console.log({ text })
       return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
     },
-    [store.template.character.dictionaly.personality]
+    [store.template.actor.dictionaly.personality]
   )
 
   return (
     <>
-      <TextInput label="ID" value={form.id} disable />
-      <TextInput
-        label="名前"
-        value={form.name}
-        onChange={(text) => {
-          updateForm((r) => r.name, text)
-        }}
-      />
       <SelectBox
         label="物語上の役割"
         value={form.dutyId}
-        options={store.template.character.duty}
+        options={store.template.actor.duty}
         onChange={(id) => updateForm((r) => r.dutyId, id)}
       />
       {!dutyRules || !dutyRules?.length || (
@@ -261,7 +246,7 @@ export const CharacterEdit = () => {
           label="性別"
           combo
           value={form.basic.gender}
-          options={toCombo(store.template.character.combox.gender)}
+          options={toCombo(store.template.actor.combox.gender)}
           onChange={(text) => updateForm((r) => r.basic.gender, text)}
         />
         <TextInput
@@ -294,7 +279,7 @@ export const CharacterEdit = () => {
           label="体型"
           combo
           value={form.basic.body}
-          options={store.template.character.dictionaly.body}
+          options={store.template.actor.dictionaly.body}
           onChange={(text) => updateForm((r) => r.basic.body, text)}
         />
         <Accord
@@ -461,7 +446,7 @@ export const CharacterEdit = () => {
                       <SelectBox
                         label="診断カテゴリ"
                         value={item.personality.ref.categoryId}
-                        options={store.template.character.dictionaly.personality}
+                        options={store.template.actor.dictionaly.personality}
                         onChange={(id) => {
                           updateForm(
                             (r) => r.experience.histories[i].personality.ref.categoryId,
@@ -578,7 +563,7 @@ export const CharacterEdit = () => {
                   label="内容"
                   combo
                   value={item.weakness.combox}
-                  options={toCombo(store.template.character.combox.weakness)}
+                  options={toCombo(store.template.actor.combox.weakness)}
                   onChange={(text) =>
                     updateForm((r) => r.experience.histories[i].weakness.combox, text)
                   }
@@ -608,7 +593,7 @@ export const CharacterEdit = () => {
                     label="内容"
                     combo
                     value={item.desire.motivation.combox}
-                    options={toCombo(store.template.character.combox.motivation)}
+                    options={toCombo(store.template.actor.combox.motivation)}
                     onChange={(text) =>
                       updateForm((r) => r.experience.histories[i].desire.motivation.combox, text)
                     }
@@ -630,7 +615,7 @@ export const CharacterEdit = () => {
                     label="方向性"
                     combo
                     value={item.desire.sensitivity.combox}
-                    options={toCombo(store.template.character.combox.sensitivity)}
+                    options={toCombo(store.template.actor.combox.sensitivity)}
                     onChange={(text) =>
                       updateForm((r) => r.experience.histories[i].desire.sensitivity.combox, text)
                     }
@@ -693,7 +678,7 @@ export const CharacterEdit = () => {
                 label="質問"
                 combo
                 value={item.question}
-                options={toCombo(store.template.character.combox.question)}
+                options={toCombo(store.template.actor.combox.question)}
                 onChange={(text) =>
                   updateForm((r) => r.experience.dialogExamples[i].question, text)
                 }
@@ -733,7 +718,7 @@ export const CharacterEdit = () => {
         />
       </Group>
       <Group accord accordEmpty={() => 'NOEMPTY'} title="デバッグ情報">
-        <Box component="pre">{JSON.stringify(form, null, 2)}</Box>
+        <Box component="pre">{JSON.stringify(node, null, 2)}</Box>
       </Group>
     </>
   )

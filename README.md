@@ -214,3 +214,153 @@ console.log(
   })
 )
 ```
+
+```
+export type RouteNode = {
+  DELETE_type: string
+  path: string
+  MIX_NAME_name: string
+  MIX_NAME_icon?: string
+  isOpen?: boolean
+  MIX_NAME_prefix?: string
+  MIX_MODE_isDir?: boolean
+  MIX_MODE_isButton?: boolean
+  children?: RouteNode[]
+  _index?: number
+  _alias?: string
+}
+```
+
+```ts
+interface FlatNode {
+  parent: null | string
+  uid: string
+  index: number
+  name: string
+  side:
+    | 'dir' // 通常フォルダ
+    | 'condir' // 設定つきフォルダ
+    | 'call' // 関数実行
+    | 'favorite' // お気に入り + favorite
+    | 'actor' // アクター + actor
+    | 'episode' // エピソード（condir）+ plot
+    | 'chapter' // チャプター（condir）+ plot
+    | 'phase' // フェーズ（condir）+ plot
+    | 'beat' // ビート（condir）+ plot
+    | 'script' // スクリプト + script
+  favorite?: string
+  actor?: ActorForm
+  plot?: PlotForm
+  script?: ScriptForm
+}
+const sidebarNodes: FlatNode[] = [
+  { parent: null, uid: 'df-config', index: 0, name: '設定', side: 'dir' },
+  { parent: null, uid: 'df-favorite', index: 1, name: 'お気に入り', side: 'dir' },
+  { parent: null, uid: 'df-actor', index: 2, name: 'アクター', side: 'condir' },
+  { parent: null, uid: 'df-scenario', index: 3, name: 'シナリオ', side: 'dir' },
+  { parent: null, uid: 'df-common', index: 3, name: '共通スクリプト', side: 'dir' },
+
+  // 設定
+  { parent: 'df-config', uid: 'df-file', index: 0, name: 'ファイル', side: 'dir' },
+  { parent: 'df-config', uid: 'df-tag', index: 1, name: 'シナリオ', side: 'dir' },
+  { parent: 'df-config', uid: 'df-tag', index: 2, name: 'タグ', side: 'dir' },
+
+  // 設定 -> ファイル
+  { parent: 'df-file', uid: 'df-new', index: 0, name: '✨ 新規', side: 'call' },
+  { parent: 'df-file', uid: 'df-open', index: 1, name: '📥 開く', side: 'call' },
+  { parent: 'df-file', uid: 'df-save', index: 2, name: '💾 保存', side: 'call' },
+  { parent: 'df-file', uid: 'df-export', index: 3, name: '🖨️ エクスポート', side: 'call' },
+
+  // 設定 -> シナリオ
+  { parent: 'df-scenario', uid: 'df-actor', index: 0, name: '🎭 アクター', side: 'call' },
+  { parent: 'df-scenario', uid: 'df-episode', index: 1, name: '📺 エピソード', side: 'call' },
+  { parent: 'df-scenario', uid: 'df-chapter', index: 2, name: '💿 チャプター', side: 'call' },
+  { parent: 'df-scenario', uid: 'df-phase', index: 3, name: '🎞️ フェーズ', side: 'call' },
+  { parent: 'df-scenario', uid: 'df-beat', index: 4, name: '🎥 ビート', side: 'call' },
+  { parent: 'df-scenario', uid: 'df-script', index: 5, name: '📝 スクリプト', side: 'call' },
+
+  // 設定 -> タグ
+  { parent: 'df-tag', uid: 'df-tagconfig', index: 0, name: '🏷️ 管理', side: 'call' },
+  { parent: 'df-tag', uid: 'df-tagsearch', index: 1, name: '🔎 検索', side: 'call' },
+
+  // お気に入り
+  {
+    parent: 'df-favorite',
+    uid: 'fa-df-ac-001',
+    index: 0,
+    name: '⭐ 主人公',
+    side: 'favorite',
+    favorite: 'ac-001'
+  },
+
+  // アクター
+  {
+    parent: 'df-actor',
+    uid: 'ac-001',
+    index: 0,
+    name: '勇者アレックス',
+    side: 'actor',
+    actor: {}
+  },
+  {
+    parent: 'df-actor',
+    uid: 'ac-002',
+    index: 0,
+    name: '魔王デモン',
+    side: 'actor',
+    actor: {}
+  },
+
+  // シナリオ
+  {
+    parent: 'df-scenario',
+    uid: 'ep-main',
+    index: 0,
+    name: '本編',
+    side: 'episode',
+    plot: {}
+  },
+  {
+    parent: 'ep-main',
+    uid: 'ch-main-intro',
+    index: 0,
+    name: '始動',
+    side: 'chapter',
+    plot: {}
+  },
+  {
+    parent: 'ch-main-intro',
+    uid: 'ph-main-intro-init',
+    index: 0,
+    name: '発意',
+    side: 'phase',
+    plot: {}
+  },
+  {
+    parent: 'ph-main-intro-init',
+    uid: 'be-main-intro-init-request',
+    index: 0,
+    name: '因果',
+    side: 'beat',
+    plot: {}
+  },
+  {
+    parent: 'be-main-intro-init-request',
+    uid: 'sc-main-intro-init-request-default',
+    index: 0,
+    name: 'default',
+    side: 'script',
+    script: {}
+  },
+
+  // 共通スクリプト
+  {
+    parent: 'df-common',
+    uid: 'cm-sample',
+    index: 0,
+    name: 'サンプル',
+    side: 'script',
+    script: {}
+  }
+]
+```

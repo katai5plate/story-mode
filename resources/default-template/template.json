@@ -170,10 +170,9 @@
       }
     ]
   },
-  "character": {
+  "actor": {
     "preset": [
       {
-        "id": "alex",
         "name": "勇者アレックス",
         "dutyId": "hero",
         "dutyDetail": [""],
@@ -296,7 +295,6 @@
         }
       },
       {
-        "id": "demon",
         "name": "魔王デモン",
         "dutyId": "enemy",
         "dutyDetail": [""],
@@ -321,7 +319,6 @@
         }
       },
       {
-        "id": "brian",
         "name": "戦士ブライアン",
         "dutyId": "buddy",
         "dutyDetail": [""],
@@ -346,7 +343,6 @@
         }
       },
       {
-        "id": "odin",
         "name": "賢者オーディン",
         "dutyId": "mentor",
         "dutyDetail": [""],

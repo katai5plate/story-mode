@@ -76,6 +76,7 @@ export const useEditForm = <T extends Record<string, any>>(initialState: T) => {
 
   return {
     form: safeForm(),
+    getForm: () => formOrigin,
     setAllField,
     itemControllers,
     updateForm

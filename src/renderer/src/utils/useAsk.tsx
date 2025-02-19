@@ -17,13 +17,14 @@ type AskContextType = {
     buttonLabels?: { yes: string; no: string },
     props?: Partial<TextInputProps>
   ) => Promise<string | null>
+  popup: (message: string, title?: string) => Promise<string | null>
 }
 
 const AskContext = createContext<AskContextType | null>(null)
 
 export const AskProvider = ({ children }: { children: ReactNode }) => {
   const [open, setOpen] = useState(false)
-  const [type, setType] = useState<'alert' | 'confirm' | 'prompt'>('alert')
+  const [type, setType] = useState<keyof AskContextType>('alert')
   const [message, setMessage] = useState('')
   const [title, setTitle] = useState<string | undefined>(undefined)
   const [input, setInput] = useState('')
@@ -66,6 +67,18 @@ export const AskProvider = ({ children }: { children: ReactNode }) => {
         setResolveFn(() => resolve)
         setOpen(true)
         setProps(props || {})
+      }),
+    popup: (msg: string, title?: string) =>
+      new Promise<string | null>((resolve) => {
+        setTitle(title)
+        setMessage(msg)
+        setType('popup')
+        setResolveFn(() => resolve)
+        setOpen(true)
+        setProps(props || {})
+        setTimeout(() => {
+          onClose()
+        }, 1000)
       })
   }
   const onClose = (result?: any) => {
@@ -75,6 +88,7 @@ export const AskProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!open) return
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (type === 'popup') return
       if (e.key === 'Enter') {
         e.preventDefault()
         if (type === 'alert') onClose()

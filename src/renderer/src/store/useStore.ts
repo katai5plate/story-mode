@@ -9,12 +9,15 @@ export interface Store {
   setTemplateFromApi: (r: TemplateJSON) => void
   nodes: FlatNode[]
   setNodes: (r: FlatNode[]) => void
+  updateNodes: (fn: (n: FlatNode[]) => FlatNode[]) => void
   addNodes: (r: FlatNode[]) => void
   getNode: (params: Params) => FlatNode | undefined
   updateNode: (uid: string, fn: (n: FlatNode) => Partial<FlatNode>) => void
   openNodes: Record<string, boolean>
   toggleOpen: (uid: string) => void
   setOpenNodes: (patch: Record<string, boolean>) => void
+  isEditing: boolean
+  setEditing: (r: boolean) => void
 }
 
 export const useStore = create<Store>()(
@@ -24,13 +27,13 @@ export const useStore = create<Store>()(
       setTemplateFromApi: (template) => set({ template }),
       nodes: [],
       setNodes: (nodes) => set({ nodes }),
+      updateNodes: (fn) => set((store) => ({ ...store, nodes: fn(store.nodes) })),
       addNodes: (nodes) => set({ nodes: [...get().nodes, ...nodes] }),
       getNode: (params) => get().nodes.find((x) => x.uid === params.nodeId),
-      updateNode: (uid, fn) => {
+      updateNode: (uid, fn) =>
         set((state) => ({
           nodes: state.nodes.map((node) => (node.uid === uid ? { ...node, ...fn(node) } : node))
-        }))
-      },
+        })),
       openNodes: {},
       toggleOpen: (uid) => {
         set((state) => {
@@ -51,7 +54,9 @@ export const useStore = create<Store>()(
           return { openNodes: newOpenNodes }
         })
       },
-      setOpenNodes: (openNodes) => set({ openNodes })
+      setOpenNodes: (openNodes) => set({ openNodes }),
+      isEditing: false,
+      setEditing: (isEditing) => set({ isEditing })
     }),
     {
       name: 'app-store',

@@ -76,6 +76,7 @@ export const MainTemplate = (p: { children: ReactNode }) => {
             <Box>
               <Typography variant="h6" noWrap component="div">
                 {[node?.prefix, node?.name].filter(Boolean).join(' ')}
+                {store.isEditing ? '*' : ''}
               </Typography>
             </Box>
             <Box>

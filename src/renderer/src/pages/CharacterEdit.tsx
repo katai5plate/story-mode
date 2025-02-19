@@ -1,4 +1,4 @@
-import { Box, Button, Grid2, Link } from '@mui/material'
+import { Alert, Box, Button, Grid2, Link, Stack } from '@mui/material'
 import { Accord } from '@renderer/components/Accord'
 import { Group } from '@renderer/components/Group'
 import { ListForm } from '@renderer/components/ListForm'
@@ -16,9 +16,12 @@ import {
   toCombo,
   toTextArea
 } from '@renderer/utils/helpers'
+import { useAsk } from '@renderer/utils/useAsk'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useNode } from '@renderer/utils/useNode'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useSave } from '@renderer/utils/useSave'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useLocation } from 'react-router'
 
 const LIFE: Omit<Actor['experience']['life'][0], 'uid'> = {
   name: '',
@@ -91,13 +94,30 @@ const INIT: Actor = {
 export const CharacterEdit = () => {
   const store = useStore()
   const node = useNode()
-  // const location = useLocation()
-  const { form, setAllField, updateForm } = useEditForm<Actor>(INIT)
+  const { form, getForm, setAllField, updateForm } = useEditForm<Actor>(node.actor || INIT)
+  const save = useSave()
+  const ask = useAsk()
+  const location = useLocation()
 
   useEffect(() => {
     if (!store.nodes.length) return
     setAllField(node.actor)
-  }, [node])
+  }, [location.pathname])
+
+  useEffect(() => {
+    save(() => {
+      store.updateNode(node.uid, (p) => ({ ...p, actor: getForm() }))
+      ask.popup('保存しました！', node.name)
+    })
+  }, [save, form])
+
+  useEffect(() => {
+    if (!store.isEditing && JSON.stringify(node.actor) !== JSON.stringify(form)) {
+      store.setEditing(true)
+    } else if (store.isEditing) {
+      store.setEditing(false)
+    }
+  }, [node, form])
 
   const [bmi, setBmi] = useState('')
   const [body, setBody] = useState('')
@@ -718,7 +738,7 @@ export const CharacterEdit = () => {
         />
       </Group>
       <Group accord accordEmpty={() => 'NOEMPTY'} title="デバッグ情報">
-        <Box component="pre">{JSON.stringify(node, null, 2)}</Box>
+        <Box component="pre">{JSON.stringify(form, null, 2)}</Box>
       </Group>
     </>
   )

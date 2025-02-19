@@ -3,9 +3,14 @@ import { FlatNode } from '@renderer/types/FlatNode'
 import { Indent } from './Spacer'
 import { useNavigate } from 'react-router'
 import { useStore } from '@renderer/store/useStore'
+import { useAsk } from '@renderer/utils/useAsk'
+import { useNode } from '@renderer/utils/useNode'
 
 export const Sidebar = (p: { nodes: FlatNode[] }) => {
+  const store = useStore()
   const navigate = useNavigate()
+  const currentNode = useNode()
+  const ask = useAsk()
 
   // ルートノードだけを抽出
   const rootNodes = p.nodes.filter((n) => n.parent === null).sort((a, b) => a.index - b.index)
@@ -18,7 +23,21 @@ export const Sidebar = (p: { nodes: FlatNode[] }) => {
           node={node}
           allNodes={p.nodes}
           depth={0}
-          onSelectNode={(uid) => navigate(`/${uid}`)}
+          onSelectNode={async (uid) => {
+            console.log({ currentNode, uid })
+            if (currentNode?.uid === uid) return
+            if (
+              store.isEditing &&
+              !(await ask.confirm(
+                '編集中に別のページに移動すると編集中のデータが失われます',
+                undefined,
+                { yes: '消えてもOK', no: 'キャンセル' }
+              ))
+            )
+              return
+            store.setEditing(false)
+            navigate(`/${uid}`)
+          }}
         />
       ))}
     </List>

@@ -48,21 +48,21 @@ export const routeNodes: FlatNode[] = [
   },
   {
     parent: 'df-config-scenario',
-    uid: 'df-config-scenario-phase-config',
+    uid: 'df-config-scenario-phase',
     index: 3,
     name: '🎞️ フェーズ',
     side: 'call'
   },
   {
     parent: 'df-config-scenario',
-    uid: 'df-config-scenario-beat-config',
+    uid: 'df-config-scenario-beat',
     index: 4,
     name: '🎥 ビート',
     side: 'call'
   },
   {
     parent: 'df-config-scenario',
-    uid: 'df-config-scenario-script-config',
+    uid: 'df-config-scenario-script',
     index: 5,
     name: '📝 スクリプト',
     side: 'call'

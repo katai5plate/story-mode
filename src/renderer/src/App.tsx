@@ -7,7 +7,7 @@ import { useStore } from './store/useStore'
 import { MainTemplate } from './Templates/MainTemplate'
 import { actorTemplateToFlatNodes, scenarioTemplateToFlatNodes } from './utils/helpers'
 import { AskProvider } from './utils/useAsk'
-import { NodePage } from './pages/NodePage'
+import { Routing } from './pages/Routing'
 
 const darkmode = createTheme({ palette: { mode: 'dark' } })
 
@@ -39,7 +39,7 @@ const Main = () => {
   return (
     <Routes>
       <Route path="/" element={<Temp />} />
-      <Route path="/:nodeId" element={<NodePage />} />
+      <Route path="/:nodeId" element={<Routing />} />
     </Routes>
   )
 }

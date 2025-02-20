@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Grid2, Link, Stack } from '@mui/material'
+import { Box, Button, Grid2, Link } from '@mui/material'
 import { Accord } from '@renderer/components/Accord'
 import { Group } from '@renderer/components/Group'
 import { ListForm } from '@renderer/components/ListForm'
@@ -6,7 +6,14 @@ import { SelectBox } from '@renderer/components/SelectBox'
 import { Spacer } from '@renderer/components/Spacer'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
-import { ActorForm, CharacterHistory } from '@renderer/types/TemplateJSON'
+import {
+  ActorForm,
+  initActor,
+  initActorDialog,
+  initActorHistory,
+  initActorLife
+} from '@renderer/types/ActorForm'
+import { CharacterHistory } from '@renderer/types/TemplateJSON'
 import {
   appendNote,
   copy,
@@ -20,81 +27,13 @@ import { useAsk } from '@renderer/utils/useAsk'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useNode } from '@renderer/utils/useNode'
 import { useSave } from '@renderer/utils/useSave'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router'
-
-const LIFE: Omit<ActorForm['experience']['life'][0], 'uid'> = {
-  name: '',
-  date: '',
-  daily: [''],
-  skills: [''],
-  socialRelationships: [''],
-  memo: ['']
-}
-const HISTORY: Omit<ActorForm['experience']['histories'][0], 'uid'> = {
-  name: '',
-  appearance: [''],
-  personality: {
-    ref: {
-      categoryId: '',
-      typeId: ''
-    },
-    basic: [''],
-    different: [''],
-    reason: ['']
-  },
-  weakness: {
-    combox: '',
-    content: ['']
-  },
-  desire: {
-    detail: [''],
-    motivation: {
-      combox: '',
-      content: ['']
-    },
-    sensitivity: {
-      combox: '',
-      content: ['']
-    },
-    likesAndDislikes: ['']
-  },
-  memo: ['']
-}
-const DIALOG: Omit<ActorForm['experience']['dialogExamples'][0], 'uid'> = {
-  question: '',
-  answer: [''],
-  hint: ['']
-}
-
-const INIT: ActorForm = {
-  dutyId: '',
-  dutyDetail: [''],
-  basic: {
-    gender: '',
-    genderDetail: [''],
-    age: '',
-    height: '',
-    weight: '',
-    fat: '',
-    body: '',
-    bodyDetail: ['']
-  },
-  experience: {
-    life: [],
-    histories: [],
-    dialogExamples: []
-  },
-  appendix: {
-    features: [''],
-    memo: ['']
-  }
-}
 
 export const ActorEdit = () => {
   const store = useStore()
   const node = useNode()
-  const { form, getForm, setAllField, updateForm } = useEditForm<ActorForm>(node.actor || INIT)
+  const { form, getForm, setAllField, updateForm } = useEditForm<ActorForm>(node.actor || initActor)
   const save = useSave()
   const ask = useAsk()
   const location = useLocation()
@@ -206,7 +145,7 @@ export const ActorEdit = () => {
   )
 
   return (
-    <>
+    <Box style={{ width: '70vw' }}>
       <Grid2 container spacing={2}>
         <Grid2 size="grow">
           <TextInput label="名称" disable value={node.alias || node.name} />
@@ -385,7 +324,7 @@ export const ActorEdit = () => {
           itemAccord
           title="日常"
           itemTitle={(item) => item.name || null}
-          initItem={LIFE}
+          initItem={initActorLife}
           onAddItem={(name) => ({ name })}
           updateForm={updateForm}
           list={form.experience.life}
@@ -439,7 +378,7 @@ export const ActorEdit = () => {
           itemAccord
           title="来歴"
           itemTitle={(item) => item.name || null}
-          initItem={HISTORY}
+          initItem={initActorHistory}
           onAddItem={(name) => ({ name })}
           updateForm={updateForm}
           list={form.experience.histories}
@@ -707,7 +646,7 @@ export const ActorEdit = () => {
         <ListForm
           accord
           title="台詞サンプル"
-          initItem={DIALOG}
+          initItem={initActorDialog}
           updateForm={updateForm}
           list={form.experience.dialogExamples}
           selector={(r: typeof form) => r.experience.dialogExamples}
@@ -761,6 +700,6 @@ export const ActorEdit = () => {
       <Group accord accordEmpty={() => 'NOEMPTY'} title="デバッグ情報">
         <Box component="pre">{JSON.stringify(form, null, 2)}</Box>
       </Group>
-    </>
+    </Box>
   )
 }

@@ -1,84 +1,16 @@
-import {
-  Alert,
-  Box,
-  Button,
-  Grid2,
-  Link,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow
-} from '@mui/material'
-import { Accord } from '@renderer/components/Accord'
+import { Box, Button, Grid2, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import { Group } from '@renderer/components/Group'
 import { ListForm } from '@renderer/components/ListForm'
-import { SelectBox } from '@renderer/components/SelectBox'
-import { Spacer } from '@renderer/components/Spacer'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
 import { initPlotForm, initScenarioForm, ScenarioForm } from '@renderer/types/ScenarioForm'
-import { ActorForm, CharacterHistory } from '@renderer/types/TemplateJSON'
-import {
-  appendNote,
-  copy,
-  detectEmptyItem,
-  detectEmptyItems,
-  textareaIsEmpty,
-  toCombo,
-  toTextArea,
-  toTitle
-} from '@renderer/utils/helpers'
+import { copy, detectEmptyItem, toTextArea, toTitle } from '@renderer/utils/helpers'
 import { useAsk } from '@renderer/utils/useAsk'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useNode } from '@renderer/utils/useNode'
 import { useSave } from '@renderer/utils/useSave'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useLocation } from 'react-router'
-
-// const LIFE: Omit<ScenarioForm['experience']['life'][0], 'uid'> = {
-//   name: '',
-//   date: '',
-//   daily: [''],
-//   skills: [''],
-//   socialRelationships: [''],
-//   memo: ['']
-// }
-// const HISTORY: Omit<ActorForm['experience']['histories'][0], 'uid'> = {
-//   name: '',
-//   appearance: [''],
-//   personality: {
-//     ref: {
-//       categoryId: '',
-//       typeId: ''
-//     },
-//     basic: [''],
-//     different: [''],
-//     reason: ['']
-//   },
-//   weakness: {
-//     combox: '',
-//     content: ['']
-//   },
-//   desire: {
-//     detail: [''],
-//     motivation: {
-//       combox: '',
-//       content: ['']
-//     },
-//     sensitivity: {
-//       combox: '',
-//       content: ['']
-//     },
-//     likesAndDislikes: ['']
-//   },
-//   memo: ['']
-// }
-// const DIALOG: Omit<ActorForm['experience']['dialogExamples'][0], 'uid'> = {
-//   question: '',
-//   answer: [''],
-//   hint: ['']
-// }
 
 export const ScenarioEdit = () => {
   const store = useStore()

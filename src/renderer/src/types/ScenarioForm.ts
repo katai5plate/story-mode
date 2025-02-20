@@ -1,8 +1,6 @@
 import { ScenarioNode, Tag } from './TemplateJSON'
 
-export interface ScenarioForm extends ScenarioNode {
-  // summary: string
-  // checklist: string[]
+export interface ScenarioForm extends Omit<ScenarioNode, 'name'> {
   tags: {
     tag: Tag
     detail: string[]

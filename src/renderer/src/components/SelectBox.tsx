@@ -2,19 +2,6 @@ import { Autocomplete, FormControl, InputLabel, MenuItem, Select, TextField } fr
 import { useCallback, useMemo } from 'react'
 import { Spacer } from './Spacer'
 
-// <SelectBox
-//   label="役割"
-//   combo
-//   value={form.duty}
-//   options={duties}
-//   onChange={(text) => updateField('duty', text || '')}
-// />
-// <SelectBox
-//   label="役割"
-//   value={form.duty}
-//   options={duties}
-//   onChange={(text) => updateField('duty', text || '')}
-// />
 export const SelectBox = (p: {
   combo?: boolean
   value: string

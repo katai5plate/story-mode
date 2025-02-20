@@ -16,7 +16,7 @@ export interface ScenarioJSON {
   }[]
 }
 export interface ActorJSON {
-  preset: ActorForm[]
+  preset: Actor[]
   duty: Duty[]
   dictionaly: {
     personality: Personality[]
@@ -53,7 +53,7 @@ interface Personality {
 }
 
 interface Node {
-  // name: string // Node で管理する
+  name: string // Node で管理する
   summary: string
 }
 
@@ -67,8 +67,8 @@ export interface Tag extends Node {
   list: ScenarioNode[]
 }
 
-export type ActorForm = {
-  // name: string // Node で管理する
+export type Actor = {
+  name: string // Node で管理する
   dutyId: string
   dutyDetail: string[]
   basic: {

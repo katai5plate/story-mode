@@ -1,13 +1,13 @@
 import { CircularProgress, createTheme, ThemeProvider } from '@mui/material'
 import { useEffect } from 'react'
-import { BrowserRouter, Route, Routes, useParams } from 'react-router'
+import { BrowserRouter, Route, Routes } from 'react-router'
 import { useApi } from './api/useApi'
 import { routeNodes } from './constants/routes'
+import { Routing } from './pages/Routing'
 import { useStore } from './store/useStore'
 import { MainTemplate } from './Templates/MainTemplate'
 import { actorTemplateToFlatNodes, scenarioTemplateToFlatNodes } from './utils/helpers'
 import { AskProvider } from './utils/useAsk'
-import { Routing } from './pages/Routing'
 
 const darkmode = createTheme({ palette: { mode: 'dark' } })
 

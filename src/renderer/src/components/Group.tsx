@@ -1,8 +1,8 @@
-import { Box, FormLabel, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { ReactNode } from 'react'
-import { Spacer } from './Spacer'
 import { Accord } from './Accord'
 import { Float } from './Float'
+import { Spacer } from './Spacer'
 
 export const Group = (p: {
   title: string

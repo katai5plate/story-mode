@@ -2,7 +2,7 @@ import { SMNode } from '@renderer/types/SMNode'
 
 export const routeNodes: SMNode[] = [
   { parent: null, uid: 'df-config', index: 0, name: '設定', side: 'dir' },
-  { parent: null, uid: 'df-bookmark', index: 1, name: 'ブックマーク', side: 'dir' },
+  { parent: null, uid: 'df-bookmark', index: 1, name: 'ブックマーク', side: 'condir' },
   { parent: null, uid: 'df-actor', index: 2, name: 'アクター', side: 'condir' },
   { parent: null, uid: 'df-scenario', index: 3, name: 'シナリオ', side: 'dir' },
   { parent: null, uid: 'df-common', index: 3, name: '共通スクリプト', side: 'condir' },

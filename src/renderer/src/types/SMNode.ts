@@ -1,5 +1,5 @@
+import { ActorForm } from './ActorForm'
 import { ScenarioForm } from './ScenarioForm'
-import { ActorForm } from './TemplateJSON'
 
 interface ScriptForm {}
 export interface SMNode {

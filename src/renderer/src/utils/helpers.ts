@@ -1,7 +1,7 @@
 import { DeepProxy } from '@qiwi/deep-proxy'
 import { initScenarioForm } from '@renderer/types/ScenarioForm'
 import { SMNode } from '@renderer/types/SMNode'
-import { ActorForm, ScenarioJSON } from '@renderer/types/TemplateJSON'
+import { Actor, ScenarioJSON } from '@renderer/types/TemplateJSON'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -99,7 +99,7 @@ export const copy = (text: string) => {
 export const toCombo = (list: string[]) => list.map((x) => ({ name: x, id: x }))
 export const toTextArea = (text: string) => text.split('\n')
 
-export const actorTemplateToFlatNodes = (actors: ActorForm[]): SMNode[] => {
+export const actorTemplateToFlatNodes = (actors: Actor[]): SMNode[] => {
   const result: SMNode[] = []
   const uids: string[] = []
   actors.forEach((actor, index) => {

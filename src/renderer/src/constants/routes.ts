@@ -1,16 +1,15 @@
-import { FlatNode } from '@renderer/types/FlatNode'
+import { SMNode } from '@renderer/types/SMNode'
 
-export const routeNodes: FlatNode[] = [
+export const routeNodes: SMNode[] = [
   { parent: null, uid: 'df-config', index: 0, name: '設定', side: 'dir' },
   { parent: null, uid: 'df-bookmark', index: 1, name: 'ブックマーク', side: 'dir' },
   { parent: null, uid: 'df-actor', index: 2, name: 'アクター', side: 'condir' },
   { parent: null, uid: 'df-scenario', index: 3, name: 'シナリオ', side: 'dir' },
-  { parent: null, uid: 'df-common', index: 3, name: '共通スクリプト', side: 'dir' },
+  { parent: null, uid: 'df-common', index: 3, name: '共通スクリプト', side: 'condir' },
 
   // 設定
   { parent: 'df-config', uid: 'df-config-file', index: 0, name: 'ファイル', side: 'dir' },
-  { parent: 'df-config', uid: 'df-config-scenario', index: 1, name: 'シナリオ', side: 'dir' },
-  { parent: 'df-config', uid: 'df-config-tag', index: 2, name: 'タグ', side: 'dir' },
+  { parent: 'df-config', uid: 'df-config-tag', index: 1, name: 'タグ', side: 'dir' },
 
   // 設定 -> ファイル
   { parent: 'df-config-file', uid: 'df-config-file-new', index: 0, name: '✨ 新規', side: 'call' },
@@ -21,50 +20,6 @@ export const routeNodes: FlatNode[] = [
     uid: 'df-config-file-export',
     index: 3,
     name: '🖨️ エクスポート',
-    side: 'call'
-  },
-
-  // 設定 -> シナリオ
-  {
-    parent: 'df-config-scenario',
-    uid: 'df-config-scenario-actor',
-    index: 0,
-    name: '🎭 アクター',
-    side: 'call'
-  },
-  {
-    parent: 'df-config-scenario',
-    uid: 'df-config-scenario-episode',
-    index: 1,
-    name: '📺 エピソード',
-    side: 'call'
-  },
-  {
-    parent: 'df-config-scenario',
-    uid: 'df-config-scenario-chapter',
-    index: 2,
-    name: '💿 チャプター',
-    side: 'call'
-  },
-  {
-    parent: 'df-config-scenario',
-    uid: 'df-config-scenario-phase',
-    index: 3,
-    name: '🎞️ フェーズ',
-    side: 'call'
-  },
-  {
-    parent: 'df-config-scenario',
-    uid: 'df-config-scenario-beat',
-    index: 4,
-    name: '🎥 ビート',
-    side: 'call'
-  },
-  {
-    parent: 'df-config-scenario',
-    uid: 'df-config-scenario-script',
-    index: 5,
-    name: '📝 スクリプト',
     side: 'call'
   },
 

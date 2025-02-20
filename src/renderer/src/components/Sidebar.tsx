@@ -1,12 +1,12 @@
 import { Button, Collapse, List, ListItemButton, ListItemText } from '@mui/material'
-import { FlatNode } from '@renderer/types/FlatNode'
 import { Indent } from './Spacer'
 import { useNavigate } from 'react-router'
 import { useStore } from '@renderer/store/useStore'
 import { useAsk } from '@renderer/utils/useAsk'
 import { useNode } from '@renderer/utils/useNode'
+import { SMNode } from '@renderer/types/SMNode'
 
-export const Sidebar = (p: { nodes: FlatNode[] }) => {
+export const Sidebar = (p: { nodes: SMNode[] }) => {
   const store = useStore()
   const navigate = useNavigate()
   const currentNode = useNode()
@@ -45,8 +45,8 @@ export const Sidebar = (p: { nodes: FlatNode[] }) => {
 }
 
 const SidebarItem = (p: {
-  node: FlatNode
-  allNodes: FlatNode[]
+  node: SMNode
+  allNodes: SMNode[]
   depth: number
   onSelectNode?: (uid: string) => void
 }) => {
@@ -67,7 +67,7 @@ const SidebarItem = (p: {
         phase: '🎞️',
         beat: '🎥',
         script: '📝'
-      } as Record<FlatNode['side'], string>
+      } as Record<SMNode['side'], string>
     )[p.node.side] ??
     (isDirLike && hasChildren
       ? isOpen

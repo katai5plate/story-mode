@@ -1,9 +1,10 @@
 import { MainTemplate } from '@renderer/Templates/MainTemplate'
 import { useNode } from '@renderer/utils/useNode'
-import { CharacterEdit } from './CharacterEdit'
+import { ActorEdit } from './ActorEdit'
 import { useEffect, useMemo } from 'react'
 import { useStore } from '@renderer/store/useStore'
 import { useNavigate } from 'react-router'
+import { ScenarioEdit } from './ScenarioEdit'
 
 const Favorite = () => {
   const store = useStore()
@@ -33,7 +34,7 @@ export const Routing = () => {
         if (node.uid === 'df-config-tag-search') return <>タグ検索</>
       }
       if (node.side === 'favorite') return <Favorite />
-      if (node.side === 'actor') return <CharacterEdit />
+      if (node.side === 'actor') return <ActorEdit />
       if (node.side === 'condir' && node.uid === 'df-actor')
         return (
           <>
@@ -49,20 +50,7 @@ export const Routing = () => {
         node.side === 'phase' ||
         node.side === 'beat'
       ) {
-        return (
-          <>
-            プロット編集: <pre>{JSON.stringify(node, null, 2)}</pre>
-            <ul>
-              <li>タグ設定</li>
-              <li>一行説明欄</li>
-              <li>詳細説明欄</li>
-              <li>ここまでのチェックリスト確認</li>
-              <li>子要素の名前設定、追加、削除</li>
-              <li>プロット</li>
-              <li>メモ</li>
-            </ul>
-          </>
-        )
+        return <ScenarioEdit />
       }
       if (node.side === 'script') {
         return (

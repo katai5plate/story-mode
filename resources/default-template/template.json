@@ -2,7 +2,6 @@
   "scenario": {
     "episode": [
       {
-        "path": "main",
         "name": "本編",
         "summary": "メインストーリー",
         "checklist": [
@@ -14,7 +13,6 @@
     ],
     "chapter": [
       {
-        "path": "intro",
         "name": "始動",
         "summary": "主人公が行動を起こすことにした理由",
         "checklist": [
@@ -26,7 +24,6 @@
         ]
       },
       {
-        "path": "chain",
         "name": "連鎖",
         "summary": "主人公の成長のために起きる様々な事件",
         "checklist": [
@@ -36,7 +33,6 @@
         ]
       },
       {
-        "path": "barrier",
         "name": "難関",
         "summary": "生半可な目的達成意欲ではない真の理由",
         "checklist": [
@@ -46,7 +42,6 @@
         ]
       },
       {
-        "path": "climax",
         "name": "結末",
         "summary": "困難を乗り越えた先を見ることができた理由",
         "checklist": [
@@ -58,7 +53,6 @@
     ],
     "phase": [
       {
-        "path": "init",
         "name": "発意",
         "summary": "実現しようとまず最初に考えること",
         "checklist": [
@@ -68,7 +62,6 @@
         ]
       },
       {
-        "path": "hurdle",
         "name": "障壁",
         "summary": "目的達成に阻むものの存在",
         "checklist": [
@@ -78,7 +71,6 @@
         ]
       },
       {
-        "path": "agony",
         "name": "苦悩",
         "summary": "障害対応の苦しみ",
         "checklist": [
@@ -88,7 +80,6 @@
         ]
       },
       {
-        "path": "resolve",
         "name": "決行",
         "summary": "迷いを乗り越え、答えを出して実行に移る具体的な手段",
         "checklist": [
@@ -100,19 +91,16 @@
     ],
     "beat": [
       {
-        "path": "request",
         "name": "因果",
         "summary": "何かが起こる／主人公や周囲が行動する",
         "checklist": ["シーンの冒頭で「何が起きた／起こそうとした」かが分かるか？"]
       },
       {
-        "path": "response",
         "name": "応報",
         "summary": "その行動・出来事が引き起こす反応・変化",
         "checklist": ["その行動や出来事に対して「どんな結果」が出たかハッキリ示されているか？"]
       },
       {
-        "path": "next",
         "name": "接続",
         "summary": "新たな課題が生まれたり、次の展開へつながる要素が提示されたりする",
         "checklist": [
@@ -120,15 +108,8 @@
         ]
       }
     ],
-    "script": [
-      {
-        "path": "main",
-        "name": "main"
-      }
-    ],
     "tag": [
       {
-        "path": "foreshadow",
         "name": "伏線",
         "summary": "フラグや秘密など、どんでん返しに必要な要素",
         "limit": 2,

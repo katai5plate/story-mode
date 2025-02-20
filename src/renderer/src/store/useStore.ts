@@ -1,18 +1,18 @@
-import { FlatNode } from '@renderer/types/FlatNode'
+import { SMNode } from '@renderer/types/SMNode'
 import { TemplateJSON } from '@renderer/types/TemplateJSON'
-import { Params } from 'react-router'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 export interface Store {
   template: null | TemplateJSON
   setTemplateFromApi: (r: TemplateJSON) => void
-  nodes: FlatNode[]
-  setNodes: (r: FlatNode[]) => void
-  updateNodes: (fn: (n: FlatNode[]) => FlatNode[]) => void
-  addNodes: (r: FlatNode[]) => void
-  getNode: (nodeId: string) => FlatNode | undefined
-  updateNode: (uid: string, fn: (n: FlatNode) => Partial<FlatNode>) => void
+  nodes: SMNode[]
+  setNodes: (r: SMNode[]) => void
+  updateNodes: (fn: (n: SMNode[]) => SMNode[]) => void
+  addNodes: (r: SMNode[]) => void
+  getNode: (nodeId: string) => SMNode | undefined
+  updateNode: (uid: string, fn: (n: SMNode) => Partial<SMNode>) => void
+  getParentNodes: (uid: string) => SMNode[]
   openNodes: Record<string, boolean>
   toggleOpen: (uid: string) => void
   setOpenNodes: (patch: Record<string, boolean>) => void
@@ -35,6 +35,14 @@ export const useStore = create<Store>()(
           nodes: state.nodes.map((node) => (node.uid === uid ? { ...node, ...fn(node) } : node))
         })),
       openNodes: {},
+      getParentNodes: (uid) => {
+        const { nodes } = get()
+        const gpn = (uid: string) => {
+          const node = nodes.find((n) => n.uid === uid)
+          return node && node.parent ? [node, ...gpn(node.parent)] : node ? [node] : []
+        }
+        return gpn(uid).slice(1).reverse()
+      },
       toggleOpen: (uid) => {
         set((state) => {
           const wasOpen = !!state.openNodes[uid]

@@ -1,8 +1,8 @@
-import { Actor } from './TemplateJSON'
+import { ScenarioForm } from './ScenarioForm'
+import { ActorForm } from './TemplateJSON'
 
-interface PlotForm {}
 interface ScriptForm {}
-export interface FlatNode {
+export interface SMNode {
   parent: null | string
   uid: string
   index: number
@@ -21,7 +21,7 @@ export interface FlatNode {
     | 'beat'
     | 'script'
   favorite?: string
-  actor?: Actor
-  plot?: PlotForm
+  actor?: ActorForm
+  scenario?: ScenarioForm
   script?: ScriptForm
 }

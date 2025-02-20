@@ -1,6 +1,7 @@
 import { DeepProxy } from '@qiwi/deep-proxy'
-import { FlatNode } from '@renderer/types/FlatNode'
-import { ActorJSON, Actor, ScenarioJSON } from '@renderer/types/TemplateJSON'
+import { initScenarioForm } from '@renderer/types/ScenarioForm'
+import { SMNode } from '@renderer/types/SMNode'
+import { ActorForm, ScenarioJSON } from '@renderer/types/TemplateJSON'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -31,7 +32,7 @@ export const LEGACY__unique = (list: string[], limit = 10) =>
   )}`
 
 export const unique = (
-  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp',
+  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp' | 'id',
   uids?: string[]
 ) =>
   `${prefix}-${
@@ -98,8 +99,8 @@ export const copy = (text: string) => {
 export const toCombo = (list: string[]) => list.map((x) => ({ name: x, id: x }))
 export const toTextArea = (text: string) => text.split('\n')
 
-export const actorTemplateToFlatNodes = (actors: Actor[]): FlatNode[] => {
-  const result: FlatNode[] = []
+export const actorTemplateToFlatNodes = (actors: ActorForm[]): SMNode[] => {
+  const result: SMNode[] = []
   const uids: string[] = []
   actors.forEach((actor, index) => {
     const uid = unique('ac', uids)
@@ -116,8 +117,8 @@ export const actorTemplateToFlatNodes = (actors: Actor[]): FlatNode[] => {
   })
   return result
 }
-export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] => {
-  const result: FlatNode[] = []
+export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] => {
+  const result: SMNode[] = []
   const uids: string[] = []
   scenario.episode.forEach((ep, epi) => {
     const epid = unique('ep', uids)
@@ -126,10 +127,10 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] 
       parent: 'df-scenario',
       uid: epid,
       index: epi,
-      name: ep.name,
+      name: (ep as any).name,
       prefix: 'EP',
       side: 'episode',
-      plot: ep
+      scenario: { ...initScenarioForm, ...ep }
     })
     scenario.chapter.forEach((ch, chi) => {
       const chid = unique('ch', uids)
@@ -138,10 +139,10 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] 
         parent: epid,
         uid: chid,
         index: chi,
-        name: ch.name,
+        name: (ch as any).name, // JSON ではこれがある
         prefix: 'CH',
         side: 'chapter',
-        plot: ch
+        scenario: { ...initScenarioForm, ...ch }
       })
       scenario.phase.forEach((ph, phi) => {
         const phid = unique('ph', uids)
@@ -150,10 +151,10 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] 
           parent: chid,
           uid: phid,
           index: phi,
-          name: ph.name,
+          name: (ph as any).name, // JSON ではこれがある
           prefix: 'PH',
           side: 'phase',
-          plot: ph
+          scenario: { ...initScenarioForm, ...ph }
         })
         scenario.beat.forEach((be, bei) => {
           const beid = unique('be', uids)
@@ -162,10 +163,10 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] 
             parent: phid,
             uid: beid,
             index: bei,
-            name: be.name,
+            name: (be as any).name, // JSON ではこれがある
             prefix: 'BE',
             side: 'beat',
-            plot: be
+            scenario: { ...initScenarioForm, ...be }
           })
           result.push({
             parent: beid,
@@ -183,4 +184,5 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] 
   return result
 }
 
-export const toTitle = (node: FlatNode) => [node?.prefix, node?.name].filter(Boolean).join(' ')
+export const toTitle = (node: SMNode) =>
+  !node ? '--' : [node.prefix, node.alias || node.name].filter(Boolean).join(' ')

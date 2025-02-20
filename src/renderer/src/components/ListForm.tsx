@@ -1,11 +1,11 @@
 import { Button, Grid2 } from '@mui/material'
-import { LEGACY__unique } from '@renderer/utils/helpers'
 import { ReactNode, useEffect, useState } from 'react'
 import { Group } from './Group'
 import { Accord } from './Accord'
 import { Spacer } from './Spacer'
 import { useAsk } from '@renderer/utils/useAsk'
 import { TextInput } from './TextInput'
+import { unique } from '@renderer/utils/helpers'
 
 export const ListForm = <T extends { uid: string }, F>(p: {
   title: string
@@ -26,7 +26,11 @@ export const ListForm = <T extends { uid: string }, F>(p: {
   itemAccord?: true
 }) => {
   const ask = useAsk()
-  const random = () => LEGACY__unique(p.list.map((x) => x.uid))
+  const random = () =>
+    unique(
+      'id',
+      p.list.map((x) => x.uid)
+    )
   const [newUnique, setUnique] = useState(random())
   const [newName, setName] = useState('')
   const [placeholder, setPlaceholder] = useState('')

@@ -6,7 +6,7 @@ import { SelectBox } from '@renderer/components/SelectBox'
 import { Spacer } from '@renderer/components/Spacer'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
-import { Actor, CharacterHistory } from '@renderer/types/TemplateJSON'
+import { ActorForm, CharacterHistory } from '@renderer/types/TemplateJSON'
 import {
   appendNote,
   copy,
@@ -23,7 +23,7 @@ import { useSave } from '@renderer/utils/useSave'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
 
-const LIFE: Omit<Actor['experience']['life'][0], 'uid'> = {
+const LIFE: Omit<ActorForm['experience']['life'][0], 'uid'> = {
   name: '',
   date: '',
   daily: [''],
@@ -31,7 +31,7 @@ const LIFE: Omit<Actor['experience']['life'][0], 'uid'> = {
   socialRelationships: [''],
   memo: ['']
 }
-const HISTORY: Omit<Actor['experience']['histories'][0], 'uid'> = {
+const HISTORY: Omit<ActorForm['experience']['histories'][0], 'uid'> = {
   name: '',
   appearance: [''],
   personality: {
@@ -61,13 +61,13 @@ const HISTORY: Omit<Actor['experience']['histories'][0], 'uid'> = {
   },
   memo: ['']
 }
-const DIALOG: Omit<Actor['experience']['dialogExamples'][0], 'uid'> = {
+const DIALOG: Omit<ActorForm['experience']['dialogExamples'][0], 'uid'> = {
   question: '',
   answer: [''],
   hint: ['']
 }
 
-const INIT: Actor = {
+const INIT: ActorForm = {
   dutyId: '',
   dutyDetail: [''],
   basic: {
@@ -91,16 +91,16 @@ const INIT: Actor = {
   }
 }
 
-export const CharacterEdit = () => {
+export const ActorEdit = () => {
   const store = useStore()
   const node = useNode()
-  const { form, getForm, setAllField, updateForm } = useEditForm<Actor>(node.actor || INIT)
+  const { form, getForm, setAllField, updateForm } = useEditForm<ActorForm>(node.actor || INIT)
   const save = useSave()
   const ask = useAsk()
   const location = useLocation()
 
   useEffect(() => {
-    if (!store.nodes.length) return
+    if (!store.nodes.length || !node.actor) return
     setAllField(node.actor)
   }, [location.pathname])
 
@@ -207,6 +207,27 @@ export const CharacterEdit = () => {
 
   return (
     <>
+      <Grid2 container spacing={2}>
+        <Grid2 size="grow">
+          <TextInput label="名称" disable value={node.alias || node.name} />
+        </Grid2>
+        <Grid2 size="auto">
+          <Button
+            variant="outlined"
+            onClick={async () => {
+              const alias = await ask.prompt(
+                '名前を決めてください。',
+                node.alias || node.name,
+                node.alias || node.name
+              )
+              if (!alias) return
+              store.updateNode(node.uid, () => ({ alias }))
+            }}
+          >
+            名称変更
+          </Button>
+        </Grid2>
+      </Grid2>
       <SelectBox
         label="物語上の役割"
         value={form.dutyId}

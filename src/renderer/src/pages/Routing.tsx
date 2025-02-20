@@ -1,7 +1,22 @@
 import { MainTemplate } from '@renderer/Templates/MainTemplate'
 import { useNode } from '@renderer/utils/useNode'
 import { CharacterEdit } from './CharacterEdit'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
+import { useStore } from '@renderer/store/useStore'
+import { useNavigate } from 'react-router'
+
+const Favorite = () => {
+  const store = useStore()
+  const node = useNode()
+  const navigate = useNavigate()
+  const to = store.getNode(node.favorite)
+  useEffect(() => {
+    if (!to) return
+    navigate(`/${to.uid}`)
+  }, [])
+  if (!to) return <>ノードが見つかりませんでした</>
+  return <></>
+}
 
 export const Routing = () => {
   const node = useNode()
@@ -17,7 +32,7 @@ export const Routing = () => {
         if (node.uid === 'df-config-tag-main') return <>タグ管理</>
         if (node.uid === 'df-config-tag-search') return <>タグ検索</>
       }
-      if (node.side === 'favorite') return <>お気に入り: {node.favorite}</>
+      if (node.side === 'favorite') return <Favorite />
       if (node.side === 'actor') return <CharacterEdit />
       if (node.side === 'condir' && node.uid === 'df-actor')
         return (

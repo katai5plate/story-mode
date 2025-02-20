@@ -255,7 +255,7 @@ interface FlatNode {
 }
 const sidebarNodes: FlatNode[] = [
   { parent: null, uid: 'df-config', index: 0, name: '設定', side: 'dir' },
-  { parent: null, uid: 'df-favorite', index: 1, name: 'お気に入り', side: 'dir' },
+  { parent: null, uid: 'df-bookmark', index: 1, name: 'お気に入り', side: 'dir' },
   { parent: null, uid: 'df-actor', index: 2, name: 'アクター', side: 'condir' },
   { parent: null, uid: 'df-scenario', index: 3, name: 'シナリオ', side: 'dir' },
   { parent: null, uid: 'df-common', index: 3, name: '共通スクリプト', side: 'dir' },
@@ -285,8 +285,8 @@ const sidebarNodes: FlatNode[] = [
 
   // お気に入り
   {
-    parent: 'df-favorite',
-    uid: 'fa-df-ac-001',
+    parent: 'df-bookmark',
+    uid: 'bo-df-ac-001',
     index: 0,
     name: '⭐ 主人公',
     side: 'favorite',

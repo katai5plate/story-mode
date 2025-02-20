@@ -31,7 +31,7 @@ export const LEGACY__unique = (list: string[], limit = 10) =>
   )}`
 
 export const unique = (
-  prefix: 'fa' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp',
+  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp',
   uids?: string[]
 ) =>
   `${prefix}-${
@@ -182,3 +182,5 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): FlatNode[] 
   })
   return result
 }
+
+export const toTitle = (node: FlatNode) => [node?.prefix, node?.name].filter(Boolean).join(' ')

@@ -11,7 +11,7 @@ export interface Store {
   setNodes: (r: FlatNode[]) => void
   updateNodes: (fn: (n: FlatNode[]) => FlatNode[]) => void
   addNodes: (r: FlatNode[]) => void
-  getNode: (params: Params) => FlatNode | undefined
+  getNode: (nodeId: string) => FlatNode | undefined
   updateNode: (uid: string, fn: (n: FlatNode) => Partial<FlatNode>) => void
   openNodes: Record<string, boolean>
   toggleOpen: (uid: string) => void
@@ -29,7 +29,7 @@ export const useStore = create<Store>()(
       setNodes: (nodes) => set({ nodes }),
       updateNodes: (fn) => set((store) => ({ ...store, nodes: fn(store.nodes) })),
       addNodes: (nodes) => set({ nodes: [...get().nodes, ...nodes] }),
-      getNode: (params) => get().nodes.find((x) => x.uid === params.nodeId),
+      getNode: (nodeId) => get().nodes.find((x) => x.uid === nodeId),
       updateNode: (uid, fn) =>
         set((state) => ({
           nodes: state.nodes.map((node) => (node.uid === uid ? { ...node, ...fn(node) } : node))

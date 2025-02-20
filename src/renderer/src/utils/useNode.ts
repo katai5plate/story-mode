@@ -6,5 +6,5 @@ import { useParams } from 'react-router'
 export const useNode = () => {
   const store = useStore()
   const params = useParams()
-  return useMemo(() => store.getNode(params), [params]) as FlatNode | undefined
+  return useMemo(() => store.getNode(params.nodeId), [params]) as FlatNode | undefined
 }

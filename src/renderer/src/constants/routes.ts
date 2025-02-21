@@ -1,3 +1,4 @@
+import { initScriptForm } from '@renderer/types/ScriptForm'
 import { SMNode } from '@renderer/types/SMNode'
 
 export const routeNodes: SMNode[] = [
@@ -35,6 +36,6 @@ export const routeNodes: SMNode[] = [
     name: 'example',
     prefix: 'SC',
     side: 'script',
-    script: {}
+    script: initScriptForm
   }
 ]

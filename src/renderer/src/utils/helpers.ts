@@ -1,7 +1,9 @@
 import { DeepProxy } from '@qiwi/deep-proxy'
 import { initScenarioForm } from '@renderer/types/ScenarioForm'
+import { initScriptForm } from '@renderer/types/ScriptForm'
 import { SMNode } from '@renderer/types/SMNode'
 import { Actor, ScenarioJSON } from '@renderer/types/TemplateJSON'
+import stringify from 'fast-json-stable-stringify'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -110,7 +112,7 @@ export const actorTemplateToFlatNodes = (actors: Actor[]): SMNode[] => {
       parent: 'df-actor',
       uid,
       index,
-      name: (actor as any).name, // JSON ではこれがある
+      name: actor.name,
       side: 'actor',
       actor
     })
@@ -127,7 +129,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
       parent: 'df-scenario',
       uid: epid,
       index: epi,
-      name: (ep as any).name,
+      name: ep.name,
       prefix: 'EP',
       side: 'episode',
       scenario: { ...initScenarioForm, ...ep }
@@ -139,7 +141,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
         parent: epid,
         uid: chid,
         index: chi,
-        name: (ch as any).name, // JSON ではこれがある
+        name: ch.name,
         prefix: 'CH',
         side: 'chapter',
         scenario: { ...initScenarioForm, ...ch }
@@ -151,7 +153,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
           parent: chid,
           uid: phid,
           index: phi,
-          name: (ph as any).name, // JSON ではこれがある
+          name: ph.name,
           prefix: 'PH',
           side: 'phase',
           scenario: { ...initScenarioForm, ...ph }
@@ -163,7 +165,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
             parent: phid,
             uid: beid,
             index: bei,
-            name: (be as any).name, // JSON ではこれがある
+            name: be.name,
             prefix: 'BE',
             side: 'beat',
             scenario: { ...initScenarioForm, ...be }
@@ -175,7 +177,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
             name: 'default',
             prefix: 'SC',
             side: 'script',
-            script: {}
+            script: initScriptForm
           })
         })
       })
@@ -186,3 +188,5 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
 
 export const toTitle = (node: SMNode, onlyName?: boolean) =>
   !node ? '--' : `${onlyName || !node.prefix ? '' : `${node.prefix} `}${node.alias || node.name}`
+
+export const isNotEqual = (a: any, b: any) => stringify(a) !== stringify(b)

@@ -19,6 +19,7 @@ import {
   copy,
   detectEmptyItem,
   detectEmptyItems,
+  isNotEqual,
   textareaIsEmpty,
   toCombo,
   toTextArea,
@@ -30,6 +31,7 @@ import { useNode } from '@renderer/utils/useNode'
 import { useSave } from '@renderer/utils/useSave'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router'
+import { DisableInput } from '@renderer/components/DisableInput'
 
 export const ActorEdit = () => {
   const store = useStore()
@@ -52,7 +54,7 @@ export const ActorEdit = () => {
   }, [save, form])
 
   useEffect(() => {
-    if (!store.isEditing && JSON.stringify(node.actor) !== JSON.stringify(form)) {
+    if (isNotEqual(node.actor, form)) {
       store.setEditing(true)
     } else if (store.isEditing) {
       store.setEditing(false)
@@ -107,7 +109,7 @@ export const ActorEdit = () => {
 
   const dutyRules = useMemo(
     () => store.template.actor.duty.find((x) => x.id === form.dutyId)?.questions,
-    [store.template.actor.duty, form]
+    [store.template.actor.duty, form.dutyId]
   )
   const dutyQuestions = useMemo(() => {
     const duty = store.template.actor.duty.find((x) => x.id === form.dutyId)?.name
@@ -123,7 +125,7 @@ export const ActorEdit = () => {
       store.template.actor.dictionaly.personality.find(
         (x) => x.id === item.personality.ref.categoryId
       )?.types,
-    [store.template.actor.dictionaly.personality, form]
+    [store.template.actor.dictionaly.personality]
   )
   const personalityLink = useCallback(
     (item: CharacterHistory) =>
@@ -139,7 +141,6 @@ export const ActorEdit = () => {
       const a = category?.name
       const b = category?.types.find((x) => x.id === item.personality.ref.typeId)?.name
       const text = appendNote(a, b)
-      console.log({ text })
       return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
     },
     [store.template.actor.dictionaly.personality]
@@ -147,27 +148,28 @@ export const ActorEdit = () => {
 
   return (
     <Box style={{ width: '70vw' }}>
-      <Grid2 container spacing={2}>
-        <Grid2 size="grow">
-          <TextInput label="名称" disable value={toTitle(node, true)} />
-        </Grid2>
-        <Grid2 size="auto">
-          <Button
-            variant="outlined"
-            onClick={async () => {
-              const alias = await ask.prompt(
-                '名前を決めてください。',
-                toTitle(node, true),
-                toTitle(node, true)
-              )
-              if (!alias) return
-              store.updateNode(node.uid, () => ({ alias }))
-            }}
-          >
-            名称変更
-          </Button>
-        </Grid2>
-      </Grid2>
+      <DisableInput
+        label="名前"
+        value={toTitle(node, true)}
+        onChange={(alias) => store.updateNode(node.uid, () => ({ alias }))}
+        node={node}
+        ask={ask}
+      />
+      <DisableInput
+        label="スクリプト ID"
+        message="頭文字が数字ではない半角英数にしてください (例: Alex)"
+        value={form.typeName}
+        onChange={(text) => {
+          const exist = store.nodes
+            .filter((n) => n.actor && n.uid !== node.uid)
+            .find((n) => n.actor.typeName === text)
+          if (exist) return `重複しています: ${exist.name} (${exist.actor.typeName})`
+          if (/^[a-zA-Z][a-zA-Z0-9]+$/.test(text)) return updateForm((r) => r.typeName, text)
+          return '不正な値です: 頭文字が数字ではない半角英数にしてください'
+        }}
+        node={node}
+        ask={ask}
+      />
       <SelectBox
         label="物語上の役割"
         value={form.dutyId}

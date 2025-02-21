@@ -155,6 +155,7 @@
     "preset": [
       {
         "name": "勇者アレックス",
+        "typeName": "Alex",
         "dutyId": "hero",
         "dutyDetail": [""],
         "basic": {
@@ -277,6 +278,7 @@
       },
       {
         "name": "魔王デモン",
+        "typeName": "Demon",
         "dutyId": "enemy",
         "dutyDetail": [""],
         "basic": {
@@ -301,6 +303,7 @@
       },
       {
         "name": "戦士ブライアン",
+        "typeName": "Brian",
         "dutyId": "buddy",
         "dutyDetail": [""],
         "basic": {
@@ -325,6 +328,7 @@
       },
       {
         "name": "賢者オーディン",
+        "typeName": "Odin",
         "dutyId": "mentor",
         "dutyDetail": [""],
         "basic": {

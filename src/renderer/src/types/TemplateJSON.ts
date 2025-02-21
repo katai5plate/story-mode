@@ -69,6 +69,7 @@ export interface Tag extends Node {
 
 export type Actor = {
   name: string // Node で管理する
+  typeName: string
   dutyId: string
   dutyDetail: string[]
   basic: {

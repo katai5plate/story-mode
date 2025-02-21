@@ -1,7 +1,7 @@
 import { ActorForm } from './ActorForm'
 import { ScenarioForm } from './ScenarioForm'
+import { ScriptForm } from './ScriptForm'
 
-interface ScriptForm {}
 export interface SMNode {
   parent: null | string
   uid: string

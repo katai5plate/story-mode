@@ -3,7 +3,7 @@ import { Spacer } from '@renderer/components/Spacer'
 import { TextInput, TextInputProps } from '@renderer/components/TextInput'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
-type AskContextType = {
+export type AskContextType = {
   alert: (message: string, title?: string, buttonLabel?: string) => Promise<void>
   confirm: (
     message: string,

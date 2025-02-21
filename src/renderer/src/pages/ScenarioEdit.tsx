@@ -1,10 +1,11 @@
 import { Box, Button, Grid2, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import { DisableInput } from '@renderer/components/DisableInput'
 import { Group } from '@renderer/components/Group'
 import { ListForm } from '@renderer/components/ListForm'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
 import { initPlotForm, initScenarioForm, ScenarioForm } from '@renderer/types/ScenarioForm'
-import { copy, detectEmptyItem, toTextArea, toTitle } from '@renderer/utils/helpers'
+import { copy, detectEmptyItem, isNotEqual, toTextArea, toTitle } from '@renderer/utils/helpers'
 import { useAsk } from '@renderer/utils/useAsk'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useNode } from '@renderer/utils/useNode'
@@ -35,7 +36,7 @@ export const ScenarioEdit = () => {
   }, [save, form])
 
   useEffect(() => {
-    if (!store.isEditing && JSON.stringify(node.scenario) !== JSON.stringify(form)) {
+    if (!store.isEditing && isNotEqual(node.scenario, form)) {
       store.setEditing(true)
     } else if (store.isEditing) {
       store.setEditing(false)
@@ -49,27 +50,13 @@ export const ScenarioEdit = () => {
 
   return (
     <Box style={{ width: '70vw' }}>
-      <Grid2 container spacing={2}>
-        <Grid2 size="grow">
-          <TextInput label="名称" disable value={toTitle(node, true)} />
-        </Grid2>
-        <Grid2 size="auto">
-          <Button
-            variant="outlined"
-            onClick={async () => {
-              const alias = await ask.prompt(
-                '名前を決めてください。',
-                toTitle(node, true),
-                toTitle(node, true)
-              )
-              if (!alias) return
-              store.updateNode(node.uid, () => ({ alias }))
-            }}
-          >
-            名称変更
-          </Button>
-        </Grid2>
-      </Grid2>
+      <DisableInput
+        label="名前"
+        value={toTitle(node, true)}
+        onChange={(alias) => store.updateNode(node.uid, () => ({ alias }))}
+        node={node}
+        ask={ask}
+      />
       <TextInput
         label="概要"
         value={form.summary}
@@ -144,47 +131,6 @@ export const ScenarioEdit = () => {
           </>
         )}
       />
-      {/* <Group float accord accordFill title="※ 確認事項">
-        <Grid2 container spacing={2}>
-          <Grid2 size="grow">
-            <ul>
-              {form.checklist.map((rule, key) => (
-                <li key={key}>●&emsp;{rule}</li>
-              ))}
-            </ul>
-          </Grid2>
-          <Grid2 size="grow">
-            <Button
-              sx={{ verticalAlign: 'bottom' }}
-              variant="outlined"
-              fullWidth
-              onClick={() => {
-                updateForm(
-                  (r) => r.dutyDetail,
-                  (prev) =>
-                    dutyQuestions !== ''
-                      ? textareaIsEmpty(prev)
-                        ? [dutyQuestions]
-                        : [...prev, dutyQuestions]
-                      : prev
-                )
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-              }}
-            >
-              「役割詳細」に追記
-            </Button>
-            <Button
-              sx={{ verticalAlign: 'bottom' }}
-              variant="outlined"
-              fullWidth
-              onClick={() => copy(dutyQuestions)}
-            >
-              クリップボードにコピー
-            </Button>
-          </Grid2>
-        </Grid2>
-      </Group> */}
-
       <Group accord accordEmpty={() => 'NOEMPTY'} title="デバッグ情報">
         <Box component="pre">{JSON.stringify({ form, parents }, null, 2)}</Box>
       </Group>

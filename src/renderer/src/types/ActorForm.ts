@@ -3,6 +3,7 @@ import { Actor } from './TemplateJSON'
 export type ActorForm = Omit<Actor, 'name'>
 
 export const initActor: ActorForm = {
+  typeName: '',
   dutyId: '',
   dutyDetail: [''],
   basic: {

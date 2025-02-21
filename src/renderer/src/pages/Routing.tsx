@@ -5,6 +5,7 @@ import { useEffect, useMemo } from 'react'
 import { useStore } from '@renderer/store/useStore'
 import { useNavigate } from 'react-router'
 import { ScenarioEdit } from './ScenarioEdit'
+import { MonacoTest } from './examples/MonacoTest'
 
 const Favorite = () => {
   const store = useStore()
@@ -49,16 +50,9 @@ export const Routing = () => {
         node.side === 'chapter' ||
         node.side === 'phase' ||
         node.side === 'beat'
-      ) {
+      )
         return <ScenarioEdit />
-      }
-      if (node.side === 'script') {
-        return (
-          <>
-            スクリプト編集: <pre>{JSON.stringify(node, null, 2)}</pre>
-          </>
-        )
-      }
+      if (node.side === 'script') return <MonacoTest />
     }
     return <pre>{JSON.stringify(node, null, 2)}</pre>
   }, [node])

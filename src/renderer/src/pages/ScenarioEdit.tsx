@@ -51,7 +51,7 @@ export const ScenarioEdit = () => {
     <Box style={{ width: '70vw' }}>
       <Grid2 container spacing={2}>
         <Grid2 size="grow">
-          <TextInput label="名称" disable value={node.alias || node.name} />
+          <TextInput label="名称" disable value={toTitle(node, true)} />
         </Grid2>
         <Grid2 size="auto">
           <Button
@@ -59,8 +59,8 @@ export const ScenarioEdit = () => {
             onClick={async () => {
               const alias = await ask.prompt(
                 '名前を決めてください。',
-                node.alias || node.name,
-                node.alias || node.name
+                toTitle(node, true),
+                toTitle(node, true)
               )
               if (!alias) return
               store.updateNode(node.uid, () => ({ alias }))

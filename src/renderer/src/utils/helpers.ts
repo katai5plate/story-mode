@@ -184,5 +184,5 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
   return result
 }
 
-export const toTitle = (node: SMNode) =>
-  !node ? '--' : [node.prefix, node.alias || node.name].filter(Boolean).join(' ')
+export const toTitle = (node: SMNode, onlyName?: boolean) =>
+  !node ? '--' : `${onlyName || !node.prefix ? '' : `${node.prefix} `}${node.alias || node.name}`

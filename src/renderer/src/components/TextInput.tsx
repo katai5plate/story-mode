@@ -1,5 +1,5 @@
 import { SxProps, TextField, Theme } from '@mui/material'
-import { textareaIsEmpty } from '@renderer/utils/helpers'
+import { moc, textareaIsEmpty } from '@renderer/utils/helpers'
 
 export interface TextInputProps {
   label: string
@@ -16,7 +16,7 @@ export interface TextInputProps {
   sx?: SxProps<Theme>
 }
 
-export const TextInput = (p: TextInputProps) => {
+export const TextInput = moc((p: TextInputProps) => {
   const hasTextarea = !!p.textarea
   const label = `${p.disable ? '' : hasTextarea ? '🗎' : '🗋'} ${p.label}${p.value === '' || textareaIsEmpty(p.value) ? '（未入力）' : ''}`
   const textarea = {
@@ -55,4 +55,4 @@ export const TextInput = (p: TextInputProps) => {
       {...(hasTextarea ? textarea : {})}
     />
   )
-}
+})

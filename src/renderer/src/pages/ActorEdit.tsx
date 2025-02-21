@@ -19,7 +19,7 @@ import {
   copy,
   detectEmptyItem,
   detectEmptyItems,
-  isNotEqual,
+  equal,
   textareaIsEmpty,
   toCombo,
   toTextArea,
@@ -54,7 +54,7 @@ export const ActorEdit = () => {
   }, [save, form])
 
   useEffect(() => {
-    if (isNotEqual(node.actor, form)) {
+    if (!equal(node.actor, form)) {
       store.setEditing(true)
     } else if (store.isEditing) {
       store.setEditing(false)

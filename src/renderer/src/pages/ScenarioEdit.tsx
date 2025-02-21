@@ -1,11 +1,11 @@
-import { Box, Button, Grid2, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import { Box, Button, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import { DisableInput } from '@renderer/components/DisableInput'
 import { Group } from '@renderer/components/Group'
 import { ListForm } from '@renderer/components/ListForm'
 import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
 import { initPlotForm, initScenarioForm, ScenarioForm } from '@renderer/types/ScenarioForm'
-import { copy, detectEmptyItem, isNotEqual, toTextArea, toTitle } from '@renderer/utils/helpers'
+import { copy, detectEmptyItem, equal, toTextArea, toTitle } from '@renderer/utils/helpers'
 import { useAsk } from '@renderer/utils/useAsk'
 import { useEditForm } from '@renderer/utils/useEditForm'
 import { useNode } from '@renderer/utils/useNode'
@@ -36,7 +36,7 @@ export const ScenarioEdit = () => {
   }, [save, form])
 
   useEffect(() => {
-    if (!store.isEditing && isNotEqual(node.scenario, form)) {
+    if (!store.isEditing && !equal(node.scenario, form)) {
       store.setEditing(true)
     } else if (store.isEditing) {
       store.setEditing(false)

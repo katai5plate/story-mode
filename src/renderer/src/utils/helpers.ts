@@ -4,6 +4,7 @@ import { initScriptForm } from '@renderer/types/ScriptForm'
 import { SMNode } from '@renderer/types/SMNode'
 import { Actor, ScenarioJSON } from '@renderer/types/TemplateJSON'
 import stringify from 'fast-json-stable-stringify'
+import { FunctionComponent, memo, ReactNode, useMemo } from 'react'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -189,4 +190,14 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
 export const toTitle = (node: SMNode, onlyName?: boolean) =>
   !node ? '--' : `${onlyName || !node.prefix ? '' : `${node.prefix} `}${node.alias || node.name}`
 
-export const isNotEqual = (a: any, b: any) => stringify(a) !== stringify(b)
+export const equal = (a: any, b: any) => stringify(a) === stringify(b)
+
+/** Props が変化するまで再描画しない */
+export const moc = <P, T extends FunctionComponent<P>>(c: T) =>
+  memo(c, (prev, next) => equal(prev, next))
+
+/** deps が変化するまで再描画しない */
+export const mem = (deps: unknown[], c: ReactNode) => {
+  const d = useMemo(() => deps.map(stringify), [deps])
+  return useMemo(() => c, d)
+}

@@ -2,13 +2,19 @@ import { DeepProxy } from '@qiwi/deep-proxy'
 import { initScenarioForm } from '@renderer/types/ScenarioForm'
 import { initScriptForm } from '@renderer/types/ScriptForm'
 import { SMNode } from '@renderer/types/SMNode'
-import { Actor, CommandCustomId, ScenarioJSON } from '@renderer/types/TemplateJSON'
+import {
+  Actor,
+  CommandCustomId,
+  CommandMethodGroup,
+  ScenarioJSON
+} from '@renderer/types/TemplateJSON'
 import stringify from 'fast-json-stable-stringify'
 import { FunctionComponent, memo, ReactNode, useMemo } from 'react'
 import * as prettier from 'prettier/standalone'
 import * as parserTypescript from 'prettier/parser-typescript'
 import parserBabel from 'prettier/plugins/babel'
 import prettierPluginEstree from 'prettier/plugins/estree'
+import { CommandForm } from '@renderer/types/CommandForm'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -39,7 +45,7 @@ export const LEGACY__unique = (list: string[], limit = 10) =>
   )}`
 
 export const unique = (
-  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp' | 'id' | 'ci',
+  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp' | 'id' | 'ci' | 'cg' | 'cm',
   uids?: string[]
 ) =>
   `${prefix}-${
@@ -196,7 +202,6 @@ export const customIdTemplateToFlatNodes = (ids: CommandCustomId[]): SMNode[] =>
   ids.forEach((customId, index) => {
     const uid = unique('ci', uids)
     uids.push(uid)
-    console.log(uid)
     const cid = {
       ...customId,
       options: customId.options.map(({ name, value }, i) => ({
@@ -212,6 +217,34 @@ export const customIdTemplateToFlatNodes = (ids: CommandCustomId[]): SMNode[] =>
       name: customId.name,
       side: 'customId',
       customId: cid
+    })
+  })
+  return result
+}
+export const commandTemplateToFlatNodes = (groups: CommandMethodGroup[]): SMNode[] => {
+  const result: SMNode[] = []
+  const uids: string[] = []
+  groups.forEach((group, index) => {
+    const guid = unique('cg', uids)
+    uids.push(guid)
+    result.push({
+      parent: 'df-command',
+      uid: guid,
+      index,
+      name: group.name,
+      side: 'dir'
+    })
+    group.members.forEach((command) => {
+      const muid = unique('cm', uids)
+      uids.push(muid)
+      result.push({
+        parent: guid,
+        uid: muid,
+        index,
+        name: command.name,
+        side: 'command',
+        command
+      })
     })
   })
   return result

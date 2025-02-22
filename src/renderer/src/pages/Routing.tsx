@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 import { ScenarioEdit } from './ScenarioEdit'
 import { MonacoTest } from './examples/MonacoTest'
 import { CustomIdEdit } from './CustomIdEdit'
+import { CommandView } from './CommandView'
 
 const Favorite = () => {
   const store = useStore()
@@ -55,6 +56,7 @@ export const Routing = () => {
         return <ScenarioEdit />
       if (node.side === 'script') return <MonacoTest />
       if (node.side === 'customId') return <CustomIdEdit />
+      if (node.side === 'command') return <CommandView />
     }
     return <pre>{JSON.stringify(node, null, 2)}</pre>
   }, [node])

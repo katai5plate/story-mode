@@ -8,6 +8,7 @@ import { useStore } from './store/useStore'
 import { MainTemplate } from './Templates/MainTemplate'
 import {
   actorTemplateToFlatNodes,
+  commandTemplateToFlatNodes,
   customIdTemplateToFlatNodes,
   scenarioTemplateToFlatNodes
 } from './utils/helpers'
@@ -35,7 +36,8 @@ const Main = () => {
       ...routeNodes,
       ...actorTemplateToFlatNodes(store.templateJSON.actor.preset),
       ...scenarioTemplateToFlatNodes(store.templateJSON.scenario),
-      ...customIdTemplateToFlatNodes(store.templateJSON.command.customId)
+      ...customIdTemplateToFlatNodes(store.templateJSON.command.customId),
+      ...commandTemplateToFlatNodes(store.templateJSON.command.method)
     ])
     console.log(store.nodes)
   }, [!!store.templateJSON])

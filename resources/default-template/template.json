@@ -1015,7 +1015,7 @@
         "members": [
           {
             "name": "メッセージウィンドウ設定",
-            "method": "UpdateMessageWindow",
+            "id": "UpdateMessageWindow",
             "req": [],
             "opt": [
               { "name": "文字スピード", "type": ["id.speed"] },
@@ -1344,8 +1344,8 @@
           {
             "name": "入力を待つ",
             "id": "WaitForInput",
-            "req": [{ "name": "入力", "type": ["input"] }],
-            "opt": [{ "name": "状態", "type": ["action"] }]
+            "req": [{ "name": "入力", "type": ["id.input"] }],
+            "opt": [{ "name": "状態", "type": ["id.action"] }]
           },
           {
             "name": "カスタムコマンド",
@@ -1357,6 +1357,46 @@
       }
     ],
     "customId": [
+      {
+        "name": "イラスト",
+        "id": "illust",
+        "options": []
+      },
+      {
+        "name": "背景画像",
+        "id": "pano",
+        "options": []
+      },
+      {
+        "name": "音楽",
+        "id": "music",
+        "options": []
+      },
+      {
+        "name": "環境音",
+        "id": "ambient",
+        "options": []
+      },
+      {
+        "name": "効果音",
+        "id": "sound",
+        "options": []
+      },
+      {
+        "name": "ボイス",
+        "id": "voice",
+        "options": []
+      },
+      {
+        "name": "アニメ",
+        "id": "anime",
+        "options": []
+      },
+      {
+        "name": "パーティクル",
+        "id": "particle",
+        "options": []
+      },
       {
         "name": "ゲーム変数",
         "id": "gameVariable",

@@ -38,7 +38,7 @@ export interface ActorJSON {
     question: string[]
   }
 }
-interface CommandArg {
+export interface CommandArg {
   name: string
   type: (
     | 'text' // テキスト
@@ -72,9 +72,9 @@ export interface CommandMethodGroup {
   id: string
   members: CommandMethodMember[]
 }
-interface CommandMethodMember {
+export interface CommandMethodMember {
   name: string
-  method: string
+  id: string
   req: CommandArg[]
   opt: CommandArg[]
 }

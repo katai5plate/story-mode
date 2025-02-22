@@ -1,4 +1,5 @@
 import { ActorForm } from './ActorForm'
+import { CommandForm } from './CommandForm'
 import { CustomIdForm } from './CustomIdForm'
 import { ScenarioForm } from './ScenarioForm'
 import { ScriptForm } from './ScriptForm'
@@ -28,4 +29,5 @@ export interface SMNode {
   scenario?: ScenarioForm
   script?: ScriptForm
   customId?: CustomIdForm
+  command?: CommandForm
 }

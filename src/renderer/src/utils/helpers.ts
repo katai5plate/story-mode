@@ -2,7 +2,7 @@ import { DeepProxy } from '@qiwi/deep-proxy'
 import { initScenarioForm } from '@renderer/types/ScenarioForm'
 import { initScriptForm } from '@renderer/types/ScriptForm'
 import { SMNode } from '@renderer/types/SMNode'
-import { Actor, ScenarioJSON } from '@renderer/types/TemplateJSON'
+import { Actor, CommandCustomId, ScenarioJSON } from '@renderer/types/TemplateJSON'
 import stringify from 'fast-json-stable-stringify'
 import { FunctionComponent, memo, ReactNode, useMemo } from 'react'
 import * as prettier from 'prettier/standalone'
@@ -39,7 +39,7 @@ export const LEGACY__unique = (list: string[], limit = 10) =>
   )}`
 
 export const unique = (
-  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp' | 'id',
+  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp' | 'id' | 'ci',
   uids?: string[]
 ) =>
   `${prefix}-${
@@ -186,6 +186,32 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
           })
         })
       })
+    })
+  })
+  return result
+}
+export const customIdTemplateToFlatNodes = (ids: CommandCustomId[]): SMNode[] => {
+  const result: SMNode[] = []
+  const uids: string[] = []
+  ids.forEach((customId, index) => {
+    const uid = unique('ci', uids)
+    uids.push(uid)
+    console.log(uid)
+    const cid = {
+      ...customId,
+      options: customId.options.map(({ name, value }, i) => ({
+        uid: `tp-${i + 1}`,
+        name,
+        value
+      }))
+    }
+    result.push({
+      parent: 'df-custom-id',
+      uid,
+      index,
+      name: customId.name,
+      side: 'customId',
+      customId: cid
     })
   })
   return result

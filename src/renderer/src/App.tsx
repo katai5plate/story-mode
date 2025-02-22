@@ -6,7 +6,11 @@ import { routeNodes } from './constants/routes'
 import { Routing } from './pages/Routing'
 import { useStore } from './store/useStore'
 import { MainTemplate } from './Templates/MainTemplate'
-import { actorTemplateToFlatNodes, scenarioTemplateToFlatNodes } from './utils/helpers'
+import {
+  actorTemplateToFlatNodes,
+  customIdTemplateToFlatNodes,
+  scenarioTemplateToFlatNodes
+} from './utils/helpers'
 import { AskProvider } from './utils/useAsk'
 
 const darkmode = createTheme({ palette: { mode: 'dark' } })
@@ -30,7 +34,8 @@ const Main = () => {
     store.setNodes([
       ...routeNodes,
       ...actorTemplateToFlatNodes(store.templateJSON.actor.preset),
-      ...scenarioTemplateToFlatNodes(store.templateJSON.scenario)
+      ...scenarioTemplateToFlatNodes(store.templateJSON.scenario),
+      ...customIdTemplateToFlatNodes(store.templateJSON.command.customId)
     ])
     console.log(store.nodes)
   }, [!!store.templateJSON])

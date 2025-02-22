@@ -997,7 +997,7 @@
         { "name": "アクター", "type": ["$.actor"] },
         { "name": "メッセージ", "type": ["textarea"] },
         { "name": "表情差分", "type": ["id.emotion"] },
-        { "name": "漫画吹出差分", "type": ["id.cartoon"] }
+        { "name": "漫画吹出差分", "type": ["id.emoticon"] }
       ],
       "opt": [{ "name": "ボイス ID", "type": ["id.voice"] }]
     },
@@ -1008,7 +1008,7 @@
         { "name": "時間制限", "type": ["num"] }
       ]
     },
-    "commands": [
+    "method": [
       {
         "name": "メッセージ関連",
         "id": "Message",
@@ -1047,7 +1047,7 @@
             "req": [
               { "name": "アクター", "type": ["$.actor"] },
               { "name": "表情差分", "type": ["id.emote"] },
-              { "name": "漫画吹出差分", "type": ["id.cartoon"] },
+              { "name": "漫画吹出差分", "type": ["id.emoticon"] },
               { "name": "位置", "type": ["id.screenPos", "vec"] },
               { "name": "ツイーン", "type": ["id.tween"] },
               { "name": "速度", "type": ["id.speed", "num"] }
@@ -1211,7 +1211,7 @@
           {
             "name": "音声の強制停止",
             "id": "StopAudio",
-            "req": [{ "name": "何を？", "type": ["id.audioAll"] }],
+            "req": [{ "name": "何を？", "type": ["id.audioSelect"] }],
             "opt": []
           }
         ]
@@ -1356,7 +1356,7 @@
         ]
       }
     ],
-    "defalutIds": [
+    "customId": [
       {
         "name": "ゲーム変数",
         "id": "gameVariable",
@@ -1474,7 +1474,7 @@
       },
       {
         "name": "音声アセット指定",
-        "id": "audioAll",
+        "id": "audioSelect",
         "options": [
           { "name": "音楽", "value": "Music" },
           { "name": "環境音", "value": "Ambient" },
@@ -1487,7 +1487,7 @@
       },
       {
         "name": "漫画吹き出し",
-        "id": "cartoon",
+        "id": "emoticon",
         "options": [
           { "name": "！", "value": "Surprise" },
           { "name": "？", "value": "Question" },

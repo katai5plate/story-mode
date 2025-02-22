@@ -62,6 +62,12 @@ export const ScenarioEdit = () => {
         value={form.summary}
         onChange={(text) => updateForm((r) => r.summary, text)}
       />
+      <TextInput
+        label="詳細"
+        textarea
+        value={form.detail}
+        onChange={(text) => updateForm((r) => r.detail, toTextArea(text))}
+      />
       <Group float accord accordFill title="※ 親要素の確認事項">
         <Table>
           <TableBody>
@@ -97,12 +103,6 @@ export const ScenarioEdit = () => {
         textarea
         value={form.checklist}
         onChange={(text) => updateForm((r) => r.checklist, toTextArea(text))}
-      />
-      <TextInput
-        label="詳細"
-        textarea
-        value={form.detail}
-        onChange={(text) => updateForm((r) => r.detail, toTextArea(text))}
       />
       <ListForm
         accord

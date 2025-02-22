@@ -6,7 +6,8 @@ export const routeNodes: SMNode[] = [
   { parent: null, uid: 'df-bookmark', index: 1, name: 'ブックマーク', side: 'condir' },
   { parent: null, uid: 'df-actor', index: 2, name: 'アクター', side: 'condir' },
   { parent: null, uid: 'df-scenario', index: 3, name: 'シナリオ', side: 'dir' },
-  { parent: null, uid: 'df-common', index: 3, name: '共通スクリプト', side: 'condir' },
+  { parent: null, uid: 'df-common', index: 4, name: '共通スクリプト', side: 'condir' },
+  { parent: null, uid: 'df-custom-id', index: 5, name: 'カスタム ID', side: 'condir' },
 
   // 設定
   { parent: 'df-config', uid: 'df-config-file', index: 0, name: 'ファイル', side: 'dir' },

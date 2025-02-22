@@ -66,7 +66,8 @@ const SidebarItem = (p: {
         chapter: '💿',
         phase: '🎞️',
         beat: '🎥',
-        script: '📝'
+        script: '📝',
+        customId: '🗃️'
       } as Record<SMNode['side'], string>
     )[p.node.side] ??
     (isDirLike && hasChildren

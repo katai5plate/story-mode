@@ -6,6 +6,7 @@ import { useStore } from '@renderer/store/useStore'
 import { useNavigate } from 'react-router'
 import { ScenarioEdit } from './ScenarioEdit'
 import { MonacoTest } from './examples/MonacoTest'
+import { CustomIdEdit } from './CustomIdEdit'
 
 const Favorite = () => {
   const store = useStore()
@@ -53,6 +54,7 @@ export const Routing = () => {
       )
         return <ScenarioEdit />
       if (node.side === 'script') return <MonacoTest />
+      if (node.side === 'customId') return <CustomIdEdit />
     }
     return <pre>{JSON.stringify(node, null, 2)}</pre>
   }, [node])

@@ -1,4 +1,5 @@
 import { ActorForm } from './ActorForm'
+import { CustomIdForm } from './CustomIdForm'
 import { ScenarioForm } from './ScenarioForm'
 import { ScriptForm } from './ScriptForm'
 
@@ -20,8 +21,11 @@ export interface SMNode {
     | 'phase'
     | 'beat'
     | 'script'
+    | 'command'
+    | 'customId'
   favorite?: string
   actor?: ActorForm
   scenario?: ScenarioForm
   script?: ScriptForm
+  customId?: CustomIdForm
 }

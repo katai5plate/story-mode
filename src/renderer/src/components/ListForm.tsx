@@ -39,7 +39,7 @@ export const ListForm = <T extends { uid: string }, F>(p: {
     if (!newName) setPlaceholder(noname({ uid: newUnique }))
   }, [newName, newUnique])
   return mem(
-    [p],
+    [p, newUnique],
     <>
       <Group accord={p.accord} title={p.title}>
         {p.list.map((item, index) => {

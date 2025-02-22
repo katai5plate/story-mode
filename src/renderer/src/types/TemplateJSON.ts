@@ -55,7 +55,7 @@ interface CommandArg {
   )[]
   result?: string[] // 追加する分岐条件名
 }
-interface CommandJSON {
+export interface CommandJSON {
   messageCommandAppendArgs: {
     req: CommandArg[]
     opt: CommandArg[]
@@ -64,23 +64,26 @@ interface CommandJSON {
     req: CommandArg[]
     opt: CommandArg[]
   }
-  commands: {
+  method: CommandMethodGroup[]
+  customId: CommandCustomId[]
+}
+export interface CommandMethodGroup {
+  name: string
+  id: string
+  members: CommandMethodMember[]
+}
+interface CommandMethodMember {
+  name: string
+  method: string
+  req: CommandArg[]
+  opt: CommandArg[]
+}
+export interface CommandCustomId {
+  name: string
+  id: string
+  options: {
     name: string
-    id: string
-    members: {
-      name: string
-      method: string
-      req: CommandArg[]
-      opt: CommandArg[]
-    }
-  }[]
-  defalutIds: {
-    name: string // ID タイプ表示名
-    id: string // ID タイプ識別子
-    options: {
-      name: string // 表示名
-      value: JsonData // 出力時に入る値
-    }
+    value: JsonData
   }[]
 }
 

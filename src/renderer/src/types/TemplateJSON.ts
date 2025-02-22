@@ -1,6 +1,9 @@
+import { JsonData } from '@renderer/utils/helpers'
+
 export interface TemplateJSON {
   scenario: ScenarioJSON
   actor: ActorJSON
+  command: CommandJSON
 }
 export interface ScenarioJSON {
   episode: ScenarioNode[]
@@ -34,6 +37,51 @@ export interface ActorJSON {
     sensitivity: string[]
     question: string[]
   }
+}
+interface CommandArg {
+  name: string
+  type: (
+    | 'text' // テキスト
+    | 'textarea' // テキストエリア
+    | 'vec' // [x, y, z?]
+    | 'choice' // 選択肢
+    | 'num' // 少数含む数値
+    | 'json' // JSON 文字列 (オブジェクト許可)
+    | 'value' // number, boolean, string
+    // 動的指定（アクターなど）
+    | `$.${string}`
+    // id 指定（ユーザーカスタム）
+    | `id.${string}`
+  )[]
+  result?: string[] // 追加する分岐条件名
+}
+interface CommandJSON {
+  messageCommandAppendArgs: {
+    req: CommandArg[]
+    opt: CommandArg[]
+  }
+  choiceCommandAppendArgs: {
+    req: CommandArg[]
+    opt: CommandArg[]
+  }
+  commands: {
+    name: string
+    id: string
+    members: {
+      name: string
+      method: string
+      req: CommandArg[]
+      opt: CommandArg[]
+    }
+  }[]
+  defalutIds: {
+    name: string // ID タイプ表示名
+    id: string // ID タイプ識別子
+    options: {
+      name: string // 表示名
+      value: JsonData // 出力時に入る値
+    }
+  }[]
 }
 
 interface Duty {

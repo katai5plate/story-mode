@@ -364,3 +364,51 @@ const sidebarNodes: FlatNode[] = [
   }
 ]
 ```
+
+- 案
+  - コマンドもフラットノード管理とする
+  - メッセージコマンド、選択肢コマンドはアプリ固有とする
+  - ID もサイドバーから管理出来るようにし、コマンドで Select できるようにする
+  - フロー制御は一旦アプリ側かカスタムコマンドとし、階層構造にはしない
+    - ラベル系
+    - ハッシュのラベルを生成する `cc-`
+      - 選択肢
+      - 条件式
+    - ちょっと考える必要がある
+      - ゲーム変数演算
+      - ローカル変数演算
+
+```ts
+type ExportedJSON = {
+  methodId: string
+  req: JSONValue[]
+  opt: JSONValue[]
+  labels?: string[]
+}[]
+```
+
+```
+条件式：IntA ＝ true
+True の場合
+　処理１
+False の場合
+　処理２
+```
+
+```json
+[
+  {
+    "name": "Condition",
+    "req": ["Local@IntA", "==", true],
+    "opt": [],
+    "labels": ["uHs72", "g02oP"]
+  },
+  { "name": "Label", "req": ["uHs72"], "opt": [] },
+  { "name": "Custom", "req": ["処理１"], "opt": [] },
+  { "name": "Goto", "req": ["tR4w2"], "opt": [] },
+  { "name": "Label", "req": ["g02oP"], "opt": [] },
+  { "name": "Custom", "req": ["処理２"], "opt": [] },
+  { "name": "Goto", "req": ["tR4w2"], "opt": [] },
+  { "name": "Label", "req": ["tR4w2"], "opt": [] }
+]
+```

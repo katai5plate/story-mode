@@ -5,6 +5,10 @@ import { SMNode } from '@renderer/types/SMNode'
 import { Actor, ScenarioJSON } from '@renderer/types/TemplateJSON'
 import stringify from 'fast-json-stable-stringify'
 import { FunctionComponent, memo, ReactNode, useMemo } from 'react'
+import * as prettier from 'prettier/standalone'
+import * as parserTypescript from 'prettier/parser-typescript'
+import parserBabel from 'prettier/plugins/babel'
+import prettierPluginEstree from 'prettier/plugins/estree'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -201,3 +205,11 @@ export const mem = (deps: unknown[], c: ReactNode) => {
   const d = useMemo(() => deps.map(stringify), [deps])
   return useMemo(() => c, d)
 }
+
+export const formatTS = (code: string) =>
+  prettier.format(code, {
+    parser: 'typescript',
+    plugins: [parserTypescript, parserBabel, prettierPluginEstree],
+    semi: true,
+    tabWidth: 2
+  })

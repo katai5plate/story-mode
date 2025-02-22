@@ -26,16 +26,16 @@ const Main = () => {
 
   useEffect(() => void api.setTemplateToStore(), [])
   useEffect(() => {
-    if (!store.template) return
+    if (!store.templateJSON) return
     store.setNodes([
       ...routeNodes,
-      ...actorTemplateToFlatNodes(store.template.actor.preset),
-      ...scenarioTemplateToFlatNodes(store.template.scenario)
+      ...actorTemplateToFlatNodes(store.templateJSON.actor.preset),
+      ...scenarioTemplateToFlatNodes(store.templateJSON.scenario)
     ])
     console.log(store.nodes)
-  }, [!!store.template])
+  }, [!!store.templateJSON])
 
-  if (!store.template) return <CircularProgress />
+  if (!store.templateJSON) return <CircularProgress />
   return (
     <Routes>
       <Route path="/" element={<Temp />} />

@@ -91,7 +91,7 @@ export const ActorEdit = () => {
     setBmi(`${bmi}`.replace(/\.(\d{2})\d+/, '.$1'))
 
     // 体型測定
-    const { body } = store.template.actor.dictionaly
+    const { body } = store.templateJSON.actor.dictionaly
     const isInRange = (value: number, range: [number | null, number | null]): boolean => {
       const [min, max] = range
       return (min === null || value >= min) && (max === null || value < max)
@@ -105,27 +105,27 @@ export const ActorEdit = () => {
     const c = isMan ? 5.677 : 4.33
     const d = isMan ? 88.362 : 447.593
     setKcal(`${`${a * weight + b * height - c * age + d}`.replace(/\.(\d{2})\d+/, '.$1')} kcal`)
-  }, [form, setBmi, setBody, store.template.actor.dictionaly.body])
+  }, [form, setBmi, setBody, store.templateJSON.actor.dictionaly.body])
 
   const dutyRules = useMemo(
-    () => store.template.actor.duty.find((x) => x.id === form.dutyId)?.questions,
-    [store.template.actor.duty, form.dutyId]
+    () => store.templateJSON.actor.duty.find((x) => x.id === form.dutyId)?.questions,
+    [store.templateJSON.actor.duty, form.dutyId]
   )
   const dutyQuestions = useMemo(() => {
-    const duty = store.template.actor.duty.find((x) => x.id === form.dutyId)?.name
+    const duty = store.templateJSON.actor.duty.find((x) => x.id === form.dutyId)?.name
     if (!duty) return ''
     return [
       `●「${duty}」設定の確認`,
       ...dutyRules.map((x) => appendNote(`Q. ${x}`, null, true))
     ].join('\n')
-  }, [store.template.actor.duty, form.dutyId])
+  }, [store.templateJSON.actor.duty, form.dutyId])
 
   const personalityType = useCallback(
     (item: CharacterHistory) =>
-      store.template.actor.dictionaly.personality.find(
+      store.templateJSON.actor.dictionaly.personality.find(
         (x) => x.id === item.personality.ref.categoryId
       )?.types,
-    [store.template.actor.dictionaly.personality]
+    [store.templateJSON.actor.dictionaly.personality]
   )
   const personalityLink = useCallback(
     (item: CharacterHistory) =>
@@ -135,7 +135,7 @@ export const ActorEdit = () => {
 
   const appendPersonality = useCallback(
     (item: CharacterHistory) => (prev: string[]) => {
-      const category = store.template.actor.dictionaly.personality.find(
+      const category = store.templateJSON.actor.dictionaly.personality.find(
         (x) => x.id === item.personality.ref.categoryId
       )
       const a = category?.name
@@ -143,7 +143,7 @@ export const ActorEdit = () => {
       const text = appendNote(a, b)
       return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
     },
-    [store.template.actor.dictionaly.personality]
+    [store.templateJSON.actor.dictionaly.personality]
   )
 
   return (
@@ -173,7 +173,7 @@ export const ActorEdit = () => {
       <SelectBox
         label="物語上の役割"
         value={form.dutyId}
-        options={store.template.actor.duty}
+        options={store.templateJSON.actor.duty}
         onChange={(id) => updateForm((r) => r.dutyId, id)}
       />
       {!dutyRules || !dutyRules?.length || (
@@ -229,7 +229,7 @@ export const ActorEdit = () => {
           label="性別"
           combo
           value={form.basic.gender}
-          options={toCombo(store.template.actor.combox.gender)}
+          options={toCombo(store.templateJSON.actor.combox.gender)}
           onChange={(text) => updateForm((r) => r.basic.gender, text)}
         />
         <TextInput
@@ -262,7 +262,7 @@ export const ActorEdit = () => {
           label="体型"
           combo
           value={form.basic.body}
-          options={store.template.actor.dictionaly.body}
+          options={store.templateJSON.actor.dictionaly.body}
           onChange={(text) => updateForm((r) => r.basic.body, text)}
         />
         <Accord
@@ -429,7 +429,7 @@ export const ActorEdit = () => {
                       <SelectBox
                         label="診断カテゴリ"
                         value={item.personality.ref.categoryId}
-                        options={store.template.actor.dictionaly.personality}
+                        options={store.templateJSON.actor.dictionaly.personality}
                         onChange={(id) => {
                           updateForm(
                             (r) => r.experience.histories[i].personality.ref.categoryId,
@@ -546,7 +546,7 @@ export const ActorEdit = () => {
                   label="内容"
                   combo
                   value={item.weakness.combox}
-                  options={toCombo(store.template.actor.combox.weakness)}
+                  options={toCombo(store.templateJSON.actor.combox.weakness)}
                   onChange={(text) =>
                     updateForm((r) => r.experience.histories[i].weakness.combox, text)
                   }
@@ -576,7 +576,7 @@ export const ActorEdit = () => {
                     label="内容"
                     combo
                     value={item.desire.motivation.combox}
-                    options={toCombo(store.template.actor.combox.motivation)}
+                    options={toCombo(store.templateJSON.actor.combox.motivation)}
                     onChange={(text) =>
                       updateForm((r) => r.experience.histories[i].desire.motivation.combox, text)
                     }
@@ -598,7 +598,7 @@ export const ActorEdit = () => {
                     label="方向性"
                     combo
                     value={item.desire.sensitivity.combox}
-                    options={toCombo(store.template.actor.combox.sensitivity)}
+                    options={toCombo(store.templateJSON.actor.combox.sensitivity)}
                     onChange={(text) =>
                       updateForm((r) => r.experience.histories[i].desire.sensitivity.combox, text)
                     }
@@ -661,7 +661,7 @@ export const ActorEdit = () => {
                 label="質問"
                 combo
                 value={item.question}
-                options={toCombo(store.template.actor.combox.question)}
+                options={toCombo(store.templateJSON.actor.combox.question)}
                 onChange={(text) =>
                   updateForm((r) => r.experience.dialogExamples[i].question, text)
                 }

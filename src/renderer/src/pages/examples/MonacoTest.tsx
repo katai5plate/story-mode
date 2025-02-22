@@ -1,40 +1,57 @@
+import { Box, Button } from '@mui/material'
+import { useStore } from '@renderer/store/useStore'
+import { formatTS } from '@renderer/utils/helpers'
+import { useMutableState } from '@renderer/utils/useMutableState'
 import * as monaco from 'monaco-editor'
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-import cssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import React, { useEffect, useRef } from 'react'
-import MonacoEditor from 'react-monaco-editor'
 
 self.MonacoEnvironment = {
-  getWorker(_, label) {
-    if (label === 'json') {
-      return new jsonWorker()
-    }
-    if (label === 'css' || label === 'scss' || label === 'less') {
-      return new cssWorker()
-    }
-    if (label === 'html' || label === 'handlebars' || label === 'razor') {
-      return new htmlWorker()
-    }
-    if (label === 'typescript' || label === 'javascript') {
-      return new tsWorker()
-    }
+  getWorker(_: any, label: string) {
+    if (label === 'typescript' || label === 'javascript') return new tsWorker()
     return new editorWorker()
   }
 }
 
 export const MonacoTest: React.FC = () => {
   const editorRef = useRef<HTMLDivElement>(null)
+  const store = useStore()
+  const [getFormat, setFormat] = useMutableState<() => Promise<void> | null>(null)
 
   useEffect(() => {
     if (editorRef.current) {
+      const precode = store.templateTS
       const editor = monaco.editor.create(editorRef.current, {
-        value: `console.log("Hello, Monaco!");`,
+        value: `${precode}\nnew Script($ => $.Head({name: "hello"}))`,
         language: 'typescript',
         theme: 'vs-dark',
         automaticLayout: true
+      })
+      const editorAny = editor as any
+      const precodeLength = precode.split('\n').length
+      editorAny.setHiddenAreas([{ startLineNumber: 1, endLineNumber: precodeLength }])
+      editor.updateOptions({
+        lineNumbers: (lineNumber) => `${lineNumber - precodeLength}`
+      })
+      setFormat(async () => {
+        const code = editor.getValue()
+        try {
+          const formatted = await formatTS(code)
+          const model = editor.getModel()
+          const currentPosition = editor.getPosition()
+          if (model && formatted !== code) {
+            editor.executeEdits('', [
+              {
+                range: model.getFullModelRange(),
+                text: formatted
+              }
+            ])
+            if (currentPosition) editor.setPosition(currentPosition)
+          }
+        } catch (error) {
+          console.error(error)
+        }
       })
 
       return () => {
@@ -44,15 +61,16 @@ export const MonacoTest: React.FC = () => {
   }, [])
 
   return (
-    <MonacoEditor
-      width="1000"
-      height="700"
-      language="javascript"
-      theme="vs-dark"
-      value="new Script(($) => $.head());"
-      // options={options}
-      // onChange={::this.onChange}
-      // editorDidMount={::this.editorDidMount}
-    />
+    <Box>
+      <Button
+        onClick={async () => {
+          if (!getFormat()) return
+          await getFormat()?.()
+        }}
+      >
+        フォーマット
+      </Button>
+      <div ref={editorRef} style={{ width: '1000px', height: '700px' }} />
+    </Box>
   )
 }

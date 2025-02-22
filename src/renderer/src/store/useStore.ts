@@ -4,8 +4,10 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 export interface Store {
-  template: null | TemplateJSON
-  setTemplateFromApi: (r: TemplateJSON) => void
+  templateJSON: null | TemplateJSON
+  templateTS: null | string
+  setTemplateJSONFromApi: (r: TemplateJSON) => void
+  setTemplateTSFromApi: (r: string) => void
   nodes: SMNode[]
   setNodes: (r: SMNode[]) => void
   updateNodes: (fn: (n: SMNode[]) => SMNode[]) => void
@@ -23,8 +25,10 @@ export interface Store {
 export const useStore = create<Store>()(
   persist(
     (set, get) => ({
-      template: null,
-      setTemplateFromApi: (template) => set({ template }),
+      templateJSON: null,
+      templateTS: null,
+      setTemplateJSONFromApi: (template) => set({ templateJSON: template }),
+      setTemplateTSFromApi: (templateTS) => set({ templateTS }),
       nodes: [],
       setNodes: (nodes) => set({ nodes }),
       updateNodes: (fn) => set((store) => ({ ...store, nodes: fn(store.nodes) })),

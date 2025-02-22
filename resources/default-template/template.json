@@ -1024,9 +1024,22 @@
           },
           {
             "name": "選択肢",
-            "method": "ShowChoice",
-            "req": [{ "name": "選択肢", "type": ["choice"] }],
-            "opt": [{ "name": "キャンセルを", "type": ["id.do"] }]
+            "id": "ShowChoice",
+            "req": [
+              { "name": "ケース 0", "type": ["value"], "result": ["Case0"] },
+              { "name": "ケース 1", "type": ["value"], "result": ["Case1"] }
+            ],
+            "opt": [
+              { "name": "ケース 2", "type": ["value"], "result": ["Case2"] },
+              { "name": "ケース 3", "type": ["value"], "result": ["Case3"] },
+              { "name": "ケース 4", "type": ["value"], "result": ["Case4"] },
+              { "name": "ケース 5", "type": ["value"], "result": ["Case5"] },
+              { "name": "ケース 6", "type": ["value"], "result": ["Case6"] },
+              { "name": "ケース 7", "type": ["value"], "result": ["Case7"] },
+              { "name": "ケース 8", "type": ["value"], "result": ["Case8"] },
+              { "name": "ケース 9", "type": ["value"], "result": ["Case9"] },
+              { "name": "キャンセル", "type": ["id.do"], "result": ["Else"] }
+            ]
           },
           {
             "name": "アクターを表示",
@@ -1301,11 +1314,11 @@
             "id": "Switch",
             "req": [
               { "name": "変数", "type": ["id.gameVariable", "id.localVariable"] },
-              { "name": "ケース 0", "type": ["value"], "result": ["Case0"] }
+              { "name": "ケース 0", "type": ["value"], "result": ["Case0"] },
+              { "name": "ケース 1", "type": ["value"], "result": ["Case1"] },
+              { "name": "ケース 2", "type": ["value"], "result": ["Case2"] }
             ],
             "opt": [
-              { "name": "ケース 1", "type": ["value"], "result": ["Case1"] },
-              { "name": "ケース 2", "type": ["value"], "result": ["Case2"] },
               { "name": "ケース 3", "type": ["value"], "result": ["Case3"] },
               { "name": "ケース 4", "type": ["value"], "result": ["Case4"] },
               { "name": "ケース 5", "type": ["value"], "result": ["Case5"] },

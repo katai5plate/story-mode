@@ -64,13 +64,15 @@ export interface CommandJSON {
     req: CommandArg[]
     opt: CommandArg[]
   }
-  method: CommandMethodGroup[]
+  method: CommandMethod[]
   customId: CommandCustomId[]
 }
-export interface CommandMethodGroup {
+export type CommandMethod = CommandCommonGroup<CommandMethodMember>
+export type CommandCustomId = CommandCommonGroup<CommandCustomIdMember>
+export type CommandCommonGroup<T> = {
   name: string
-  id: string
-  members: CommandMethodMember[]
+  // id: string
+  members: T[]
 }
 export interface CommandMethodMember {
   name: string
@@ -78,7 +80,7 @@ export interface CommandMethodMember {
   req: CommandArg[]
   opt: CommandArg[]
 }
-export interface CommandCustomId {
+export interface CommandCustomIdMember {
   name: string
   id: string
   options: {

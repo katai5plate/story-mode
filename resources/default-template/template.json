@@ -1010,8 +1010,7 @@
     },
     "method": [
       {
-        "name": "メッセージ関連",
-        "id": "Message",
+        "name": "メッセージ",
         "members": [
           {
             "name": "メッセージウィンドウ設定",
@@ -1086,8 +1085,7 @@
         ]
       },
       {
-        "name": "アセット関連",
-        "id": "Asset",
+        "name": "アセット",
         "members": [
           {
             "name": "画像の表示",
@@ -1113,7 +1111,7 @@
             "opt": [{ "name": "位置", "type": ["vec"] }]
           },
           {
-            "name": "音楽・環境音の再生",
+            "name": "背景音の再生",
             "id": "PlayAudioBack",
             "req": [{ "name": "対象", "type": ["id.music", "id.ambient"] }],
             "opt": [
@@ -1126,7 +1124,7 @@
             ]
           },
           {
-            "name": "音楽・環境音の設定",
+            "name": "背景音の設定",
             "id": "UpdateAudioBack",
             "req": [],
             "opt": [
@@ -1137,7 +1135,7 @@
             ]
           },
           {
-            "name": "音楽・環境音のクロスフェード",
+            "name": "背景音のクロスフェード",
             "id": "CrossAudioBack",
             "req": [
               { "name": "対象", "type": ["id.music", "id.ambient"] },
@@ -1152,7 +1150,7 @@
             ]
           },
           {
-            "name": "音楽・環境音の停止",
+            "name": "背景音の停止",
             "id": "StopAudioBack",
             "req": [
               { "name": "対象", "type": ["id.audioBack"] },
@@ -1163,18 +1161,18 @@
             "opt": []
           },
           {
-            "name": "音楽・環境音の停止（記録）",
-            "id": "StopAndSaveAudioBack",
+            "name": "背景音のポーズ",
+            "id": "PauseAudioBack",
             "req": [
               { "name": "対象", "type": ["id.audioBack"] },
               { "name": "フェード", "type": ["id.tween"] },
               { "name": "速度", "type": ["id.speed", "num"] },
               { "name": "待機", "type": ["id.do"] }
             ],
-            "opt": []
+            "opt": [{ "name": "テープ効果", "type": ["id.do"] }]
           },
           {
-            "name": "音楽・環境音の再開",
+            "name": "背景音の再開",
             "id": "RestoreAudioBack",
             "req": [{ "name": "対象", "type": ["id.audioBack"] }],
             "opt": [
@@ -1183,7 +1181,8 @@
               { "name": "効果", "type": ["id.soundEffect"] },
               { "name": "フェード", "type": ["id.tween"] },
               { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
+              { "name": "待機", "type": ["id.do"] },
+              { "name": "テープ効果", "type": ["id.do"] }
             ]
           },
           {
@@ -1217,11 +1216,10 @@
         ]
       },
       {
-        "name": "画面関連",
-        "id": "Screen",
+        "name": "画面",
         "members": [
           {
-            "name": "アニメ・パーティクルの再生",
+            "name": "アニメーションの再生",
             "id": "PlayAnimation",
             "req": [
               { "name": "対象", "type": ["id.anime", "id.particle"] },
@@ -1232,7 +1230,7 @@
             "opt": [{ "name": "待機", "type": ["id.do"] }]
           },
           {
-            "name": "アニメ・パーティクルの停止",
+            "name": "アニメーションの停止",
             "id": "StopAnimation",
             "req": [{ "name": "再生識別子", "type": ["text"] }],
             "opt": []
@@ -1286,8 +1284,7 @@
         ]
       },
       {
-        "name": "ゲーム関連",
-        "id": "Flow",
+        "name": "ゲーム",
         "members": [
           {
             "name": "変数演算",
@@ -1358,328 +1355,348 @@
     ],
     "customId": [
       {
-        "name": "イラスト",
-        "id": "illust",
-        "options": []
-      },
-      {
-        "name": "背景画像",
-        "id": "pano",
-        "options": []
-      },
-      {
-        "name": "音楽",
-        "id": "music",
-        "options": []
-      },
-      {
-        "name": "環境音",
-        "id": "ambient",
-        "options": []
-      },
-      {
-        "name": "効果音",
-        "id": "sound",
-        "options": []
-      },
-      {
-        "name": "ボイス",
-        "id": "voice",
-        "options": []
-      },
-      {
-        "name": "アニメ",
-        "id": "anime",
-        "options": []
-      },
-      {
-        "name": "パーティクル",
-        "id": "particle",
-        "options": []
-      },
-      {
-        "name": "ゲーム変数",
-        "id": "gameVariable",
-        "options": [{ "name": "INT スコア", "value": "Score" }]
-      },
-      {
-        "name": "ローカル変数",
-        "id": "localVariable",
-        "options": [
-          { "name": "INT A", "value": "IntA" },
-          { "name": "INT B", "value": "IntB" },
-          { "name": "INT C", "value": "IntC" },
-          { "name": "FLO A", "value": "FloA" },
-          { "name": "FLO B", "value": "FloB" },
-          { "name": "FLO C", "value": "FloC" },
-          { "name": "STR A", "value": "StrA" },
-          { "name": "STR B", "value": "StrB" },
-          { "name": "STR C", "value": "StrC" },
-          { "name": "OBJ A", "value": "ObjA" },
-          { "name": "OBJ B", "value": "ObjB" },
-          { "name": "OBJ C", "value": "ObjC" }
+        "name": "アセット",
+        "members": [
+          {
+            "name": "イラスト",
+            "id": "illust",
+            "options": []
+          },
+          {
+            "name": "背景画像",
+            "id": "pano",
+            "options": []
+          },
+          {
+            "name": "音楽",
+            "id": "music",
+            "options": []
+          },
+          {
+            "name": "環境音",
+            "id": "ambient",
+            "options": []
+          },
+          {
+            "name": "効果音",
+            "id": "sound",
+            "options": []
+          },
+          {
+            "name": "ボイス",
+            "id": "voice",
+            "options": []
+          },
+          {
+            "name": "アニメ",
+            "id": "anime",
+            "options": []
+          },
+          {
+            "name": "パーティクル",
+            "id": "particle",
+            "options": []
+          },
+          {
+            "name": "表情差分",
+            "id": "emote",
+            "options": [
+              { "name": "通常", "value": "Clear" },
+              { "name": "笑顔", "value": "Smile" },
+              { "name": "怒り", "value": "Anger" },
+              { "name": "悲しみ", "value": "Sadness" },
+              { "name": "驚き", "value": "Surprise" },
+              { "name": "恐怖", "value": "Fear" },
+              { "name": "期待", "value": "Anticipation" },
+              { "name": "嫌悪", "value": "Disgust" },
+              { "name": "心地よい", "value": "Ecstasy" },
+              { "name": "心配", "value": "Worry" },
+              { "name": "激怒", "value": "Rage" },
+              { "name": "錯乱", "value": "Agitation" },
+              { "name": "不安", "value": "Anxiety" },
+              { "name": "眠気", "value": "Sleepy" },
+              { "name": "睡眠中", "value": "Sleep" },
+              { "name": "キス顔", "value": "Kissing" },
+              { "name": "＞＜", "value": "X" },
+              { "name": "目が暗い", "value": "Foggy" }
+            ]
+          },
+          {
+            "name": "表情マーク差分",
+            "id": "emoticon",
+            "options": [
+              { "name": "！", "value": "Surprise" },
+              { "name": "？", "value": "Question" },
+              { "name": "音符", "value": "Music" },
+              { "name": "ハート", "value": "Love" },
+              { "name": "怒り", "value": "Anger" },
+              { "name": "汗", "value": "Sweat" },
+              { "name": "混乱", "value": "Confuse" },
+              { "name": "・・・", "value": "Silence" },
+              { "name": "電球", "value": "Inspiration" },
+              { "name": "Zzz", "value": "Sleep" }
+            ]
+          }
         ]
       },
       {
-        "name": "演算子",
-        "id": "op",
-        "options": [
-          { "name": "＝", "value": "=" },
-          { "name": "＋", "value": "+" },
-          { "name": "－", "value": "-" },
-          { "name": "×", "value": "*" },
-          { "name": "÷", "value": "/" },
-          { "name": "余り", "value": "%" },
-          { "name": "ルート", "value": "sqrt" }
+        "name": "ゲーム",
+        "members": [
+          {
+            "name": "ゲーム変数",
+            "id": "gameVariable",
+            "options": [{ "name": "INT スコア", "value": "Score" }]
+          },
+          {
+            "name": "ローカル変数",
+            "id": "localVariable",
+            "options": [
+              { "name": "INT A", "value": "IntA" },
+              { "name": "INT B", "value": "IntB" },
+              { "name": "INT C", "value": "IntC" },
+              { "name": "FLO A", "value": "FloA" },
+              { "name": "FLO B", "value": "FloB" },
+              { "name": "FLO C", "value": "FloC" },
+              { "name": "STR A", "value": "StrA" },
+              { "name": "STR B", "value": "StrB" },
+              { "name": "STR C", "value": "StrC" },
+              { "name": "OBJ A", "value": "ObjA" },
+              { "name": "OBJ B", "value": "ObjB" },
+              { "name": "OBJ C", "value": "ObjC" }
+            ]
+          },
+          {
+            "name": "演算子",
+            "id": "op",
+            "options": [
+              { "name": "＝", "value": "=" },
+              { "name": "＋", "value": "+" },
+              { "name": "－", "value": "-" },
+              { "name": "×", "value": "*" },
+              { "name": "÷", "value": "/" },
+              { "name": "余り", "value": "%" },
+              { "name": "ルート", "value": "sqrt" }
+            ]
+          },
+          {
+            "name": "比較演算子",
+            "id": "condition",
+            "options": [
+              { "name": "＝", "value": "==" },
+              { "name": "＜", "value": "<" },
+              { "name": "≦", "value": "<=" },
+              { "name": "≧", "value": ">=" },
+              { "name": "＞", "value": ">" },
+              { "name": "≠", "value": "!=" },
+              { "name": "% N == 0", "value": "RemainderIsZeroBy" }
+            ]
+          },
+          {
+            "name": "ラベル",
+            "id": "label",
+            "options": [
+              { "name": "A", "value": "A" },
+              { "name": "B", "value": "B" },
+              { "name": "C", "value": "C" },
+              { "name": "D", "value": "D" },
+              { "name": "E", "value": "E" },
+              { "name": "F", "value": "F" },
+              { "name": "G", "value": "G" }
+            ]
+          },
+          {
+            "name": "どうする？",
+            "id": "do",
+            "options": [
+              { "name": "する", "value": true },
+              { "name": "しない", "value": false }
+            ]
+          },
+          {
+            "name": "入力ボタン",
+            "id": "input",
+            "options": [
+              { "name": "決定", "value": "Okey" },
+              { "name": "キャンセル", "value": "Cancel" },
+              { "name": "上", "value": "Up" },
+              { "name": "下", "value": "Down" },
+              { "name": "左", "value": "Left" },
+              { "name": "右", "value": "Right" },
+              { "name": "サイド左", "value": "SideLeft" },
+              { "name": "サイド右", "value": "SideRight" },
+              { "name": "スタート", "value": "Start" },
+              { "name": "セレクト", "value": "Select" },
+              { "name": "A", "value": "A" },
+              { "name": "B", "value": "B" },
+              { "name": "X", "value": "X" },
+              { "name": "Y", "value": "Y" }
+            ]
+          },
+          {
+            "name": "入力アクション",
+            "id": "action",
+            "options": [
+              { "name": "押された", "value": "Down" },
+              { "name": "押して離した", "value": "DownToUp" },
+              { "name": "離している", "value": "Released" },
+              { "name": "押し続け", "value": "Keep" },
+              { "name": "長く押し続け", "value": "LongKeep" }
+            ]
+          },
+          {
+            "name": "ツイーンアニメーション",
+            "id": "tween",
+            "options": [
+              { "name": "平坦", "value": "Linear" },
+              { "name": "徐々に早く", "value": "SineIn" },
+              { "name": "徐々に遅く", "value": "SineOut" },
+              { "name": "弧を描く様に", "value": "SineInOut" }
+            ]
+          },
+          {
+            "name": "スピード",
+            "id": "speed",
+            "options": [
+              { "name": "一瞬", "value": "Moment" },
+              { "name": "高速", "value": "High" },
+              { "name": "やや速く", "value": "Quick" },
+              { "name": "普通", "value": "Normal" },
+              { "name": "やや遅く", "value": "Slow" },
+              { "name": "最遅", "value": "Low" }
+            ]
+          }
         ]
       },
       {
-        "name": "比較演算子",
-        "id": "condition",
-        "options": [
-          { "name": "＝", "value": "==" },
-          { "name": "＜", "value": "<" },
-          { "name": "≦", "value": "<=" },
-          { "name": "≧", "value": ">=" },
-          { "name": "＞", "value": ">" },
-          { "name": "≠", "value": "!=" },
-          { "name": "% N == 0", "value": "RemainderIsZeroBy" }
+        "name": "音声",
+        "members": [
+          {
+            "name": "音量",
+            "id": "volume",
+            "options": [
+              { "name": "最大", "value": "Max" },
+              { "name": "音楽デフォルト", "value": "Music" },
+              { "name": "環境音デフォルト", "value": "Ambient" },
+              { "name": "効果音デフォルト", "value": "Sound" },
+              { "name": "音楽の半分", "value": "HalfMusic" },
+              { "name": "環境音の半分", "value": "HalfAmbient" },
+              { "name": "効果音の半分", "value": "HalfSound" },
+              { "name": "静かに", "value": "Quiet" },
+              { "name": "ミュート", "value": "Mute" }
+            ]
+          },
+          {
+            "name": "パンポット",
+            "id": "panpot",
+            "options": [
+              { "name": "左端", "value": "Left" },
+              { "name": "左寄り", "value": "HalfLeft" },
+              { "name": "真ん中", "value": "Center" },
+              { "name": "右寄り", "value": "HalfRight" },
+              { "name": "右端", "value": "Right" }
+            ]
+          },
+          {
+            "name": "音響効果",
+            "id": "soundEffect",
+            "options": [
+              { "name": "エコー", "value": "echo" },
+              { "name": "ラジオ", "value": "radio" },
+              { "name": "ミステリー", "value": "mystic" },
+              { "name": "ディレイ", "value": "delay" },
+              { "name": "フェーザー", "value": "phaser" }
+            ]
+          },
+          {
+            "name": "背景音アセット指定",
+            "id": "audioBack",
+            "options": [
+              { "name": "音楽", "value": "Music" },
+              { "name": "環境音", "value": "Ambient" }
+            ]
+          },
+          {
+            "name": "音声アセット指定",
+            "id": "audioSelect",
+            "options": [
+              { "name": "音楽", "value": "Music" },
+              { "name": "環境音", "value": "Ambient" },
+              { "name": "効果音", "value": "Sound" },
+              { "name": "ボイス", "value": "Voice" },
+              { "name": "音楽と環境音", "value": "Back" },
+              { "name": "効果音とボイス", "value": "Front" },
+              { "name": "全部", "value": "All" }
+            ]
+          }
         ]
       },
       {
-        "name": "ラベル",
-        "id": "label",
-        "options": [
-          { "name": "A", "value": "A" },
-          { "name": "B", "value": "B" },
-          { "name": "C", "value": "C" },
-          { "name": "D", "value": "D" },
-          { "name": "E", "value": "E" },
-          { "name": "F", "value": "F" },
-          { "name": "G", "value": "G" }
-        ]
-      },
-      {
-        "name": "どうする？",
-        "id": "do",
-        "options": [
-          { "name": "する", "value": true },
-          { "name": "しない", "value": false }
-        ]
-      },
-      {
-        "name": "音量",
-        "id": "volume",
-        "options": [
-          { "name": "最大", "value": "Max" },
-          { "name": "音楽デフォルト", "value": "Music" },
-          { "name": "環境音デフォルト", "value": "Ambient" },
-          { "name": "効果音デフォルト", "value": "Sound" },
-          { "name": "音楽の半分", "value": "HalfMusic" },
-          { "name": "環境音の半分", "value": "HalfAmbient" },
-          { "name": "効果音の半分", "value": "HalfSound" },
-          { "name": "静かに", "value": "Quiet" },
-          { "name": "ミュート", "value": "Mute" }
-        ]
-      },
-      {
-        "name": "方位",
-        "id": "panpot",
-        "options": [
-          { "name": "左端", "value": "Left" },
-          { "name": "左寄り", "value": "HalfLeft" },
-          { "name": "真ん中", "value": "Center" },
-          { "name": "右寄り", "value": "HalfRight" },
-          { "name": "右端", "value": "Right" }
-        ]
-      },
-      {
-        "name": "音響効果",
-        "id": "soundEffect",
-        "options": [
-          { "name": "エコー", "value": "echo" },
-          { "name": "ラジオ", "value": "radio" },
-          { "name": "ミステリー", "value": "mystic" },
-          { "name": "ディレイ", "value": "delay" },
-          { "name": "フェーザー", "value": "phaser" }
-        ]
-      },
-      {
-        "name": "音声アセット（背景）",
-        "id": "audioBack",
-        "options": [
-          { "name": "音楽", "value": "Music" },
-          { "name": "環境音", "value": "Ambient" }
-        ]
-      },
-      {
-        "name": "音声アセット指定",
-        "id": "audioSelect",
-        "options": [
-          { "name": "音楽", "value": "Music" },
-          { "name": "環境音", "value": "Ambient" },
-          { "name": "効果音", "value": "Sound" },
-          { "name": "ボイス", "value": "Voice" },
-          { "name": "音楽と環境音", "value": "Back" },
-          { "name": "効果音とボイス", "value": "Front" },
-          { "name": "全部", "value": "All" }
-        ]
-      },
-      {
-        "name": "漫画吹き出し",
-        "id": "emoticon",
-        "options": [
-          { "name": "！", "value": "Surprise" },
-          { "name": "？", "value": "Question" },
-          { "name": "音符", "value": "Music" },
-          { "name": "ハート", "value": "Love" },
-          { "name": "怒り", "value": "Anger" },
-          { "name": "汗", "value": "Sweat" },
-          { "name": "混乱", "value": "Confuse" },
-          { "name": "・・・", "value": "Silence" },
-          { "name": "電球", "value": "Inspiration" },
-          { "name": "Zzz", "value": "Sleep" }
-        ]
-      },
-      {
-        "name": "表情",
-        "id": "emote",
-        "options": [
-          { "name": "通常", "value": "Clear" },
-          { "name": "笑顔", "value": "Smile" },
-          { "name": "怒り", "value": "Anger" },
-          { "name": "悲しみ", "value": "Sadness" },
-          { "name": "驚き", "value": "Surprise" },
-          { "name": "恐怖", "value": "Fear" },
-          { "name": "期待", "value": "Anticipation" },
-          { "name": "嫌悪", "value": "Disgust" },
-          { "name": "心地よい", "value": "Ecstasy" },
-          { "name": "心配", "value": "Worry" },
-          { "name": "激怒", "value": "Rage" },
-          { "name": "錯乱", "value": "Agitation" },
-          { "name": "不安", "value": "Anxiety" },
-          { "name": "眠気", "value": "Sleepy" },
-          { "name": "睡眠中", "value": "Sleep" },
-          { "name": "キス顔", "value": "Kissing" },
-          { "name": "＞＜", "value": "X" },
-          { "name": "目が暗い", "value": "Foggy" }
-        ]
-      },
-      {
-        "name": "レイヤー",
-        "id": "layer",
-        "options": [
-          { "name": "後", "value": "Back" },
-          { "name": "中", "value": "Center" },
-          { "name": "前", "value": "Front" }
-        ]
-      },
-      {
-        "name": "色調変化",
-        "id": "tint",
-        "options": [
-          { "name": "通常", "value": "Normal" },
-          { "name": "朝", "value": "Evening" },
-          { "name": "夜", "value": "Night" },
-          { "name": "ネオン", "value": "Neon" },
-          { "name": "グレー", "value": "Gray" },
-          { "name": "セピア", "value": "Sepia" }
-        ]
-      },
-      {
-        "name": "フラッシュ",
-        "id": "flash",
-        "options": [
-          { "name": "白", "value": "White" },
-          { "name": "赤", "value": "Red" },
-          { "name": "火", "value": "Fire" },
-          { "name": "水", "value": "Water" },
-          { "name": "風", "value": "Wind" }
-        ]
-      },
-      {
-        "name": "画面揺れ",
-        "id": "shake",
-        "options": [
-          { "name": "小", "value": "Small" },
-          { "name": "中", "value": "Medium" },
-          { "name": "大", "value": "Big" },
-          { "name": "特", "value": "Hyper" }
-        ]
-      },
-      {
-        "name": "画面位置",
-        "id": "screenPos",
-        "options": [{ "name": "中心", "value": "Center" }]
-      },
-      {
-        "name": "フェード",
-        "id": "fade",
-        "options": [
-          { "name": "イン", "value": "In" },
-          { "name": "アウト", "value": "Out" }
-        ]
-      },
-      {
-        "name": "モーダル",
-        "id": "modal",
-        "options": [
-          { "name": "テキスト入力", "value": "TextInput" },
-          { "name": "数値入力", "value": "NumberInput" },
-          { "name": "インベントリ", "value": "Inventory" }
-        ]
-      },
-      {
-        "name": "入力ボタン",
-        "id": "input",
-        "options": [
-          { "name": "決定", "value": "Okey" },
-          { "name": "キャンセル", "value": "Cancel" },
-          { "name": "上", "value": "Up" },
-          { "name": "下", "value": "Down" },
-          { "name": "左", "value": "Left" },
-          { "name": "右", "value": "Right" },
-          { "name": "サイド左", "value": "SideLeft" },
-          { "name": "サイド右", "value": "SideRight" },
-          { "name": "スタート", "value": "Start" },
-          { "name": "セレクト", "value": "Select" },
-          { "name": "A", "value": "A" },
-          { "name": "B", "value": "B" },
-          { "name": "X", "value": "X" },
-          { "name": "Y", "value": "Y" }
-        ]
-      },
-      {
-        "name": "入力アクション",
-        "id": "action",
-        "options": [
-          { "name": "押された", "value": "Down" },
-          { "name": "押して離した", "value": "DownToUp" },
-          { "name": "離している", "value": "Released" },
-          { "name": "押し続け", "value": "Keep" },
-          { "name": "長く押し続け", "value": "LongKeep" }
-        ]
-      },
-      {
-        "name": "ツイーンアニメーション",
-        "id": "tween",
-        "options": [
-          { "name": "平坦", "value": "Linear" },
-          { "name": "徐々に早く", "value": "SineIn" },
-          { "name": "徐々に遅く", "value": "SineOut" },
-          { "name": "弧を描く様に", "value": "SineInOut" }
-        ]
-      },
-      {
-        "name": "スピード",
-        "id": "speed",
-        "options": [
-          { "name": "一瞬", "value": "Moment" },
-          { "name": "高速", "value": "High" },
-          { "name": "やや速く", "value": "Quick" },
-          { "name": "普通", "value": "Normal" },
-          { "name": "やや遅く", "value": "Slow" },
-          { "name": "最遅", "value": "Low" }
+        "name": "画面",
+        "members": [
+          {
+            "name": "レイヤー",
+            "id": "layer",
+            "options": [
+              { "name": "後", "value": "Back" },
+              { "name": "中", "value": "Center" },
+              { "name": "前", "value": "Front" }
+            ]
+          },
+          {
+            "name": "色調変化",
+            "id": "tint",
+            "options": [
+              { "name": "通常", "value": "Normal" },
+              { "name": "朝", "value": "Evening" },
+              { "name": "夜", "value": "Night" },
+              { "name": "ネオン", "value": "Neon" },
+              { "name": "グレー", "value": "Gray" },
+              { "name": "セピア", "value": "Sepia" }
+            ]
+          },
+          {
+            "name": "フラッシュ",
+            "id": "flash",
+            "options": [
+              { "name": "白", "value": "White" },
+              { "name": "赤", "value": "Red" },
+              { "name": "火", "value": "Fire" },
+              { "name": "水", "value": "Water" },
+              { "name": "風", "value": "Wind" }
+            ]
+          },
+          {
+            "name": "画面揺れ",
+            "id": "shake",
+            "options": [
+              { "name": "小", "value": "Small" },
+              { "name": "中", "value": "Medium" },
+              { "name": "大", "value": "Big" },
+              { "name": "特", "value": "Hyper" }
+            ]
+          },
+          {
+            "name": "画面位置",
+            "id": "screenPos",
+            "options": [{ "name": "中心", "value": "Center" }]
+          },
+          {
+            "name": "フェード",
+            "id": "fade",
+            "options": [
+              { "name": "イン", "value": "In" },
+              { "name": "アウト", "value": "Out" }
+            ]
+          },
+          {
+            "name": "モーダル",
+            "id": "modal",
+            "options": [
+              { "name": "テキスト入力", "value": "TextInput" },
+              { "name": "数値入力", "value": "NumberInput" },
+              { "name": "インベントリ", "value": "Inventory" }
+            ]
+          }
         ]
       }
     ]

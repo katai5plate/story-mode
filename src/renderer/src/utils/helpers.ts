@@ -4,9 +4,11 @@ import { initScriptForm } from '@renderer/types/ScriptForm'
 import { SMNode } from '@renderer/types/SMNode'
 import {
   Actor,
-  CommandCustomId,
-  CommandMethodGroup,
-  ScenarioJSON
+  CommandCustomIdMember,
+  CommandCommonGroup,
+  ScenarioJSON,
+  CommandMethod,
+  CommandCustomId
 } from '@renderer/types/TemplateJSON'
 import stringify from 'fast-json-stable-stringify'
 import { FunctionComponent, memo, ReactNode, useMemo } from 'react'
@@ -196,50 +198,84 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
   })
   return result
 }
-export const customIdTemplateToFlatNodes = (ids: CommandCustomId[]): SMNode[] => {
+export const customIdTemplateToFlatNodes = (groups: CommandCustomId[]): SMNode[] => {
+  // const result: SMNode[] = []
+  // const uids: string[] = []
+  // ids.forEach((customId, index) => {
+  //   const uid = unique('ci', uids)
+  //   uids.push(uid)
+  //   const cid = {
+  //     ...customId,
+  //     options: customId.options.map(({ name, value }, i) => ({
+  //       uid: `tp-${i + 1}`,
+  //       name,
+  //       value
+  //     }))
+  //   }
+  //   result.push({
+  //     parent: 'df-custom-id',
+  //     uid,
+  //     index,
+  //     name: customId.name,
+  //     side: 'customId',
+  //     customId: cid
+  //   })
+  // })
+  // return result
   const result: SMNode[] = []
   const uids: string[] = []
-  ids.forEach((customId, index) => {
-    const uid = unique('ci', uids)
-    uids.push(uid)
-    const cid = {
-      ...customId,
-      options: customId.options.map(({ name, value }, i) => ({
-        uid: `tp-${i + 1}`,
-        name,
-        value
-      }))
-    }
+  groups.forEach((group, index) => {
+    const auid = unique('cg', uids)
+    uids.push(auid)
     result.push({
       parent: 'df-custom-id',
-      uid,
+      uid: auid,
       index,
-      name: customId.name,
-      side: 'customId',
-      customId: cid
+      name: group.name,
+      side: 'dir'
+    })
+    group.members.forEach((cid) => {
+      const customId = {
+        ...cid,
+        options: cid.options.map(({ name, value }, i) => ({
+          uid: `tp-${i + 1}`,
+          name,
+          value
+        }))
+      }
+      const buid = unique('cm', uids)
+      uids.push(buid)
+      result.push({
+        parent: auid,
+        uid: buid,
+        index,
+        name: cid.name,
+        side: 'customId',
+        customId
+      })
     })
   })
   return result
 }
-export const commandTemplateToFlatNodes = (groups: CommandMethodGroup[]): SMNode[] => {
+export const commandTemplateToFlatNodes = (groups: CommandMethod[]): SMNode[] => {
   const result: SMNode[] = []
   const uids: string[] = []
   groups.forEach((group, index) => {
-    const guid = unique('cg', uids)
-    uids.push(guid)
+    const auid = unique('cg', uids)
+    uids.push(auid)
     result.push({
       parent: 'df-command',
-      uid: guid,
+      uid: auid,
       index,
       name: group.name,
       side: 'dir'
     })
     group.members.forEach((command) => {
-      const muid = unique('cm', uids)
-      uids.push(muid)
+      const buid = unique('cm', uids)
+      uids.push(buid)
       result.push({
-        parent: guid,
-        uid: muid,
+        parent: auid,
+        uid: buid,
         index,
         name: command.name,
         side: 'command',

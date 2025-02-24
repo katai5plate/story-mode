@@ -1,20 +1,9 @@
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { DisableInput } from '@renderer/components/DisableInput'
+import { Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import { Group } from '@renderer/components/Group'
-import { ListForm } from '@renderer/components/ListForm'
-import { TextInput } from '@renderer/components/TextInput'
 import { useStore } from '@renderer/store/useStore'
-import { CommandForm } from '@renderer/types/CommandForm'
-import { CustomIdForm, initCustomIdForm, initCustomIdOption } from '@renderer/types/CustomIdForm'
-import { initPlotForm, initScenarioForm, ScenarioForm } from '@renderer/types/ScenarioForm'
-import { SMNode } from '@renderer/types/SMNode'
-import { CommandArg } from '@renderer/types/TemplateJSON'
-import { copy, detectEmptyItem, equal, toTextArea, toTitle } from '@renderer/utils/helpers'
-import { useAsk } from '@renderer/utils/useAsk'
-import { useEditForm } from '@renderer/utils/useEditForm'
+import { CommandArgRequire } from '@renderer/types/TemplateJSON'
 import { useNode } from '@renderer/utils/useNode'
-import { useSave } from '@renderer/utils/useSave'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback } from 'react'
 import { useLocation } from 'react-router'
 
 export const CommandView = () => {
@@ -33,13 +22,16 @@ export const CommandView = () => {
   }
 
   const typeView = useCallback(
-    (ca: CommandArg['type']) =>
+    (ca: CommandArgRequire['type']) =>
       ca
-        .map(
-          (c) =>
-            store.nodes.find((n) => c.includes(`id.${n.customId?.id}`))?.name || typeBook[c] || c
-        )
-        .join(' | '),
+        .map((c) => {
+          const cid = store.nodes.find((n) => c.includes(`id.${n.customId?.id}`))?.name
+          const tp = typeBook[c]
+          const customId = cid && `${cid}ID`
+          const typePage = tp && `${tp}型`
+          return customId || typePage || c
+        })
+        .join(' | ') || '',
     [store.nodes]
   )
 
@@ -76,7 +68,7 @@ export const CommandView = () => {
                   <Box component="strong">対応型</Box>
                 </TableCell>
                 <TableCell>
-                  <Box component="strong">分岐</Box>
+                  <Box component="strong">ラベル</Box>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -85,7 +77,7 @@ export const CommandView = () => {
                 <TableRow key={key}>
                   <TableCell>{x.name}</TableCell>
                   <TableCell>{typeView(x.type)}</TableCell>
-                  <TableCell>{x.result || 'なし'}</TableCell>
+                  <TableCell>{x.goto || 'なし'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -103,10 +95,13 @@ export const CommandView = () => {
                   <Box component="strong">引数名</Box>
                 </TableCell>
                 <TableCell>
+                  <Box component="strong">パラメータ</Box>
+                </TableCell>
+                <TableCell>
                   <Box component="strong">対応型</Box>
                 </TableCell>
                 <TableCell>
-                  <Box component="strong">分岐</Box>
+                  <Box component="strong">ラベル</Box>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -114,8 +109,9 @@ export const CommandView = () => {
               {node.command.opt.map((x, key) => (
                 <TableRow key={key}>
                   <TableCell>{x.name}</TableCell>
+                  <TableCell>{x.id}</TableCell>
                   <TableCell>{typeView(x.type)}</TableCell>
-                  <TableCell>{x.result || 'なし'}</TableCell>
+                  <TableCell>{x.goto || 'なし'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -123,6 +119,9 @@ export const CommandView = () => {
         ) : (
           'なし'
         )}
+      </Group>
+      <Group accord accordEmpty={() => 'NOEMPTY'} title="デバッグ情報">
+        <Box component="pre">{JSON.stringify({ node }, null, 2)}</Box>
       </Group>
     </Box>
   )

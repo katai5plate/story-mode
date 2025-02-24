@@ -119,7 +119,7 @@ export const MainTemplate = (p: { children: ReactNode }) => {
                         {
                           parent: 'df-bookmark',
                           uid: unique(
-                            'bo',
+                            'bkm',
                             store.nodes.filter((x) => x.side === 'favorite').map((x) => x.uid)
                           ),
                           index: 0,

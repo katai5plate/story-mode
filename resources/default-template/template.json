@@ -166,7 +166,9 @@
           "weight": "80",
           "fat": "12",
           "body": "アスリート",
-          "bodyDetail": [""]
+          "bodyDetail": [""],
+          "iq": "アホ",
+          "memo": [""]
         },
         "experience": {
           "life": [
@@ -213,17 +215,17 @@
                 "reason": [""]
               },
               "weakness": {
-                "combox": "",
+                "combo": "",
                 "content": [""]
               },
               "desire": {
                 "detail": [""],
                 "motivation": {
-                  "combox": "",
+                  "combo": "",
                   "content": [""]
                 },
                 "sensitivity": {
-                  "combox": "",
+                  "combo": "",
                   "content": [""]
                 },
                 "likesAndDislikes": [""]
@@ -244,17 +246,17 @@
                 "reason": [""]
               },
               "weakness": {
-                "combox": "",
+                "combo": "",
                 "content": [""]
               },
               "desire": {
                 "detail": [""],
                 "motivation": {
-                  "combox": "",
+                  "combo": "",
                   "content": [""]
                 },
                 "sensitivity": {
-                  "combox": "",
+                  "combo": "",
                   "content": [""]
                 },
                 "likesAndDislikes": [""]
@@ -269,7 +271,8 @@
               "answer": ["「よっしゃ！来たぁ！」"],
               "hint": ["とくになし"]
             }
-          ]
+          ],
+          "memo": [""]
         },
         "appendix": {
           "features": [""],
@@ -289,12 +292,15 @@
           "weight": "",
           "fat": "",
           "body": "",
-          "bodyDetail": [""]
+          "bodyDetail": [""],
+          "iq": "",
+          "memo": [""]
         },
         "experience": {
           "life": [],
           "histories": [],
-          "dialogExamples": []
+          "dialogExamples": [],
+          "memo": [""]
         },
         "appendix": {
           "features": [""],
@@ -314,12 +320,15 @@
           "weight": "",
           "fat": "",
           "body": "",
-          "bodyDetail": [""]
+          "bodyDetail": [""],
+          "iq": "",
+          "memo": [""]
         },
         "experience": {
           "life": [],
           "histories": [],
-          "dialogExamples": []
+          "dialogExamples": [],
+          "memo": [""]
         },
         "appendix": {
           "features": [""],
@@ -339,12 +348,15 @@
           "weight": "",
           "fat": "",
           "body": "",
-          "bodyDetail": [""]
+          "bodyDetail": [""],
+          "iq": "",
+          "memo": [""]
         },
         "experience": {
           "life": [],
           "histories": [],
-          "dialogExamples": []
+          "dialogExamples": [],
+          "memo": [""]
         },
         "appendix": {
           "features": [""],
@@ -352,50 +364,50 @@
         }
       }
     ],
-    "duty": [
-      {
-        "id": "hero",
-        "name": "主人公",
-        "questions": [
-          "感情移入できる人物か？",
-          "確実な動機と欲求の延長に目的があるか？",
-          "とても脆弱な弱点はなにか？"
-        ]
-      },
-      {
-        "id": "enemy",
-        "name": "敵対者",
-        "questions": [
-          "主人公を苦しめる存在か？",
-          "目指したいドラマ性の強さに応じて、現時点の主人公より強いか？",
-          "主人公との対立構造が明確か？（利害、価値観、対人関係、環境依存など）"
-        ]
-      },
-      {
-        "id": "buddy",
-        "name": "相棒",
-        "questions": [
-          "主人公の魅力を引き出し、行動を促進する存在か？",
-          "主人公とは真逆の性質を備えているか？",
-          "主人公と基本的には同行するか？"
-        ]
-      },
-      {
-        "id": "mentor",
-        "name": "援助者",
-        "questions": [
-          "相棒の手を介しても動けないような場合に補助する存在か？",
-          "主人公と基本的には同行せず、したとしても途中でいなくなるか？",
-          "主人公に与えるものや試練を執筆者がちゃんと想像できるか？"
-        ]
-      },
-      {
-        "id": "other",
-        "name": "その他",
-        "questions": []
-      }
-    ],
     "dictionaly": {
+      "duty": [
+        {
+          "id": "hero",
+          "name": "主人公",
+          "questions": [
+            "感情移入できる人物か？",
+            "確実な動機と欲求の延長に目的があるか？",
+            "とても脆弱な弱点はなにか？"
+          ]
+        },
+        {
+          "id": "enemy",
+          "name": "敵対者",
+          "questions": [
+            "主人公を苦しめる存在か？",
+            "目指したいドラマ性の強さに応じて、現時点の主人公より強いか？",
+            "主人公との対立構造が明確か？（利害、価値観、対人関係、環境依存など）"
+          ]
+        },
+        {
+          "id": "buddy",
+          "name": "相棒",
+          "questions": [
+            "主人公の魅力を引き出し、行動を促進する存在か？",
+            "主人公とは真逆の性質を備えているか？",
+            "主人公と基本的には同行するか？"
+          ]
+        },
+        {
+          "id": "mentor",
+          "name": "援助者",
+          "questions": [
+            "相棒の手を介しても動けないような場合に補助する存在か？",
+            "主人公と基本的には同行せず、したとしても途中でいなくなるか？",
+            "主人公に与えるものや試練を執筆者がちゃんと想像できるか？"
+          ]
+        },
+        {
+          "id": "other",
+          "name": "その他",
+          "questions": []
+        }
+      ],
       "personality": [
         {
           "id": "enneagram",
@@ -939,9 +951,7 @@
         { "id": "chubby", "name": "ぽっちゃり", "bmi": [18, 22], "fat": [25, 30] },
         { "id": "hard-fat", "name": "固太り", "bmi": [25, 29], "fat": [25, 30] },
         { "id": "fat", "name": "肥満", "bmi": [29, null], "fat": [30, null] }
-      ]
-    },
-    "combox": {
+      ],
       "gender": ["男", "女", "中性", "両性", "不定性", "無性", "未知"],
       "weakness": [
         "肉体",
@@ -992,52 +1002,52 @@
     }
   },
   "command": {
-    "messageCommandAppendArgs": {
-      "req": [
-        { "name": "アクター", "type": ["$.actor"] },
-        { "name": "メッセージ", "type": ["textarea"] },
-        { "name": "表情差分", "type": ["id.emotion"] },
-        { "name": "漫画吹出差分", "type": ["id.emoticon"] }
-      ],
-      "opt": [{ "name": "ボイス ID", "type": ["id.voice"] }]
-    },
-    "choiceCommandAppendArgs": {
-      "req": [],
-      "opt": [
-        { "name": "キャンセルを", "type": ["id.do"] },
-        { "name": "時間制限", "type": ["num"] }
-      ]
-    },
     "method": [
       {
         "name": "メッセージ",
         "members": [
           {
+            "name": "メッセージを表示",
+            "id": "ShowMessage",
+            "req": [
+              { "name": "アクター", "type": ["$.actor"] },
+              { "name": "表情差分", "type": ["id.emote"] },
+              { "name": "漫画吹出差分", "type": ["id.emoticon"] },
+              { "name": "メッセージ", "type": ["textarea"] }
+            ],
+            "opt": [
+              { "name": "カスタム名", "id": "custom", "type": ["text"] },
+              { "name": "文字スピード", "id": "speed", "type": ["id.speed"] },
+              { "name": "ボイス ID", "id": "voice", "type": ["id.voice"] }
+            ]
+          },
+          {
             "name": "メッセージウィンドウ設定",
             "id": "UpdateMessageWindow",
             "req": [],
             "opt": [
-              { "name": "文字スピード", "type": ["id.speed"] },
-              { "name": "表示", "type": ["id.do"] }
+              { "name": "文字スピード", "id": "speed", "type": ["id.speed"] },
+              { "name": "表示", "id": "window", "type": ["id.do"] }
             ]
           },
           {
-            "name": "選択肢",
+            "name": "選択肢の表示",
             "id": "ShowChoice",
             "req": [
-              { "name": "ケース 0", "type": ["value"], "result": ["Case0"] },
-              { "name": "ケース 1", "type": ["value"], "result": ["Case1"] }
+              { "name": "ケース 0", "type": ["value"], "goto": ["Case0"] },
+              { "name": "ケース 1", "type": ["value"], "goto": ["Case1"] }
             ],
             "opt": [
-              { "name": "ケース 2", "type": ["value"], "result": ["Case2"] },
-              { "name": "ケース 3", "type": ["value"], "result": ["Case3"] },
-              { "name": "ケース 4", "type": ["value"], "result": ["Case4"] },
-              { "name": "ケース 5", "type": ["value"], "result": ["Case5"] },
-              { "name": "ケース 6", "type": ["value"], "result": ["Case6"] },
-              { "name": "ケース 7", "type": ["value"], "result": ["Case7"] },
-              { "name": "ケース 8", "type": ["value"], "result": ["Case8"] },
-              { "name": "ケース 9", "type": ["value"], "result": ["Case9"] },
-              { "name": "キャンセル", "type": ["id.do"], "result": ["Else"] }
+              { "name": "ケース 2", "id": "case2", "type": ["value"], "goto": ["Case2"] },
+              { "name": "ケース 3", "id": "case3", "type": ["value"], "goto": ["Case3"] },
+              { "name": "ケース 4", "id": "case4", "type": ["value"], "goto": ["Case4"] },
+              { "name": "ケース 5", "id": "case5", "type": ["value"], "goto": ["Case5"] },
+              { "name": "ケース 6", "id": "case6", "type": ["value"], "goto": ["Case6"] },
+              { "name": "ケース 7", "id": "case7", "type": ["value"], "goto": ["Case7"] },
+              { "name": "ケース 8", "id": "case8", "type": ["value"], "goto": ["Case8"] },
+              { "name": "ケース 9", "id": "case9", "type": ["value"], "goto": ["Case9"] },
+              { "name": "キャンセル", "id": "cancel", "type": ["id.do"], "goto": ["Cancel"] },
+              { "name": "時間制限（秒）", "id": "limit", "type": ["num"], "goto": ["Limit"] }
             ]
           },
           {
@@ -1079,7 +1089,16 @@
           {
             "name": "アクター名を一時変更",
             "id": "ChangeActorTempName",
-            "req": [{ "name": "名前", "type": ["text"] }],
+            "req": [
+              { "name": "アクター", "type": ["$.actor"] },
+              { "name": "名前", "type": ["text"] }
+            ],
+            "opt": []
+          },
+          {
+            "name": "アクター名を復元",
+            "id": "ChangeActorTempName",
+            "req": [{ "name": "アクター", "type": ["$.actor"] }],
             "opt": []
           }
         ]
@@ -1097,7 +1116,7 @@
               { "name": "速度", "type": ["id.speed", "num"] },
               { "name": "待機", "type": ["id.do"] }
             ],
-            "opt": [{ "name": "位置", "type": ["vec"] }]
+            "opt": [{ "name": "位置", "id": "pos", "type": ["vec"] }]
           },
           {
             "name": "画像の消去",
@@ -1108,19 +1127,19 @@
               { "name": "速度", "type": ["id.speed", "num"] },
               { "name": "待機", "type": ["id.do"] }
             ],
-            "opt": [{ "name": "位置", "type": ["vec"] }]
+            "opt": [{ "name": "位置", "id": "pos", "type": ["vec"] }]
           },
           {
             "name": "背景音の再生",
             "id": "PlayAudioBack",
             "req": [{ "name": "対象", "type": ["id.music", "id.ambient"] }],
             "opt": [
-              { "name": "音量", "type": ["id.volume"] },
-              { "name": "定位", "type": ["id.panpot"] },
-              { "name": "効果", "type": ["id.soundEffect"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
+              { "name": "音量", "id": "volume", "type": ["id.volume"] },
+              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
+              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
+              { "name": "フェード", "id": "fade", "type": ["id.tween"] },
+              { "name": "速度", "id": "speed", "type": ["id.speed", "num"] },
+              { "name": "待機", "id": "wait", "type": ["id.do"] }
             ]
           },
           {
@@ -1128,10 +1147,10 @@
             "id": "UpdateAudioBack",
             "req": [],
             "opt": [
-              { "name": "対象", "type": ["id.audioBack"] },
-              { "name": "音量", "type": ["id.volume"] },
-              { "name": "定位", "type": ["id.panpot"] },
-              { "name": "効果", "type": ["id.soundEffect"] }
+              { "name": "対象", "id": "target", "type": ["id.audioBack"] },
+              { "name": "音量", "id": "volume", "type": ["id.volume"] },
+              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
+              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] }
             ]
           },
           {
@@ -1144,9 +1163,9 @@
               { "name": "待機", "type": ["id.do"] }
             ],
             "opt": [
-              { "name": "音量", "type": ["id.volume"] },
-              { "name": "定位", "type": ["id.panpot"] },
-              { "name": "効果", "type": ["id.soundEffect"] }
+              { "name": "音量", "id": "volume", "type": ["id.volume"] },
+              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
+              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] }
             ]
           },
           {
@@ -1169,20 +1188,20 @@
               { "name": "速度", "type": ["id.speed", "num"] },
               { "name": "待機", "type": ["id.do"] }
             ],
-            "opt": [{ "name": "テープ効果", "type": ["id.do"] }]
+            "opt": [{ "name": "テープ効果", "id": "tape", "type": ["id.do"] }]
           },
           {
             "name": "背景音の再開",
             "id": "RestoreAudioBack",
             "req": [{ "name": "対象", "type": ["id.audioBack"] }],
             "opt": [
-              { "name": "音量", "type": ["id.volume"] },
-              { "name": "定位", "type": ["id.panpot"] },
-              { "name": "効果", "type": ["id.soundEffect"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] },
-              { "name": "テープ効果", "type": ["id.do"] }
+              { "name": "音量", "id": "volume", "type": ["id.volume"] },
+              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
+              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
+              { "name": "フェード", "id": "fade", "type": ["id.tween"] },
+              { "name": "速度", "id": "speed", "type": ["id.speed", "num"] },
+              { "name": "待機", "id": "wait", "type": ["id.do"] },
+              { "name": "テープ効果", "id": "tape", "type": ["id.do"] }
             ]
           },
           {
@@ -1190,10 +1209,10 @@
             "id": "PlaySound",
             "req": [{ "name": "効果音", "type": ["id.sound"] }],
             "opt": [
-              { "name": "音量", "type": ["id.volume"] },
-              { "name": "定位", "type": ["id.panpot"] },
-              { "name": "効果", "type": ["id.soundEffect"] },
-              { "name": "待機", "type": ["id.do"] }
+              { "name": "音量", "id": "volume", "type": ["id.volume"] },
+              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
+              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
+              { "name": "待機", "id": "wait", "type": ["id.do"] }
             ]
           },
           {
@@ -1201,10 +1220,10 @@
             "id": "PlayVoice",
             "req": [{ "name": "ボイス", "type": ["id.voice"] }],
             "opt": [
-              { "name": "音量", "type": ["id.volume"] },
-              { "name": "定位", "type": ["id.panpot"] },
-              { "name": "効果", "type": ["id.soundEffect"] },
-              { "name": "待機", "type": ["id.do"] }
+              { "name": "音量", "id": "volume", "type": ["id.volume"] },
+              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
+              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
+              { "name": "待機", "id": "wait", "type": ["id.do"] }
             ]
           },
           {
@@ -1227,12 +1246,18 @@
               { "name": "レイヤー", "type": ["id.layer"] },
               { "name": "位置", "type": ["id.screenPos", "$.actor", "vec"] }
             ],
-            "opt": [{ "name": "待機", "type": ["id.do"] }]
+            "opt": [{ "name": "待機", "id": "wait", "type": ["id.do"] }]
           },
           {
             "name": "アニメーションの停止",
             "id": "StopAnimation",
             "req": [{ "name": "再生識別子", "type": ["text"] }],
+            "opt": []
+          },
+          {
+            "name": "カットシーンの呼び出し",
+            "id": "CallCutScene",
+            "req": [{ "name": "カットシーン", "type": ["id.cutScene"] }],
             "opt": []
           },
           {
@@ -1302,7 +1327,7 @@
             "req": [
               { "name": "左辺", "type": ["id.gameVariable", "id.localVariable"] },
               { "name": "演算子", "type": ["id.condition"] },
-              { "name": "右辺", "type": ["json"], "result": ["True", "False"] }
+              { "name": "右辺", "type": ["json"], "goto": ["True", "False"] }
             ],
             "opt": []
           },
@@ -1311,18 +1336,19 @@
             "id": "Switch",
             "req": [
               { "name": "変数", "type": ["id.gameVariable", "id.localVariable"] },
-              { "name": "ケース 0", "type": ["value"], "result": ["Case0"] },
-              { "name": "ケース 1", "type": ["value"], "result": ["Case1"] },
-              { "name": "ケース 2", "type": ["value"], "result": ["Case2"] }
+              { "name": "ケース 0", "type": ["value"], "goto": ["Case0"] },
+              { "name": "それ以外", "type": [], "goto": ["Else"] }
             ],
             "opt": [
-              { "name": "ケース 3", "type": ["value"], "result": ["Case3"] },
-              { "name": "ケース 4", "type": ["value"], "result": ["Case4"] },
-              { "name": "ケース 5", "type": ["value"], "result": ["Case5"] },
-              { "name": "ケース 6", "type": ["value"], "result": ["Case6"] },
-              { "name": "ケース 7", "type": ["value"], "result": ["Case7"] },
-              { "name": "ケース 8", "type": ["value"], "result": ["Case8"] },
-              { "name": "ケース 9", "type": ["value"], "result": ["Case9"] }
+              { "name": "ケース 1", "id": "case1", "type": ["value"], "goto": ["Case1"] },
+              { "name": "ケース 2", "id": "case2", "type": ["value"], "goto": ["Case2"] },
+              { "name": "ケース 3", "id": "case3", "type": ["value"], "goto": ["Case3"] },
+              { "name": "ケース 4", "id": "case4", "type": ["value"], "goto": ["Case4"] },
+              { "name": "ケース 5", "id": "case5", "type": ["value"], "goto": ["Case5"] },
+              { "name": "ケース 6", "id": "case6", "type": ["value"], "goto": ["Case6"] },
+              { "name": "ケース 7", "id": "case7", "type": ["value"], "goto": ["Case7"] },
+              { "name": "ケース 8", "id": "case8", "type": ["value"], "goto": ["Case8"] },
+              { "name": "ケース 9", "id": "case9", "type": ["value"], "goto": ["Case9"] }
             ]
           },
           {
@@ -1342,13 +1368,31 @@
             "name": "入力を待つ",
             "id": "WaitForInput",
             "req": [{ "name": "入力", "type": ["id.input"] }],
-            "opt": [{ "name": "状態", "type": ["id.action"] }]
+            "opt": [{ "name": "状態", "id": "action", "type": ["id.action"] }]
           },
           {
             "name": "カスタムコマンド",
             "id": "Custom",
             "req": [{ "name": "内容", "type": ["json"] }],
             "opt": []
+          },
+          {
+            "name": "カスタム条件分岐",
+            "id": "CustomCondition",
+            "req": [{ "name": "条件", "type": ["json"] }],
+            "opt": [
+              { "name": "ケース 0", "id": "case0", "type": ["value"], "goto": ["Case0"] },
+              { "name": "ケース 1", "id": "case1", "type": ["value"], "goto": ["Case1"] },
+              { "name": "ケース 2", "id": "case2", "type": ["value"], "goto": ["Case2"] },
+              { "name": "ケース 3", "id": "case3", "type": ["value"], "goto": ["Case3"] },
+              { "name": "ケース 4", "id": "case4", "type": ["value"], "goto": ["Case4"] },
+              { "name": "ケース 5", "id": "case5", "type": ["value"], "goto": ["Case5"] },
+              { "name": "ケース 6", "id": "case6", "type": ["value"], "goto": ["Case6"] },
+              { "name": "ケース 7", "id": "case7", "type": ["value"], "goto": ["Case7"] },
+              { "name": "ケース 8", "id": "case8", "type": ["value"], "goto": ["Case8"] },
+              { "name": "ケース 9", "id": "case9", "type": ["value"], "goto": ["Case9"] },
+              { "name": "それ以外", "id": "else", "type": [], "goto": ["Else"] }
+            ]
           }
         ]
       }
@@ -1401,6 +1445,7 @@
             "name": "表情差分",
             "id": "emote",
             "options": [
+              { "name": "<変更しない>", "value": "Keep" },
               { "name": "通常", "value": "Clear" },
               { "name": "笑顔", "value": "Smile" },
               { "name": "怒り", "value": "Anger" },
@@ -1425,6 +1470,8 @@
             "name": "表情マーク差分",
             "id": "emoticon",
             "options": [
+              { "name": "<変更しない>", "value": "Keep" },
+              { "name": "<消去>", "value": "Remove" },
               { "name": "！", "value": "Surprise" },
               { "name": "？", "value": "Question" },
               { "name": "音符", "value": "Music" },
@@ -1442,6 +1489,11 @@
       {
         "name": "ゲーム",
         "members": [
+          {
+            "name": "カットシーン",
+            "id": "cutScene",
+            "options": []
+          },
           {
             "name": "ゲーム変数",
             "id": "gameVariable",
@@ -1505,7 +1557,7 @@
             ]
           },
           {
-            "name": "どうする？",
+            "name": "どうするか",
             "id": "do",
             "options": [
               { "name": "する", "value": true },

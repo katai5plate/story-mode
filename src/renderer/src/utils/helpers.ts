@@ -1,22 +1,20 @@
 import { DeepProxy } from '@qiwi/deep-proxy'
 import { initScenarioForm } from '@renderer/types/ScenarioForm'
 import { initScriptForm } from '@renderer/types/ScriptForm'
-import { SMNode } from '@renderer/types/SMNode'
+import { ComboId, SMNode } from '@renderer/types/SMNode'
 import {
   Actor,
-  CommandCustomIdMember,
-  CommandCommonGroup,
-  ScenarioJSON,
+  CommandCustomId,
   CommandMethod,
-  CommandCustomId
+  Dictionaly,
+  ScenarioJSON
 } from '@renderer/types/TemplateJSON'
 import stringify from 'fast-json-stable-stringify'
-import { FunctionComponent, memo, ReactNode, useMemo } from 'react'
-import * as prettier from 'prettier/standalone'
 import * as parserTypescript from 'prettier/parser-typescript'
 import parserBabel from 'prettier/plugins/babel'
 import prettierPluginEstree from 'prettier/plugins/estree'
-import { CommandForm } from '@renderer/types/CommandForm'
+import * as prettier from 'prettier/standalone'
+import { FunctionComponent, memo, ReactNode, useMemo } from 'react'
 
 type JsonValue = string | number | boolean | null | JsonObject | Jsonrray
 interface JsonObject {
@@ -47,10 +45,25 @@ export const LEGACY__unique = (list: string[], limit = 10) =>
   )}`
 
 export const unique = (
-  prefix: 'bo' | 'ac' | 'ep' | 'ch' | 'ph' | 'be' | 'sc' | 'tp' | 'id' | 'ci' | 'cg' | 'cm',
-  uids?: string[]
-) =>
-  `${prefix}-${
+  prefix:
+    | 'id'
+    | 'bkm'
+    | 'act'
+    | 'eps'
+    | 'chp'
+    | 'phs'
+    | 'bet'
+    | 'scr'
+    | 'tpl'
+    | 'cid'
+    | 'cmg'
+    | 'cmd'
+    | 'dct'
+    | 'cmb',
+  uids?: string[],
+  onDone?: (uid: string) => void
+) => {
+  const res = `${prefix}-${
     uids
       ? genUnique(
           uids,
@@ -60,6 +73,9 @@ export const unique = (
         )
       : window.crypto.randomUUID()
   }`
+  onDone?.(res)
+  return res
+}
 
 export const anyObject = (target) => new DeepProxy(target)
 
@@ -118,7 +134,7 @@ export const actorTemplateToFlatNodes = (actors: Actor[]): SMNode[] => {
   const result: SMNode[] = []
   const uids: string[] = []
   actors.forEach((actor, index) => {
-    const uid = unique('ac', uids)
+    const uid = unique('act', uids)
     uids.push(uid)
     console.log(uid)
     result.push({
@@ -136,7 +152,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
   const result: SMNode[] = []
   const uids: string[] = []
   scenario.episode.forEach((ep, epi) => {
-    const epid = unique('ep', uids)
+    const epid = unique('eps', uids)
     uids.push(epid)
     result.push({
       parent: 'df-scenario',
@@ -148,7 +164,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
       scenario: { ...initScenarioForm, ...ep }
     })
     scenario.chapter.forEach((ch, chi) => {
-      const chid = unique('ch', uids)
+      const chid = unique('chp', uids)
       uids.push(chid)
       result.push({
         parent: epid,
@@ -160,7 +176,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
         scenario: { ...initScenarioForm, ...ch }
       })
       scenario.phase.forEach((ph, phi) => {
-        const phid = unique('ph', uids)
+        const phid = unique('phs', uids)
         uids.push(phid)
         result.push({
           parent: chid,
@@ -172,7 +188,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
           scenario: { ...initScenarioForm, ...ph }
         })
         scenario.beat.forEach((be, bei) => {
-          const beid = unique('be', uids)
+          const beid = unique('bet', uids)
           uids.push(beid)
           result.push({
             parent: phid,
@@ -185,7 +201,7 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
           })
           result.push({
             parent: beid,
-            uid: unique('sc', []),
+            uid: unique('scr', []),
             index: 0,
             name: 'default',
             prefix: 'SC',
@@ -199,42 +215,19 @@ export const scenarioTemplateToFlatNodes = (scenario: ScenarioJSON): SMNode[] =>
   return result
 }
 export const customIdTemplateToFlatNodes = (groups: CommandCustomId[]): SMNode[] => {
-  // const result: SMNode[] = []
-  // const uids: string[] = []
-  // ids.forEach((customId, index) => {
-  //   const uid = unique('ci', uids)
-  //   uids.push(uid)
-  //   const cid = {
-  //     ...customId,
-  //     options: customId.options.map(({ name, value }, i) => ({
-  //       uid: `tp-${i + 1}`,
-  //       name,
-  //       value
-  //     }))
-  //   }
-  //   result.push({
-  //     parent: 'df-custom-id',
-  //     uid,
-  //     index,
-  //     name: customId.name,
-  //     side: 'customId',
-  //     customId: cid
-  //   })
-  // })
-  // return result
   const result: SMNode[] = []
   const uids: string[] = []
-  groups.forEach((group, index) => {
-    const auid = unique('cg', uids)
+  groups.forEach((group, gi) => {
+    const auid = unique('cmg', uids)
     uids.push(auid)
     result.push({
       parent: 'df-custom-id',
       uid: auid,
-      index,
+      index: gi,
       name: group.name,
       side: 'dir'
     })
-    group.members.forEach((cid) => {
+    group.members.forEach((cid, ci) => {
       const customId = {
         ...cid,
         options: cid.options.map(({ name, value }, i) => ({
@@ -243,12 +236,12 @@ export const customIdTemplateToFlatNodes = (groups: CommandCustomId[]): SMNode[]
           value
         }))
       }
-      const buid = unique('cm', uids)
+      const buid = unique('cmd', uids)
       uids.push(buid)
       result.push({
         parent: auid,
         uid: buid,
-        index,
+        index: ci,
         name: cid.name,
         side: 'customId',
         customId
@@ -260,29 +253,71 @@ export const customIdTemplateToFlatNodes = (groups: CommandCustomId[]): SMNode[]
 export const commandTemplateToFlatNodes = (groups: CommandMethod[]): SMNode[] => {
   const result: SMNode[] = []
   const uids: string[] = []
-  groups.forEach((group, index) => {
-    const auid = unique('cg', uids)
-    uids.push(auid)
+  groups.forEach((group, gi) => {
+    const guid = unique('cmg', uids)
+    uids.push(guid)
     result.push({
       parent: 'df-command',
-      uid: auid,
-      index,
+      uid: guid,
+      index: gi,
       name: group.name,
       side: 'dir'
     })
-    group.members.forEach((command) => {
-      const buid = unique('cm', uids)
-      uids.push(buid)
+    group.members.forEach((command, mi) => {
+      const cuid = unique('cmd', uids)
+      uids.push(cuid)
       result.push({
-        parent: auid,
-        uid: buid,
-        index,
+        parent: guid,
+        uid: cuid,
+        index: mi,
         name: command.name,
         side: 'command',
         command
       })
     })
   })
+  return result
+}
+export const dictionalyTemplateToFlatNodes = (dictionaly: Dictionaly): SMNode[] => {
+  const result: SMNode[] = []
+
+  const duids: string[] = []
+  const dict: [string, Partial<SMNode>][] = [
+    ['役割', { dictDuty: dictionaly.duty }],
+    ['性格', { dictPersonality: dictionaly.personality }],
+    ['体型', { dictBody: dictionaly.body }]
+  ]
+  dict.forEach(([name, value], index) => {
+    result.push({
+      parent: 'hidden',
+      uid: unique('dct', duids, (x) => duids.push(x)),
+      index,
+      name,
+      side: 'dict',
+      ...value
+    })
+  })
+
+  const cuids: string[] = []
+  const combo: [string, ComboId, string[]][] = [
+    ['性別', 'gender', dictionaly.gender],
+    ['弱点', 'weakness', dictionaly.weakness],
+    ['モチベーション', 'motivation', dictionaly.motivation],
+    ['感受性', 'sensitivity', dictionaly.sensitivity],
+    ['質問', 'question', dictionaly.question]
+  ]
+  combo.forEach(([name, comboId, dictCombo], index) => {
+    result.push({
+      parent: 'hidden',
+      uid: unique('cmb', cuids, (x) => cuids.push(x)),
+      index,
+      name,
+      side: 'combo',
+      comboId,
+      dictCombo
+    })
+  })
+
   return result
 }
 

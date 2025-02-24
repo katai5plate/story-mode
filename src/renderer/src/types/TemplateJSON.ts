@@ -20,25 +20,25 @@ export interface ScenarioJSON {
 }
 export interface ActorJSON {
   preset: Actor[]
-  duty: Duty[]
-  dictionaly: {
-    personality: Personality[]
-    body: {
-      id: string
-      name: string
-      bmi: [number | null, number | null]
-      fat: [number | null, number | null]
-    }[]
-  }
-  combox: {
-    gender: string[]
-    weakness: string[]
-    motivation: string[]
-    sensitivity: string[]
-    question: string[]
-  }
+  dictionaly: Dictionaly
 }
-export interface CommandArg {
+export interface Dictionaly {
+  duty: Duty[]
+  personality: Personality[]
+  body: BodyMake[]
+  gender: string[]
+  weakness: string[]
+  motivation: string[]
+  sensitivity: string[]
+  question: string[]
+}
+export interface BodyMake {
+  id: string
+  name: string
+  bmi: [number | null, number | null]
+  fat: [number | null, number | null]
+}
+export interface CommandArgRequire {
   name: string
   type: (
     | 'text' // テキスト
@@ -53,17 +53,12 @@ export interface CommandArg {
     // id 指定（ユーザーカスタム）
     | `id.${string}`
   )[]
-  result?: string[] // 追加する分岐条件名
+  goto?: string[] // 追加する分岐条件名
+}
+type CommandArgOptional = CommandArgRequire & {
+  id: string // 任意項目オブジェクトのキー名
 }
 export interface CommandJSON {
-  messageCommandAppendArgs: {
-    req: CommandArg[]
-    opt: CommandArg[]
-  }
-  choiceCommandAppendArgs: {
-    req: CommandArg[]
-    opt: CommandArg[]
-  }
   method: CommandMethod[]
   customId: CommandCustomId[]
 }
@@ -77,8 +72,8 @@ export type CommandCommonGroup<T> = {
 export interface CommandMethodMember {
   name: string
   id: string
-  req: CommandArg[]
-  opt: CommandArg[]
+  req: CommandArgRequire[]
+  opt: CommandArgOptional[]
 }
 export interface CommandCustomIdMember {
   name: string
@@ -89,13 +84,13 @@ export interface CommandCustomIdMember {
   }[]
 }
 
-interface Duty {
+export interface Duty {
   id: string
   name: string
   questions: string[]
 }
 
-interface Personality {
+export interface Personality {
   id: string
   name: string
   types: {
@@ -134,6 +129,8 @@ export type Actor = {
     fat: number | string
     body: string
     bodyDetail: string[]
+    iq: string
+    memo: string[]
   }
   experience: {
     life: CharacterLife[]
@@ -144,6 +141,7 @@ export type Actor = {
       answer: string[]
       hint: string[]
     }[]
+    memo: ['']
   }
   appendix: {
     features: string[]
@@ -175,7 +173,7 @@ export interface CharacterHistory {
     reason: string[]
   }
   weakness: {
-    combox: string
+    combo: string
     content: string[]
   }
   desire: {
@@ -188,6 +186,6 @@ export interface CharacterHistory {
 }
 
 interface ComboxFields {
-  combox: string
+  combo: string
   content: string[]
 }

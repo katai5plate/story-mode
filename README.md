@@ -387,28 +387,53 @@ type ExportedJSON = {
 }[]
 ```
 
-```
-条件式：IntA ＝ true
-True の場合
-　処理１
-False の場合
-　処理２
+```cobol
+// IF
+IF a == 1 : *SKIP
+MES "true"
+*SKIP
+
+// IF_ELSE
+IF a == 1 : *FALSE, *SKIP
+MES "true"
+GOTO *SKIP
+*FALSE
+MES "false"
+*SKIP
+
+// SWITCH (CHOICE)
+SWITCH a, 1, 2, 3 : *CASE2, *CASE3, *DEFAULT, *SKIP
+MES "1"
+GOTO *SKIP
+*CASE2
+MES "2"
+GOTO *SKIP
+*CASE3
+MES "3"
+GOTO *SKIP
+*DEFAULT
+MES "else"
+*SKIP
+
+// WHILE
+*LOOP
+IF a == 1 : *SKIP
+MES "loop"
+// GOTO *SKIP
+GOTO *LOOP
+*SKIP
+
+// DO_WHILE
+*LOOP
+MES "loop"
+// GOTO *SKIP
+IF a == 1 : *LOOP
+*SKIP
 ```
 
-```json
-[
-  {
-    "name": "Condition",
-    "req": ["Local@IntA", "==", true],
-    "opt": [],
-    "labels": ["uHs72", "g02oP"]
-  },
-  { "name": "Label", "req": ["uHs72"], "opt": [] },
-  { "name": "Custom", "req": ["処理１"], "opt": [] },
-  { "name": "Goto", "req": ["tR4w2"], "opt": [] },
-  { "name": "Label", "req": ["g02oP"], "opt": [] },
-  { "name": "Custom", "req": ["処理２"], "opt": [] },
-  { "name": "Goto", "req": ["tR4w2"], "opt": [] },
-  { "name": "Label", "req": ["tR4w2"], "opt": [] }
-]
-```
+- IF, LABEL, GOTO があればチューリング完全は保障される
+  - だが煩雑性回避のために SWITCH を用意する必要がある
+- インタプリタは IF, SWITCH, GOTO, LABEL の実装が必須
+  - method にはその他にも、任意の命令を登録可能
+  - 処理内容の責任は完全にインタプリタ側にあり、コード側は命令文を出力するだけの責務を負う
+  - IF, IF_ELSE, WHILE, DO_WHILE を IF, GOTO, LABEL に置き換えるのは責任を持つ

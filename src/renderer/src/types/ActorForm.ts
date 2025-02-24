@@ -14,12 +14,15 @@ export const initActor: ActorForm = {
     weight: '',
     fat: '',
     body: '',
-    bodyDetail: ['']
+    bodyDetail: [''],
+    iq: '',
+    memo: ['']
   },
   experience: {
     life: [],
     histories: [],
-    dialogExamples: []
+    dialogExamples: [],
+    memo: ['']
   },
   appendix: {
     features: [''],
@@ -47,17 +50,17 @@ export const initActorHistory: Omit<ActorForm['experience']['histories'][0], 'ui
     reason: ['']
   },
   weakness: {
-    combox: '',
+    combo: '',
     content: ['']
   },
   desire: {
     detail: [''],
     motivation: {
-      combox: '',
+      combo: '',
       content: ['']
     },
     sensitivity: {
-      combox: '',
+      combo: '',
       content: ['']
     },
     likesAndDislikes: ['']

@@ -91,7 +91,7 @@ export const ActorEdit = () => {
     setBmi(`${bmi}`.replace(/\.(\d{2})\d+/, '.$1'))
 
     // 体型測定
-    const { body } = store.templateJSON.actor.dictionaly
+    const body = store.nodes.find((n) => n.dictBody).dictBody
     const isInRange = (value: number, range: [number | null, number | null]): boolean => {
       const [min, max] = range
       return (min === null || value >= min) && (max === null || value < max)
@@ -105,27 +105,29 @@ export const ActorEdit = () => {
     const c = isMan ? 5.677 : 4.33
     const d = isMan ? 88.362 : 447.593
     setKcal(`${`${a * weight + b * height - c * age + d}`.replace(/\.(\d{2})\d+/, '.$1')} kcal`)
-  }, [form, setBmi, setBody, store.templateJSON.actor.dictionaly.body])
+  }, [form, setBmi, setBody, store.nodes])
 
   const dutyRules = useMemo(
-    () => store.templateJSON.actor.duty.find((x) => x.id === form.dutyId)?.questions,
-    [store.templateJSON.actor.duty, form.dutyId]
+    () => store.nodes.find((n) => n.dictDuty).dictDuty?.find((d) => d.id === form.dutyId).questions,
+    [store.nodes, form.dutyId]
   )
   const dutyQuestions = useMemo(() => {
-    const duty = store.templateJSON.actor.duty.find((x) => x.id === form.dutyId)?.name
+    const duty = store.nodes
+      .find((n) => n.dictDuty)
+      .dictDuty?.find((d) => d.id === form.dutyId).name
     if (!duty) return ''
     return [
       `●「${duty}」設定の確認`,
       ...dutyRules.map((x) => appendNote(`Q. ${x}`, null, true))
     ].join('\n')
-  }, [store.templateJSON.actor.duty, form.dutyId])
+  }, [store.nodes, form.dutyId])
 
   const personalityType = useCallback(
     (item: CharacterHistory) =>
-      store.templateJSON.actor.dictionaly.personality.find(
-        (x) => x.id === item.personality.ref.categoryId
-      )?.types,
-    [store.templateJSON.actor.dictionaly.personality]
+      store.nodes
+        .find((n) => n.dictPersonality)
+        .dictPersonality?.find((p) => p.id === item.personality.ref.categoryId)?.types,
+    [store.nodes]
   )
   const personalityLink = useCallback(
     (item: CharacterHistory) =>
@@ -135,15 +137,15 @@ export const ActorEdit = () => {
 
   const appendPersonality = useCallback(
     (item: CharacterHistory) => (prev: string[]) => {
-      const category = store.templateJSON.actor.dictionaly.personality.find(
-        (x) => x.id === item.personality.ref.categoryId
-      )
+      const category = store.nodes
+        .find((n) => n.dictPersonality)
+        .dictPersonality?.find((p) => p.id === item.personality.ref.categoryId)
       const a = category?.name
       const b = category?.types.find((x) => x.id === item.personality.ref.typeId)?.name
       const text = appendNote(a, b)
       return text !== '' ? (textareaIsEmpty(prev) ? [text] : [...prev, text]) : prev
     },
-    [store.templateJSON.actor.dictionaly.personality]
+    [store.nodes]
   )
 
   return (
@@ -173,7 +175,7 @@ export const ActorEdit = () => {
       <SelectBox
         label="物語上の役割"
         value={form.dutyId}
-        options={store.templateJSON.actor.duty}
+        options={store.nodes.find((n) => n.dictDuty).dictDuty}
         onChange={(id) => updateForm((r) => r.dutyId, id)}
       />
       {!dutyRules || !dutyRules?.length || (
@@ -229,7 +231,7 @@ export const ActorEdit = () => {
           label="性別"
           combo
           value={form.basic.gender}
-          options={toCombo(store.templateJSON.actor.combox.gender)}
+          options={toCombo(store.nodes.find((n) => n.comboId === 'gender').dictCombo)}
           onChange={(text) => updateForm((r) => r.basic.gender, text)}
         />
         <TextInput
@@ -262,7 +264,7 @@ export const ActorEdit = () => {
           label="体型"
           combo
           value={form.basic.body}
-          options={store.templateJSON.actor.dictionaly.body}
+          options={store.nodes.find((n) => n.dictBody).dictBody}
           onChange={(text) => updateForm((r) => r.basic.body, text)}
         />
         <Accord
@@ -319,6 +321,17 @@ export const ActorEdit = () => {
           textarea
           value={form.basic.bodyDetail}
           onChange={(text) => updateForm((r) => r.basic.bodyDetail, toTextArea(text))}
+        />
+        <TextInput
+          label="頭脳"
+          value={form.basic.iq}
+          onChange={(text) => updateForm((r) => r.basic.iq, text)}
+        />
+        <TextInput
+          label="メモ"
+          textarea
+          value={form.basic.memo}
+          onChange={(text) => updateForm((r) => r.basic.memo, toTextArea(text))}
         />
       </Group>
       <Group title="経験情報">
@@ -429,7 +442,7 @@ export const ActorEdit = () => {
                       <SelectBox
                         label="診断カテゴリ"
                         value={item.personality.ref.categoryId}
-                        options={store.templateJSON.actor.dictionaly.personality}
+                        options={store.nodes.find((n) => n.dictPersonality).dictPersonality}
                         onChange={(id) => {
                           updateForm(
                             (r) => r.experience.histories[i].personality.ref.categoryId,
@@ -545,10 +558,10 @@ export const ActorEdit = () => {
                 <SelectBox
                   label="内容"
                   combo
-                  value={item.weakness.combox}
-                  options={toCombo(store.templateJSON.actor.combox.weakness)}
+                  value={item.weakness.combo}
+                  options={toCombo(store.nodes.find((n) => n.comboId === 'weakness').dictCombo)}
                   onChange={(text) =>
-                    updateForm((r) => r.experience.histories[i].weakness.combox, text)
+                    updateForm((r) => r.experience.histories[i].weakness.combo, text)
                   }
                 />
                 <TextInput
@@ -575,10 +588,10 @@ export const ActorEdit = () => {
                   <SelectBox
                     label="内容"
                     combo
-                    value={item.desire.motivation.combox}
-                    options={toCombo(store.templateJSON.actor.combox.motivation)}
+                    value={item.desire.motivation.combo}
+                    options={toCombo(store.nodes.find((n) => n.comboId === 'motivation').dictCombo)}
                     onChange={(text) =>
-                      updateForm((r) => r.experience.histories[i].desire.motivation.combox, text)
+                      updateForm((r) => r.experience.histories[i].desire.motivation.combo, text)
                     }
                   />
                   <TextInput
@@ -597,10 +610,12 @@ export const ActorEdit = () => {
                   <SelectBox
                     label="方向性"
                     combo
-                    value={item.desire.sensitivity.combox}
-                    options={toCombo(store.templateJSON.actor.combox.sensitivity)}
+                    value={item.desire.sensitivity.combo}
+                    options={toCombo(
+                      store.nodes.find((n) => n.comboId === 'sensitivity').dictCombo
+                    )}
                     onChange={(text) =>
-                      updateForm((r) => r.experience.histories[i].desire.sensitivity.combox, text)
+                      updateForm((r) => r.experience.histories[i].desire.sensitivity.combo, text)
                     }
                   />
                   <TextInput
@@ -661,7 +676,7 @@ export const ActorEdit = () => {
                 label="質問"
                 combo
                 value={item.question}
-                options={toCombo(store.templateJSON.actor.combox.question)}
+                options={toCombo(store.nodes.find((n) => n.comboId === 'question').dictCombo)}
                 onChange={(text) =>
                   updateForm((r) => r.experience.dialogExamples[i].question, text)
                 }
@@ -684,6 +699,12 @@ export const ActorEdit = () => {
               />
             </>
           )}
+        />
+        <TextInput
+          label="メモ"
+          textarea
+          value={form.experience.memo}
+          onChange={(text) => updateForm((r) => r.experience.memo, toTextArea(text))}
         />
       </Group>
       <Group title="その他">

@@ -10,6 +10,7 @@ import {
   actorTemplateToFlatNodes,
   commandTemplateToFlatNodes,
   customIdTemplateToFlatNodes,
+  dictionalyTemplateToFlatNodes,
   scenarioTemplateToFlatNodes
 } from './utils/helpers'
 import { AskProvider } from './utils/useAsk'
@@ -37,7 +38,8 @@ const Main = () => {
       ...actorTemplateToFlatNodes(store.templateJSON.actor.preset),
       ...scenarioTemplateToFlatNodes(store.templateJSON.scenario),
       ...customIdTemplateToFlatNodes(store.templateJSON.command.customId),
-      ...commandTemplateToFlatNodes(store.templateJSON.command.method)
+      ...commandTemplateToFlatNodes(store.templateJSON.command.method),
+      ...dictionalyTemplateToFlatNodes(store.templateJSON.actor.dictionaly)
     ])
     console.log(store.nodes)
   }, [!!store.templateJSON])

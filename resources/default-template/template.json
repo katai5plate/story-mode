@@ -1007,230 +1007,357 @@
         "name": "メッセージ",
         "members": [
           {
-            "name": "メッセージを表示",
-            "id": "ShowMessage",
-            "req": [
-              { "name": "アクター", "type": ["$.actor"] },
-              { "name": "表情差分", "type": ["id.emote"] },
-              { "name": "漫画吹出差分", "type": ["id.emoticon"] },
-              { "name": "メッセージ", "type": ["textarea"] }
-            ],
-            "opt": [
-              { "name": "カスタム名", "id": "custom", "type": ["text"] },
-              { "name": "文字スピード", "id": "speed", "type": ["id.speed"] },
-              { "name": "ボイス ID", "id": "voice", "type": ["id.voice"] }
+            "name": "設定",
+            "id": "UpdateMessage",
+            "summary": "",
+            "arg": [
+              { "name": "アクター", "id": "actor", "type": "actor" },
+              { "name": "表情差分", "id": "emote", "type": "id.emote" },
+              { "name": "漫画吹出差分", "id": "emoticon", "type": "id.emoticon" },
+              { "name": "カスタム名", "id": "custom", "type": "text" },
+              { "name": "文字スピード", "id": "speed", "type": "id.speed" },
+              { "name": "ボイス", "id": "voice", "type": "id.voice" },
+              { "name": "表示", "id": "window", "type": "toggle" }
             ]
           },
           {
-            "name": "メッセージウィンドウ設定",
-            "id": "UpdateMessageWindow",
-            "req": [],
-            "opt": [
-              { "name": "文字スピード", "id": "speed", "type": ["id.speed"] },
-              { "name": "表示", "id": "window", "type": ["id.do"] }
+            "name": "選択肢開始",
+            "id": "StartChoice",
+            "summary": "",
+            "arg": [
+              { "name": "選択１", "id": "case1", "type": "text", "labeling": true },
+              { "name": "選択２", "id": "case2", "type": "text", "labeling": true },
+              { "name": "選択３", "id": "case3", "type": "text", "labeling": true },
+              { "name": "選択４", "id": "case4", "type": "text", "labeling": true },
+              { "name": "選択５", "id": "case5", "type": "text", "labeling": true },
+              { "name": "キャンセル", "id": "cancel", "type": "toggle", "labeling": true },
+              { "name": "秒制限", "id": "limit", "type": "num", "labeling": true }
+            ],
+            "end": [
+              { "when": ["case1"], "mid": "LabelChoice", "arg": { "label": "選択１" } },
+              { "when": ["case2"], "mid": "LabelChoice", "arg": { "label": "選択２" } },
+              { "when": ["case3"], "mid": "LabelChoice", "arg": { "label": "選択３" } },
+              { "when": ["case4"], "mid": "LabelChoice", "arg": { "label": "選択４" } },
+              { "when": ["case5"], "mid": "LabelChoice", "arg": { "label": "選択５" } },
+              { "when": ["cancel"], "mid": "LabelChoice", "arg": { "label": "キャンセル" } },
+              { "when": ["limit"], "mid": "LabelChoice", "arg": { "label": "オーバー" } },
+              { "mid": "EndChoice" }
             ]
           },
           {
-            "name": "選択肢の表示",
-            "id": "ShowChoice",
-            "req": [
-              { "name": "ケース 0", "type": ["value"], "goto": ["Case0"] },
-              { "name": "ケース 1", "type": ["value"], "goto": ["Case1"] }
-            ],
-            "opt": [
-              { "name": "ケース 2", "id": "case2", "type": ["value"], "goto": ["Case2"] },
-              { "name": "ケース 3", "id": "case3", "type": ["value"], "goto": ["Case3"] },
-              { "name": "ケース 4", "id": "case4", "type": ["value"], "goto": ["Case4"] },
-              { "name": "ケース 5", "id": "case5", "type": ["value"], "goto": ["Case5"] },
-              { "name": "ケース 6", "id": "case6", "type": ["value"], "goto": ["Case6"] },
-              { "name": "ケース 7", "id": "case7", "type": ["value"], "goto": ["Case7"] },
-              { "name": "ケース 8", "id": "case8", "type": ["value"], "goto": ["Case8"] },
-              { "name": "ケース 9", "id": "case9", "type": ["value"], "goto": ["Case9"] },
-              { "name": "キャンセル", "id": "cancel", "type": ["id.do"], "goto": ["Cancel"] },
-              { "name": "時間制限（秒）", "id": "limit", "type": ["num"], "goto": ["Limit"] }
-            ]
+            "name": "選択肢分岐",
+            "id": "LabelChoice",
+            "summary": "",
+            "arg": [{ "name": "選択", "id": "label", "type": "label" }]
           },
           {
-            "name": "アクターを表示",
-            "id": "ShowActor",
-            "req": [
-              { "name": "アクター", "type": ["$.actor"] },
-              { "name": "表情差分", "type": ["id.emote"] },
-              { "name": "漫画吹出差分", "type": ["id.emoticon"] },
-              { "name": "位置", "type": ["id.screenPos", "vec"] },
-              { "name": "ツイーン", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] }
-            ],
-            "opt": []
-          },
-          {
-            "name": "アクターを移動",
-            "id": "MoveActorToScreen",
-            "req": [
-              { "name": "アクター", "type": ["$.actor"] },
-              { "name": "位置", "type": ["id.screenPos", "vec"] },
-              { "name": "ツイーン", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": []
-          },
-          {
-            "name": "アクターの消去",
-            "id": "RemoveActor",
-            "req": [
-              { "name": "アクター", "type": ["$.actor"] },
-              { "name": "ツイーン", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": []
-          },
-          {
-            "name": "アクター名を一時変更",
-            "id": "ChangeActorTempName",
-            "req": [
-              { "name": "アクター", "type": ["$.actor"] },
-              { "name": "名前", "type": ["text"] }
-            ],
-            "opt": []
-          },
-          {
-            "name": "アクター名を復元",
-            "id": "ChangeActorTempName",
-            "req": [{ "name": "アクター", "type": ["$.actor"] }],
-            "opt": []
+            "name": "選択肢終了",
+            "id": "EndChoice",
+            "summary": "",
+            "arg": []
           }
         ]
       },
       {
-        "name": "アセット",
+        "name": "変数",
         "members": [
           {
-            "name": "画像の表示",
-            "id": "ShowSprite",
-            "req": [
-              { "name": "ID", "type": ["id.illust", "id.pano"] },
-              { "name": "レイヤー", "type": ["id.layer"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": [{ "name": "位置", "id": "pos", "type": ["vec"] }]
+            "name": "ゲーム変数",
+            "id": "GameVariable",
+            "summary": "",
+            "arg": [
+              { "name": "A", "id": "a", "type": "id.gameVariable" },
+              { "name": "演算", "id": "op", "type": "id.op" },
+              { "name": "B", "id": "b", "type": "value" }
+            ]
           },
           {
-            "name": "画像の消去",
-            "id": "RemoveSprite",
-            "req": [
-              { "name": "挿絵 ID", "type": ["id.illust", "id.pano"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": [{ "name": "位置", "id": "pos", "type": ["vec"] }]
+            "name": "ローカル変数",
+            "id": "LocalVariable",
+            "summary": "",
+            "arg": [
+              { "name": "A", "id": "a", "type": "id.localVariable" },
+              { "name": "演算", "id": "op", "type": "id.op" },
+              { "name": "B", "id": "b", "type": "value" }
+            ]
           },
+          {
+            "name": "ゲーム条件開始",
+            "id": "StartIf",
+            "summary": "",
+            "arg": [
+              { "name": "A", "id": "a", "type": "id.gameVariable" },
+              { "name": "比較", "id": "op", "type": "id.condition" },
+              { "name": "B", "id": "b", "type": "value" },
+              { "name": "正しい", "id": "truthy", "type": "label" },
+              { "name": "間違い", "id": "falsy", "type": "label" }
+            ],
+            "end": [
+              { "when": ["truthy"], "mid": "LabelIf", "arg": { "label": ["truthy"] } },
+              { "when": ["falsy"], "mid": "LabelIf", "arg": { "label": ["falsy"] } },
+              { "mid": "EndIf" }
+            ]
+          },
+          {
+            "name": "ローカル条件開始",
+            "id": "StartIf",
+            "summary": "",
+            "arg": [
+              { "name": "A", "id": "a", "type": "id.localVariable" },
+              { "name": "比較", "id": "op", "type": "id.condition" },
+              { "name": "B", "id": "b", "type": "value" },
+              { "name": "正しい", "id": "truthy", "type": "label" },
+              { "name": "間違い", "id": "falsy", "type": "label" }
+            ],
+            "end": [
+              { "when": ["truthy"], "mid": "LabelIf", "arg": { "label": ["truthy"] } },
+              { "when": ["falsy"], "mid": "LabelIf", "arg": { "label": ["falsy"] } },
+              { "mid": "EndIf" }
+            ]
+          },
+          {
+            "name": "条件分岐",
+            "id": "LabelIf",
+            "summary": "",
+            "arg": [{ "name": "結果", "id": "label", "type": "label" }]
+          },
+          {
+            "name": "条件終了",
+            "id": "EndIf",
+            "summary": "",
+            "arg": []
+          }
+        ]
+      },
+      {
+        "name": "フロー",
+        "members": [
+          {
+            "name": "ラベル",
+            "id": "Label",
+            "summary": "",
+            "arg": [{ "name": "ラベル", "id": "label", "type": "label" }]
+          },
+          {
+            "name": "ジャンプ",
+            "id": "Goto",
+            "summary": "",
+            "arg": [{ "name": "ラベル", "id": "label", "type": "goto" }]
+          },
+          {
+            "name": "終了",
+            "id": "End",
+            "summary": "",
+            "arg": []
+          },
+          {
+            "name": "待つ",
+            "id": "Wait",
+            "summary": "",
+            "arg": [{ "name": "秒", "id": "sec", "type": "num" }]
+          },
+          {
+            "name": "入力を待つ",
+            "id": "WaitForInput",
+            "summary": "",
+            "arg": [
+              { "name": "入力", "id": "sec", "type": "id.input" },
+              { "name": "状態", "id": "action", "type": "id.action" }
+            ]
+          },
+          {
+            "name": "カスタムコマンド",
+            "id": "Custom",
+            "summary": "",
+            "arg": [{ "name": "内容", "id": "content", "type": "json" }]
+          }
+        ]
+      },
+      {
+        "name": "画像",
+        "members": [
+          {
+            "name": "アクターを表示",
+            "id": "ShowActor",
+            "summary": "",
+            "arg": [
+              { "name": "アクター", "id": "actor", "type": "actor" },
+              { "name": "表情差分", "id": "emote", "type": "id.emote" },
+              { "name": "漫画吹出差分", "id": "emoticon", "type": "id.emoticon" },
+              { "name": "位置", "id": "pos", "type": "id.screenPos" },
+              { "name": "オフセット", "id": "offset", "type": "vec" },
+              { "name": "ツイーン", "id": "tween", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" }
+            ]
+          },
+          {
+            "name": "アクターを移動",
+            "id": "MoveActorToScreen",
+            "summary": "",
+            "arg": [
+              { "name": "アクター", "id": "actor", "type": "actor" },
+              { "name": "位置", "id": "pos", "type": "id.screenPos" },
+              { "name": "オフセット", "id": "offset", "type": "vec" },
+              { "name": "ツイーン", "id": "tween", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
+          },
+          {
+            "name": "アクターの消去",
+            "id": "RemoveActor",
+            "summary": "",
+            "arg": [
+              { "name": "アクター", "id": "actor", "type": "actor" },
+              { "name": "ツイーン", "id": "tween", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
+          },
+          {
+            "name": "アクター名を復元",
+            "id": "ChangeActorTempName",
+            "summary": "",
+            "arg": [{ "name": "アクター", "id": "actor", "type": "actor" }]
+          },
+          {
+            "name": "スプライトの表示",
+            "id": "ShowSprite",
+            "summary": "",
+            "arg": [
+              { "name": "挿絵", "id": "sprite", "type": "id.illust" },
+              { "name": "遠景", "id": "sprite", "type": "id.pano" },
+              { "name": "レイヤー", "id": "layer", "type": "id.layer" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
+          },
+          {
+            "name": "スプライトの消去",
+            "id": "RemoveSprite",
+            "summary": "",
+            "arg": [
+              { "name": "挿絵", "id": "sprite", "type": "id.illust" },
+              { "name": "遠景", "id": "sprite", "type": "id.pano" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "音声",
+        "members": [
           {
             "name": "背景音の再生",
             "id": "PlayAudioBack",
-            "req": [{ "name": "対象", "type": ["id.music", "id.ambient"] }],
-            "opt": [
-              { "name": "音量", "id": "volume", "type": ["id.volume"] },
-              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
-              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
-              { "name": "フェード", "id": "fade", "type": ["id.tween"] },
-              { "name": "速度", "id": "speed", "type": ["id.speed", "num"] },
-              { "name": "待機", "id": "wait", "type": ["id.do"] }
+            "summary": "",
+            "arg": [
+              { "name": "音楽", "id": "target", "type": "id.music" },
+              { "name": "環境音", "id": "target", "type": "id.ambient" },
+              { "name": "音量", "id": "volume", "type": "id.volume" },
+              { "name": "定位", "id": "panpot", "type": "id.panpot" },
+              { "name": "効果", "id": "effect", "type": "id.soundEffect" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
             ]
           },
           {
             "name": "背景音の設定",
             "id": "UpdateAudioBack",
-            "req": [],
-            "opt": [
-              { "name": "対象", "id": "target", "type": ["id.audioBack"] },
-              { "name": "音量", "id": "volume", "type": ["id.volume"] },
-              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
-              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] }
+            "summary": "",
+            "arg": [
+              { "name": "対象", "id": "target", "type": "id.audioBack" },
+              { "name": "音量", "id": "volume", "type": "id.volume" },
+              { "name": "定位", "id": "panpot", "type": "id.panpot" },
+              { "name": "効果", "id": "effect", "type": "id.soundEffect" }
             ]
           },
           {
             "name": "背景音のクロスフェード",
             "id": "CrossAudioBack",
-            "req": [
-              { "name": "対象", "type": ["id.music", "id.ambient"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": [
-              { "name": "音量", "id": "volume", "type": ["id.volume"] },
-              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
-              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] }
+            "summary": "",
+            "arg": [
+              { "name": "音楽", "id": "target", "type": "id.music" },
+              { "name": "環境音", "id": "target", "type": "id.ambient" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" },
+              { "name": "音量", "id": "volume", "type": "id.volume" },
+              { "name": "定位", "id": "panpot", "type": "id.panpot" },
+              { "name": "効果", "id": "effect", "type": "id.soundEffect" }
             ]
           },
           {
             "name": "背景音の停止",
             "id": "StopAudioBack",
-            "req": [
-              { "name": "対象", "type": ["id.audioBack"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": []
+            "summary": "",
+            "arg": [
+              { "name": "対象", "id": "target", "type": "id.audioBack" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
           },
           {
             "name": "背景音のポーズ",
             "id": "PauseAudioBack",
-            "req": [
-              { "name": "対象", "type": ["id.audioBack"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": [{ "name": "テープ効果", "id": "tape", "type": ["id.do"] }]
+            "summary": "",
+            "arg": [
+              { "name": "対象", "id": "target", "type": "id.audioBack" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" },
+              { "name": "テープ効果", "id": "tape", "type": "toggle" }
+            ]
           },
           {
             "name": "背景音の再開",
             "id": "RestoreAudioBack",
-            "req": [{ "name": "対象", "type": ["id.audioBack"] }],
-            "opt": [
-              { "name": "音量", "id": "volume", "type": ["id.volume"] },
-              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
-              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
-              { "name": "フェード", "id": "fade", "type": ["id.tween"] },
-              { "name": "速度", "id": "speed", "type": ["id.speed", "num"] },
-              { "name": "待機", "id": "wait", "type": ["id.do"] },
-              { "name": "テープ効果", "id": "tape", "type": ["id.do"] }
+            "summary": "",
+            "arg": [
+              { "name": "対象", "id": "target", "type": "id.audioBack" },
+              { "name": "音量", "id": "volume", "type": "id.volume" },
+              { "name": "定位", "id": "panpot", "type": "id.panpot" },
+              { "name": "効果", "id": "effect", "type": "id.soundEffect" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" },
+              { "name": "テープ効果", "id": "tape", "type": "toggle" }
             ]
           },
           {
             "name": "効果音の再生",
             "id": "PlaySound",
-            "req": [{ "name": "効果音", "type": ["id.sound"] }],
-            "opt": [
-              { "name": "音量", "id": "volume", "type": ["id.volume"] },
-              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
-              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
-              { "name": "待機", "id": "wait", "type": ["id.do"] }
+            "summary": "",
+            "arg": [
+              { "name": "効果音", "id": "sound", "type": "id.sound" },
+              { "name": "音量", "id": "volume", "type": "id.volume" },
+              { "name": "定位", "id": "panpot", "type": "id.panpot" },
+              { "name": "効果", "id": "effect", "type": "id.soundEffect" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
             ]
           },
           {
             "name": "ボイスの再生",
             "id": "PlayVoice",
-            "req": [{ "name": "ボイス", "type": ["id.voice"] }],
-            "opt": [
-              { "name": "音量", "id": "volume", "type": ["id.volume"] },
-              { "name": "定位", "id": "panpot", "type": ["id.panpot"] },
-              { "name": "効果", "id": "effect", "type": ["id.soundEffect"] },
-              { "name": "待機", "id": "wait", "type": ["id.do"] }
+            "summary": "",
+            "arg": [
+              { "name": "ボイス", "id": "voice", "type": "id.voice" },
+              { "name": "音量", "id": "volume", "type": "id.volume" },
+              { "name": "定位", "id": "panpot", "type": "id.panpot" },
+              { "name": "効果", "id": "effect", "type": "id.soundEffect" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
             ]
           },
           {
             "name": "音声の強制停止",
             "id": "StopAudio",
-            "req": [{ "name": "何を？", "type": ["id.audioSelect"] }],
-            "opt": []
+            "summary": "",
+            "arg": [{ "name": "何を？", "id": "target", "type": "id.audioSelect" }]
           }
         ]
       },
@@ -1240,158 +1367,74 @@
           {
             "name": "アニメーションの再生",
             "id": "PlayAnimation",
-            "req": [
-              { "name": "対象", "type": ["id.anime", "id.particle"] },
-              { "name": "再生識別子", "type": ["text"] },
-              { "name": "レイヤー", "type": ["id.layer"] },
-              { "name": "位置", "type": ["id.screenPos", "$.actor", "vec"] }
-            ],
-            "opt": [{ "name": "待機", "id": "wait", "type": ["id.do"] }]
+            "summary": "",
+            "arg": [
+              { "name": "アニメ", "id": "target", "type": "id.anime" },
+              { "name": "パーティクル", "id": "target", "type": "id.particle" },
+              { "name": "再生識別子", "id": "id", "type": "text" },
+              { "name": "レイヤー", "id": "layer", "type": "id.layer" },
+              { "name": "位置", "id": "pos", "type": "id.screenPos" },
+              { "name": "アクター", "id": "actor", "type": "actor" },
+              { "name": "オフセット", "id": "offset", "type": "vec" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
           },
           {
             "name": "アニメーションの停止",
             "id": "StopAnimation",
-            "req": [{ "name": "再生識別子", "type": ["text"] }],
-            "opt": []
+            "summary": "",
+            "arg": [{ "name": "再生識別子", "id": "id", "type": "text" }]
           },
           {
             "name": "カットシーンの呼び出し",
             "id": "CallCutScene",
-            "req": [{ "name": "カットシーン", "type": ["id.cutScene"] }],
-            "opt": []
+            "summary": "",
+            "arg": [{ "name": "カットシーン", "id": "cutscene", "type": "id.cutScene" }]
           },
           {
             "name": "画面の色調変更",
             "id": "ScreenTint",
-            "req": [
-              { "name": "設定", "type": ["id.tint"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": []
+            "summary": "",
+            "arg": [
+              { "name": "設定", "id": "mode", "type": "id.tint" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
           },
           {
             "name": "画面のフラッシュ",
             "id": "ScreenFlash",
-            "req": [
-              { "name": "設定", "type": ["id.flash"] },
-              { "name": "フェード", "type": ["id.tween"] },
-              { "name": "速度", "type": ["id.speed", "num"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": []
+            "summary": "",
+            "arg": [
+              { "name": "設定", "id": "mode", "type": "id.flash" },
+              { "name": "フェード", "id": "fade", "type": "id.tween" },
+              { "name": "速度", "id": "speed", "type": "id.speed" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
           },
           {
             "name": "画面を揺らす",
             "id": "ScreenShake",
-            "req": [
-              { "name": "設定", "type": ["id.shake"] },
-              { "name": "待機", "type": ["id.do"] }
-            ],
-            "opt": []
+            "summary": "",
+            "arg": [
+              { "name": "設定", "id": "mode", "type": "id.shake" },
+              { "name": "待機", "id": "wait", "type": "toggle" }
+            ]
           },
           {
             "name": "フェード",
             "id": "ScreenFade",
-            "req": [{ "name": "設定", "type": ["id.fade"] }],
-            "opt": []
+            "summary": "",
+            "arg": [{ "name": "設定", "id": "mode", "type": "id.fade" }]
           },
           {
             "name": "モーダル設定",
             "id": "ScreenModal",
-            "req": [
-              { "name": "設定", "type": ["id.modal"] },
-              { "name": "アクティブに", "type": ["id.do"] }
-            ],
-            "opt": []
-          }
-        ]
-      },
-      {
-        "name": "ゲーム",
-        "members": [
-          {
-            "name": "変数演算",
-            "id": "GameVariable",
-            "req": [
-              { "name": "左辺", "type": ["id.gameVariable", "id.localVariable"] },
-              { "name": "演算子", "type": ["id.op"] },
-              { "name": "右辺", "type": ["json"] }
-            ],
-            "opt": []
-          },
-          {
-            "name": "条件分岐",
-            "id": "Condition",
-            "req": [
-              { "name": "左辺", "type": ["id.gameVariable", "id.localVariable"] },
-              { "name": "演算子", "type": ["id.condition"] },
-              { "name": "右辺", "type": ["json"], "goto": ["True", "False"] }
-            ],
-            "opt": []
-          },
-          {
-            "name": "スイッチ文",
-            "id": "Switch",
-            "req": [
-              { "name": "変数", "type": ["id.gameVariable", "id.localVariable"] },
-              { "name": "ケース 0", "type": ["value"], "goto": ["Case0"] },
-              { "name": "それ以外", "type": [], "goto": ["Else"] }
-            ],
-            "opt": [
-              { "name": "ケース 1", "id": "case1", "type": ["value"], "goto": ["Case1"] },
-              { "name": "ケース 2", "id": "case2", "type": ["value"], "goto": ["Case2"] },
-              { "name": "ケース 3", "id": "case3", "type": ["value"], "goto": ["Case3"] },
-              { "name": "ケース 4", "id": "case4", "type": ["value"], "goto": ["Case4"] },
-              { "name": "ケース 5", "id": "case5", "type": ["value"], "goto": ["Case5"] },
-              { "name": "ケース 6", "id": "case6", "type": ["value"], "goto": ["Case6"] },
-              { "name": "ケース 7", "id": "case7", "type": ["value"], "goto": ["Case7"] },
-              { "name": "ケース 8", "id": "case8", "type": ["value"], "goto": ["Case8"] },
-              { "name": "ケース 9", "id": "case9", "type": ["value"], "goto": ["Case9"] }
-            ]
-          },
-          {
-            "name": "ラベル",
-            "id": "Label",
-            "req": [{ "name": "名称", "type": ["text", "id.label"] }],
-            "opt": []
-          },
-          {
-            "name": "ラベルへ飛ぶ",
-            "id": "Label",
-            "req": [{ "name": "名称", "type": ["text", "id.label"] }],
-            "opt": []
-          },
-          { "name": "待つ", "id": "Wait", "req": [{ "name": "秒", "type": ["num"] }], "opt": [] },
-          {
-            "name": "入力を待つ",
-            "id": "WaitForInput",
-            "req": [{ "name": "入力", "type": ["id.input"] }],
-            "opt": [{ "name": "状態", "id": "action", "type": ["id.action"] }]
-          },
-          {
-            "name": "カスタムコマンド",
-            "id": "Custom",
-            "req": [{ "name": "内容", "type": ["json"] }],
-            "opt": []
-          },
-          {
-            "name": "カスタム条件分岐",
-            "id": "CustomCondition",
-            "req": [{ "name": "条件", "type": ["json"] }],
-            "opt": [
-              { "name": "ケース 0", "id": "case0", "type": ["value"], "goto": ["Case0"] },
-              { "name": "ケース 1", "id": "case1", "type": ["value"], "goto": ["Case1"] },
-              { "name": "ケース 2", "id": "case2", "type": ["value"], "goto": ["Case2"] },
-              { "name": "ケース 3", "id": "case3", "type": ["value"], "goto": ["Case3"] },
-              { "name": "ケース 4", "id": "case4", "type": ["value"], "goto": ["Case4"] },
-              { "name": "ケース 5", "id": "case5", "type": ["value"], "goto": ["Case5"] },
-              { "name": "ケース 6", "id": "case6", "type": ["value"], "goto": ["Case6"] },
-              { "name": "ケース 7", "id": "case7", "type": ["value"], "goto": ["Case7"] },
-              { "name": "ケース 8", "id": "case8", "type": ["value"], "goto": ["Case8"] },
-              { "name": "ケース 9", "id": "case9", "type": ["value"], "goto": ["Case9"] },
-              { "name": "それ以外", "id": "else", "type": [], "goto": ["Else"] }
+            "summary": "",
+            "arg": [
+              { "name": "設定", "id": "modal", "type": "id.modal" },
+              { "name": "アクティブに", "id": "active", "type": "toggle" }
             ]
           }
         ]
@@ -1402,12 +1445,12 @@
         "name": "アセット",
         "members": [
           {
-            "name": "イラスト",
+            "name": "挿絵",
             "id": "illust",
             "options": []
           },
           {
-            "name": "背景画像",
+            "name": "遠景",
             "id": "pano",
             "options": []
           },
@@ -1541,27 +1584,6 @@
               { "name": "＞", "value": ">" },
               { "name": "≠", "value": "!=" },
               { "name": "% N == 0", "value": "RemainderIsZeroBy" }
-            ]
-          },
-          {
-            "name": "ラベル",
-            "id": "label",
-            "options": [
-              { "name": "A", "value": "A" },
-              { "name": "B", "value": "B" },
-              { "name": "C", "value": "C" },
-              { "name": "D", "value": "D" },
-              { "name": "E", "value": "E" },
-              { "name": "F", "value": "F" },
-              { "name": "G", "value": "G" }
-            ]
-          },
-          {
-            "name": "どうするか",
-            "id": "do",
-            "options": [
-              { "name": "する", "value": true },
-              { "name": "しない", "value": false }
             ]
           },
           {

@@ -24,7 +24,6 @@ export const Sidebar = (p: { nodes: SMNode[] }) => {
           allNodes={p.nodes}
           depth={0}
           onSelectNode={async (uid) => {
-            console.log({ currentNode, uid })
             if (currentNode?.uid === uid) return
             if (
               store.isEditing &&

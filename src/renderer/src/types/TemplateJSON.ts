@@ -18,7 +18,7 @@ export interface ScenarioJSON {
     form: string
   }[]
 }
-export interface ActorJSON {
+interface ActorJSON {
   preset: Actor[]
   dictionaly: Dictionaly
 }
@@ -38,44 +38,56 @@ export interface BodyMake {
   bmi: [number | null, number | null]
   fat: [number | null, number | null]
 }
-export interface CommandArgRequire {
+export interface CommandArg {
   name: string
-  type: (
-    | 'text' // テキスト
-    | 'textarea' // テキストエリア
+  type:
+    | 'label' // テキスト入力後、名前空間内ラベル化
+    | 'goto' // 名前空間ラベルのセレクトボックス
+    | 'json' // JSON文字列
+    | 'num' // 数値型
+    | 'text' // 文字列型
+    | 'toggle' // 真偽型
+    | 'value' // number | string | boolean | null
     | 'vec' // [x, y, z?]
-    | 'choice' // 選択肢
-    | 'num' // 少数含む数値
-    | 'json' // JSON 文字列 (オブジェクト許可)
-    | 'value' // number, boolean, string
-    // 動的指定（アクターなど）
-    | `$.${string}`
+    | 'actor' // アクター
     // id 指定（ユーザーカスタム）
     | `id.${string}`
-  )[]
+  id: string
   goto?: string[] // 追加する分岐条件名
+  labeling?: boolean // id, name を名前空間内ラベルにする
 }
-type CommandArgOptional = CommandArgRequire & {
-  id: string // 任意項目オブジェクトのキー名
-}
-export interface CommandJSON {
+interface CommandJSON {
   method: CommandMethod[]
   customId: CommandCustomId[]
 }
-export type CommandMethod = CommandCommonGroup<CommandMethodMember>
-export type CommandCustomId = CommandCommonGroup<CommandCustomIdMember>
-export type CommandCommonGroup<T> = {
+export type CommandMethod = CommandCommonNamespace<CommandMethodMember>
+export type CommandCustomId = CommandCommonNamespace<CommandCustomIdMember>
+export type CommandCommonNamespace<T> = {
   name: string
-  // id: string
   members: T[]
 }
 export interface CommandMethodMember {
-  name: string
+  name: string // ラベルにもなる
   id: string
-  req: CommandArgRequire[]
-  opt: CommandArgOptional[]
+  summary: string
+  arg: CommandArg[]
+  // 自動追加する終端コマンド
+  end?: {
+    mid: string
+    arg?: Record<
+      string,
+      // 通常値
+      | string
+      | number
+      | boolean
+      | null
+      // arg.id 参照
+      | [string]
+    >
+    when?: string[] // arg.id が入力されている場合に生成
+  }[]
 }
-export interface CommandCustomIdMember {
+interface CommandCustomIdMember {
   name: string
   id: string
   options: {

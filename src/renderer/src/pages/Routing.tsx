@@ -54,7 +54,7 @@ export const Routing = () => {
         node.side === 'beat'
       )
         return <ScenarioEdit />
-      if (node.side === 'script') return <MonacoTest />
+      // if (node.side === 'script') return <ScriptEditor />
       if (node.side === 'customId') return <CustomIdEdit />
       if (node.side === 'command') return <CommandView />
     }

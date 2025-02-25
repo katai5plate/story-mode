@@ -53,7 +53,6 @@ export interface CommandArg {
     // id 指定（ユーザーカスタム）
     | `id.${string}`
   id: string
-  goto?: string[] // 追加する分岐条件名
   labeling?: boolean // id, name を名前空間内ラベルにする
 }
 interface CommandJSON {

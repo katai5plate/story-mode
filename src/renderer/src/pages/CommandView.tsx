@@ -71,9 +71,6 @@ export const CommandView = () => {
                 <TableCell>
                   <Box component="strong">対応型</Box>
                 </TableCell>
-                <TableCell>
-                  <Box component="strong">ラベル</Box>
-                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -82,7 +79,6 @@ export const CommandView = () => {
                   <TableCell>{x.name}</TableCell>
                   <TableCell>{x.id}</TableCell>
                   <TableCell>{typeView(x.type)}</TableCell>
-                  <TableCell>{x.goto || 'なし'}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

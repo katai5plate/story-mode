@@ -236,3 +236,125 @@ interface Label {
 違うぞ！
 @変数.ローカル条件終了
 ```
+
+自作言語の書き方
+
+```
+@メッセージ.設定 表示=O
+
+@メッセージ.選択肢開始 選択１="はい" 選択２="いいえ"
+@メッセージ.選択肢分岐 選択="選択１"
+はい！
+@メッセージ.選択肢分岐 選択="選択２"
+いいえ！
+@メッセージ.選択肢終了
+
+@変数.ローカル変数 A="IntA" 演算="＝" B=100
+
+@変数.ローカル条件開始 正しい="１００" 間違い="エラー"
+@変数.ローカル条件分岐 結果="１００"
+１００だ！
+@変数.ローカル条件分岐 結果="エラー"
+違うぞ！
+@変数.ローカル条件終了
+```
+
+要件
+
+- `@名前空間.命令名 引数=値 引数=値 引数=値 ...`
+- 直接文字入力は「メッセージ」として処理される
+  - `#` と入力すると、空行扱いになる
+  - `##` と入力すると、改ページ扱いになる
+- 名前空間、命令名、引数、値それぞれ、補完を効かせたい。
+
+値の型
+
+- 文字列 `"abc"`
+  - 自由入力型
+  - カスタムID型 (並行作動しているアプリで定義されたIDが候補に出てくるので、それを入力)
+  - JSON文字列型 (インタプリタが判断するので今回は自由入力型と同じように考えて良い)
+  - ラベル型 (後述の"label", "goto")
+- 数値 `123`
+- 真偽 `X` `O` (それぞれ false, true)
+
+定義ファイル
+
+```
+interface CommandJSON {
+  // 命令定義
+  method: {
+    name: string // 入力する名前空間名
+    id: string // 名前空間 ID
+    // 命令
+    members: {
+      name: string // 入力する命令名
+      id: string // 命令 ID
+      summary: string // 命令の説明
+      arg: {
+        name: string // 入力する引数名
+        id: string // 引数ID
+        type:
+          | 'label' // テキスト入力後、名前空間内命令でgoto型で参照可
+          | 'goto' // 名前空間ラベルのセレクトボックス
+          | 'json' // JSON文字列
+          | 'num' // 数値型
+          | 'text' // 文字列型
+          | 'toggle' // 真偽型
+          | 'value' // number | string | boolean | null
+          | 'vec' // "x, y" or "x, y, z"
+          | 'actor' // アクター
+          // id 指定（どのカスタムIDを参照するか）
+          | `id.${string}`
+        // name, id をラベル化するか
+        labeling?: boolean
+      }[]
+      // 自動追加する終端コマンド
+      end?: {
+        // 挿入する命令 ID
+        mid: string
+        // 挿入する命令の引数
+        arg?: Record<
+          string, // 引数 ID
+          // 通常値
+          | string
+          | number
+          | boolean
+          | null
+          // 指定された引数 ID の値を参照する
+          | [string]
+        >
+        // 特定の引数 ID に値が入っている場合に自動追加する
+        when?: string[]
+      }[]
+    }[]
+  }[]
+  customId: {
+    // GUI用のフォルダーラベル
+    name: string
+    // カスタムIDリスト
+    members: {
+      name: string // カスタム ID 名
+      id: string // カスタム ID の ID
+      // カスタム ID の選択肢
+      options: {
+        name: string // 表示・入力名
+        value: JsonData // トランスパイル時に置き換えられる値
+      }[]
+    }[]
+  }[]
+}
+```
+
+開発
+
+```
+import { StreamLanguage } from '@codemirror/language'
+import { Completion, CompletionContext } from '@codemirror/autocomplete'
+import { linter, Diagnostic } from '@codemirror/lint'
+import { useCodeMirror } from '@uiw/react-codemirror'
+import { autocompletion } from '@codemirror/autocomplete'
+import { keymap } from '@codemirror/view'
+import { defaultKeymap } from '@codemirror/commands'
+import { searchKeymap } from '@codemirror/search'
+import { lintKeymap } from '@codemirror/lint'
+```

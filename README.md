@@ -443,3 +443,24 @@ import { lintKeymap } from '@codemirror/lint'
       - ワード[]
         - フラグID (セレクトボックス)
         - 文字列
+
+```ts
+type ExportedJSON = {
+  scriptId: string
+  talks: Talk[]
+  words: Word[]
+}[]
+interface Talk {
+  name: string
+  flag: string
+  commands: Command[] | string[][]
+}
+interface Command {
+  method: string
+  arg: Record<string, JSONValue>
+}
+interface Word {
+  flag: string
+  content: string
+}
+```
